@@ -81,7 +81,7 @@
           <meta
             v-if="!genInfo.metaName"
             name="author"
-            content="SMART vCARD - Another Software Solution By BizViz"
+            content="Simplisoft - Another Software Solution By BizViz"
           />
           <meta
             v-if="!genInfo.metaURL"
@@ -496,7 +496,7 @@
             :style="{ backgroundColor: `${colors.mainBg.color}` }"
             class="text"
           >
-            {{ genInfo.beforeTextLink || 'Created with' }}
+            {{ genInfo.beforeTextLink || 'Criado pela' }}
             <a
               class="text"
               :href="
@@ -505,7 +505,7 @@
               "
               target="_blank"
               rel="noopener noreferrer"
-              >{{ genInfo.linkedText || 'SMART vCARD' }}</a
+              >{{ genInfo.linkedText || 'Simplisoft' }}</a
             >
           </footer>
         </body>

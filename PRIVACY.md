@@ -1,6 +1,6 @@
 # Privacy Policy
 
-I (Vishnu Raghav B) built the app SMART vCARD as an open source app for use as is.
+I (Vishnu Raghav B) built the app Simplisoft as an open source app for use as is.
 
 ## Your Privacy
 

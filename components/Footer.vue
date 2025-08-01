@@ -110,7 +110,7 @@
           target="_blank"
           rel="noopener noreferrer"
           style="color: rgb(255, 255, 255)"
-          >Smart vCard</a
+          >Simplisoft</a
         >
       </p>
       <p

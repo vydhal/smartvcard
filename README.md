@@ -2,9 +2,9 @@
 <!-- <img src="assets/images/GitHub.png" width="100%"></a> -->
 </p>
 
-<h1 align="center">Smart vCARD</h1>
+<h1 align="center">Simplisoft</h1>
 <!-- <h3 align="center">Your Website Can Host Your Digital Business Cards for FREE!</h3> -->
-<p align="center">SMART vCARD helps you create interactive and responsive HTML-based digital business cards that can be hosted with your website.</p>
+<p align="center">Simplisoft helps you create interactive and responsive HTML-based digital business cards that can be hosted with your website.</p>
 <h3 align="center"><a href="https://www.smartvcard.com">Open App</a> | <a href="https://www.smartvcard.com">View demo</a></h3>
 
 ## Goals
@@ -45,7 +45,7 @@ You can,
 ## License
 
 ```
-SMART vCARD - An Open_source Cartão Digital based on the EnBizCard project from Vishnu Raghav B (https://github.com/vishnuraghavb)
+Simplisoft - An Open_source Cartão Digital based on the EnBizCard project from Vishnu Raghav B (https://github.com/vishnuraghavb)
 Copyright (C) 2021 Vishnu Raghav B and 2024 ZiaGeek
 
 This program is free software: you can redistribute it and/or modify

@@ -10,7 +10,7 @@
             class="logo w-24"
             style="width: 8rem !important"
             v-html="require(`~/assets/icons/logo.svg?include`)"
-            title="SMART vCARD - Online Business"
+            title="Simplisoft - Online Business"
           ></div
         ></NuxtLink>
         <Header />
@@ -48,7 +48,7 @@ export default {
         hid: 'description',
         name: 'description',
         content:
-          'Host your Smart vCard on our premium & secure short URL, vcard.fyi, for under $10/year.'
+          'Host your Simplisoft on our premium & secure short URL, vcard.fyi, for under $10/year.'
       }
     ]
   }

@@ -10,7 +10,7 @@
             class="logo w-24"
             style="width: 8rem !important; margin-top: -25px"
             v-html="require(`~/assets/icons/logo.svg?include`)"
-            title="SMART vCARD - Another Software Solution By BizViz"
+            title="Simplisoft - Another Software Solution By BizViz"
           ></div
         ></NuxtLink>
         <Header />
@@ -161,7 +161,7 @@ export default {
       {
         hid: 'description',
         name: 'description',
-        content: 'Click here to read the privacy policy for SMART vCARD'
+        content: 'Click here to read the privacy policy for Simplisoft'
       }
     ]
   }

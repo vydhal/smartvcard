@@ -27,8 +27,8 @@ export default {
     name: 'Simplicard - A product of BizViz '
   },
   head: {
-    // title: 'SMART vCard - A product of BizViz (ZIA PLACEHOLDER)',
-    title: 'Smart vCard',
+    // title: 'Simplisoft - A product of BizViz (ZIA PLACEHOLDER)',
+    title: 'Simplisoft',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -86,8 +86,8 @@ export default {
     ]
   },
   manifest: {
-    name: 'SMART vCARD - A product of BizViz',
-    short_name: 'SMART vCARD',
+    name: 'Simplisoft - A product of BizViz',
+    short_name: 'Simplisoft',
     start_url: '/',
     display: 'standalone',
     theme_color: '#111827',

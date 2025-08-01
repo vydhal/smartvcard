@@ -14,7 +14,7 @@
       <div class="flex items-start justify-between">
         <div
           style=""
-          title="SMART vCARD - Another Software Solution By BizViz"
+          title="Simplisoft - Another Software Solution By BizViz"
         ></div>
       </div>
     </div>
@@ -29,7 +29,7 @@
 
           <h2 class="mt-8 text-lg md:text-xl w-full md:w-3/4 text-gray-200">
             Please share you Name, AppSumo email and AppSumo code to get your
-            Smart vCard White- Label Agency license with lifetime access.
+            Simplisoft White- Label Agency license with lifetime access.
           </h2>
           <h2 class="mt-8 text-lg md:text-xl w-full md:w-3/4 text-gray-200">
             After your submission, you will receive an email with your license
@@ -182,7 +182,7 @@
             <label
               for="checked-checkbox"
               class="ml-2 text-sm font-medium text-white-900 dark:text-gray-300"
-              >I agree to the Smart vCard
+              >I agree to the Simplisoft
               <a
                 style="color: white"
                 href="/terms-of-service"

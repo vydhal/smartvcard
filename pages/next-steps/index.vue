@@ -20,7 +20,7 @@
               class="logo w-24"
               style="width: 8rem !important;     margin-top: -25px;"
               v-html="require(`~/assets/icons/logo.svg?include`)"
-              title="SMART vCARD - Online Business"
+              title="Simplisoft - Online Business"
             ></div
           ></NuxtLink>
           <Header />
@@ -54,7 +54,7 @@
           "
                 >Hosting&nbsp;Guide</NuxtLink
               >
-              to get your Smart vCard online.<br /><br />
+              to get your Simplisoft online.<br /><br />
               <a
                 href="/hosting-guide"
                 style="padding: 5px 10px;"
@@ -84,7 +84,7 @@
               <span><strong>OPTION 2 - DONE FOR YOU</strong></span
               ><br />
               Upload your ZIP file and we will take care of everything for you.
-              We will send you your branded Smart vCard
+              We will send you your branded Simplisoft
               <!-- <NuxtLink
                 to="/hosting-upgrade/"
                 class="
@@ -97,7 +97,7 @@
             transition-colors
             duration-200
           "
-                >branded Smart vCard</NuxtLink
+                >branded Simplisoft</NuxtLink
               > -->
               in 1 business day! <br /><br />
               <a
@@ -150,7 +150,7 @@ export default {
         hid: 'description',
         name: 'description',
         content:
-          'Host your Smart vCard on our premium & secure short URL, vCard.fyi, for under $10/year.'
+          'Host your Simplisoft on our premium & secure short URL, vCard.fyi, for under $10/year.'
       }
     ]
   }

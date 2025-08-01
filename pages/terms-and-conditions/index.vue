@@ -7,7 +7,7 @@
             class="logo w-24"
             style="width: 8rem !important"
             v-html="require(`~/assets/icons/logo.svg?include`)"
-            title="SMART vCARD - Another Software Solution By BizViz"
+            title="Simplisoft - Another Software Solution By BizViz"
           ></div
         ></NuxtLink>
         <Header />
@@ -56,7 +56,7 @@
             Conditions of Use. Please read them carefully.
           </h3>
           <p class="mt-6">
-            Our SMART vCARD website (and other “internal” websites stemming from
+            Our Simplisoft website (and other “internal” websites stemming from
             it, such as specific membership sites or webpages pertinent to the
             main website or weblog) is an online (and, periodically, offline)
             information service and is subject to your compliance with the terms
@@ -74,7 +74,7 @@
           <br />
           <p class="mt-6">
             You agree to obey all applicable laws and regulations regarding your
-            use of our SMART vCARD website and the content and materials
+            use of our Simplisoft website and the content and materials
             provided in it.
           </p>
           <br />
@@ -123,7 +123,7 @@
             You do not own rights to any article, book, ebook, document, blog
             post, software, application, add-on, plugin, art, graphics, images,
             photos, video, webinar, recording or other materials viewed or
-            listened to through or from our SMART vCARD website or via email or
+            listened to through or from our Simplisoft website or via email or
             by way of protected content in a membership site. The posting of
             data on our website, such as a blog comment, does not change this
             fact and does not give you any right in the data. You surrender any
@@ -168,7 +168,7 @@
           </p>
           <br />
           <p class="mt-6">
-            Our SMART vCARD website prohibits conduct that might constitute a
+            Our Simplisoft website prohibits conduct that might constitute a
             criminal offense, give rise to civil liability or otherwise violate
             any law. Any activity that restricts or inhibits any other user from
             using the services of our website is also prohibited. Unless allowed
@@ -199,7 +199,7 @@
           <p class="mt-6">
             Publications, products, content or services referenced herein or on
             our website are the exclusive trademarks or service marks of our
-            SMART vCARD website or related parties. Other product and company
+            Simplisoft website or related parties. Other product and company
             names mentioned in our website may be the trademarks of their
             respective owners.
           </p>
@@ -226,7 +226,7 @@
           </p>
           <br />
           <p class="mt-6">
-            Data contained on or made available through our SMART vCARD website
+            Data contained on or made available through our Simplisoft website
             is not intended to be, and does not constitute, legal advice. Our
             website, and your use of it, does not create an attorney-client
             relationship. We do not warrant or guarantee the accuracy, adequacy,
@@ -250,7 +250,7 @@
           </p>
           <br />
           <p class="mt-6">
-            Your use of our SMART vCARD website or materials linked to our
+            Your use of our Simplisoft website or materials linked to our
             website is completely at your own risk. You should not act or depend
             on any data on our website, where applicable, without seeking the
             counsel of a competent lawyer licensed to practice in your
@@ -283,7 +283,7 @@
           <br />
           <h3 class="font-extrabold text-2xl">Restricted access</h3>
           <p class="mt-6">
-            Access to certain areas of our SMART vCARD website is restricted. We
+            Access to certain areas of our Simplisoft website is restricted. We
             reserve the right to restrict access to other areas of our website,
             or indeed our whole website, at our discretion.
           </p>
@@ -302,7 +302,7 @@
           <p class="mt-6">
             We may disable your user ID and password at our sole discretion or
             if you breach any of the policies or terms governing your use of our
-            SMART vCARD website or any other contractual obligation you owe to
+            Simplisoft website or any other contractual obligation you owe to
             us.
           </p>
           <br />
@@ -321,7 +321,7 @@
           <br />
           <h3 class="font-extrabold text-2xl">Viruses, etc.</h3>
           <p class="mt-6">
-            You also understand that our SMART vCARD website cannot and does not
+            You also understand that our Simplisoft website cannot and does not
             guarantee or warrant that files available for downloading through
             our website will be free of infection or viruses, worms, Trojan
             horses or other code that manifest contaminating or destructive
@@ -359,7 +359,7 @@
           <h3 class="font-extrabold text-2xl">Limitation of Liability</h3>
           <p class="mt-6">
             The content may contain inaccuracies or typographical errors. Our
-            SMART vCARD website makes no representations about the accuracy,
+            Simplisoft website makes no representations about the accuracy,
             reliability, completeness, or timeliness of the content or about the
             results to be obtained from using our website or the content on it.
             Use of our website and the content is at your own risk. Changes are
@@ -407,7 +407,7 @@
           <br />
           <h3 class="font-extrabold text-2xl">Links to Other Websites.</h3>
           <p class="mt-6">
-            Our website contains links to third party Websites. Our SMART vCARD
+            Our website contains links to third party Websites. Our Simplisoft
             website makes no representations whatsoever about any other website
             which you may access through this one or which may link to this
             website. When you access a website from our website, please
@@ -430,7 +430,7 @@
           <br />
           <h3 class="font-extrabold text-2xl">User Submissions</h3>
           <p class="mt-6">
-            As a user of our SMART vCARD website, you are responsible for your
+            As a user of our Simplisoft website, you are responsible for your
             own communications and are responsible for the consequences of their
             posting. You must not do the following things: post material that is
             copyrighted, unless you are the copyright owner or have the
@@ -455,7 +455,7 @@
           </p>
           <br />
           <p class="mt-6">
-            Our SMART vCARD website does not necessarily screen communications
+            Our Simplisoft website does not necessarily screen communications
             in advance and is not responsible for screening or monitoring
             material posted by users of our website. If observed by our website
             and/or notified by a user of communications which allegedly do not
@@ -486,7 +486,7 @@
         <div class="mt-16">
           <h3 class="font-extrabold text-2xl">3. Indemnification.</h3>
           <p class="mt-6">
-            You agree to indemnify, defend and hold harmless our SMART vCARD
+            You agree to indemnify, defend and hold harmless our Simplisoft
             website, its members, officers, directors, employees, agents,
             licensors, suppliers and any third party information providers to
             our website from and against all losses, expenses, damages and
@@ -590,7 +590,7 @@
           <br />
           <h3 class="font-extrabold text-2xl">Disputes</h3>
           <p class="mt-6">
-            Any cause of action by you with respect to our SMART vCARD website
+            Any cause of action by you with respect to our Simplisoft website
             must be instituted within one (1) year after the cause of action
             arose or be forever waived and barred. All actions shall be subject
             to the limitations set forth in these Terms of Service and
@@ -663,7 +663,7 @@
           <br />
 
           <p class="mt-6">
-            Any rights not expressly granted herein are reserved to SMART vCARD.
+            Any rights not expressly granted herein are reserved to Simplisoft.
           </p>
           <br />
 
@@ -672,7 +672,7 @@
             pages, the contents of this page can and will change over time.
             Accordingly, this page could read differently as of your very next
             visit. These changes are necessitated, and carried out by SMART
-            vCARD, in order to protect you and our SMART vCARD website. If this
+            vCARD, in order to protect you and our Simplisoft website. If this
             page is important to you, you should check back frequently as no
             other notice of changed content will be provided either before or
             after the change takes effect.
@@ -682,8 +682,8 @@
           <p class="mt-6">
             COPYRIGHT WARNING: The legal notices and administrative pages on
             this website, including this one, have been diligently drafted by an
-            attorney. We at SMART vCARD have paid to license the use of these
-            legal notices and administrative pages on SMART vCARD for your
+            attorney. We at Simplisoft have paid to license the use of these
+            legal notices and administrative pages on Simplisoft for your
             protection and ours. This material may not be used in any way for
             any reason and unauthorized use is policed via Copyscape to detect
             violators.
@@ -716,7 +716,7 @@ export default {
       {
         hid: 'description',
         name: 'description',
-        content: 'Click here to read the terms & conditions for SMART vCARD.'
+        content: 'Click here to read the terms & conditions for Simplisoft.'
       }
     ]
   }

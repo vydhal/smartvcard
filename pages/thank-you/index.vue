@@ -11,7 +11,7 @@
               class="logo w-24"
               style="width: 8rem !important; margin-top: -25px"
               v-html="require(`~/assets/icons/logo.svg?include`)"
-              title="Smart vCard - Another Software Solution By BizViz"
+              title="Simplisoft - Another Software Solution By BizViz"
             ></div
           ></NuxtLink>
           <Header />
@@ -21,13 +21,13 @@
             style="font-size: 35px; font-weight: bold"
             class="text-3xl md:text-5xl mt-24 md:leading-tight"
           >
-            Thanks for Purchasing a Smart vCard Agency License!
+            Thanks for Purchasing a Simplisoft Agency License!
           </h1>
           <!--
             md:mt-48
             -->
           <p class="mt-16 border px-4 py-3 rounded border-gray-700">
-            Your Smart vCard license key should arrive momentarily at the email
+            Your Simplisoft license key should arrive momentarily at the email
             address provided during checkout. Please check your spam folder and
             whitelist our emails; license@getbizviz.com and
             support@getbizviz.com.
@@ -50,7 +50,7 @@
 
           <div class="step-container">
             <h2 style="font-size: 25px; font-weight: bold">
-              How to White-Label Your Smart vCard Zip Folders
+              How to White-Label Your Simplisoft Zip Folders
             </h2>
             <div class="step">
               <div class="circle one"></div>
@@ -129,7 +129,7 @@ export default {
       {
         hid: 'description',
         name: 'description',
-        content: 'SMART vCARD'
+        content: 'Simplisoft'
       }
     ]
   }

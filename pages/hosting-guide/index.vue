@@ -21,7 +21,7 @@
             class="logo w-24"
             style="width: 8rem !important"
             v-html="require(`~/assets/icons/logo.svg?include`)"
-            title="SMART vCARD - Another Software Solution By BizViz"
+            title="Simplisoft - Another Software Solution By BizViz"
           ></div
         ></NuxtLink>
         <Header />
@@ -119,7 +119,7 @@
                   transition-colors
                   duration-200
                 "
-                >SMART vCARD</a
+                >Simplisoft</a
               >.
             </li>
             <li>
@@ -186,7 +186,7 @@
             How do I update my business card details?
           </h3>
           <p class="mt-6">
-            SMART vCARD does not store any data online for you to retrieve it
+            Simplisoft does not store any data online for you to retrieve it
             for editing. So, every card has to be manually created from scratch.
           </p>
           <ul class="px-6 mt-6 list-outside list-disc">
@@ -203,7 +203,7 @@
                   transition-colors
                   duration-200
                 "
-                >SMART vCARD</NuxtLink
+                >Simplisoft</NuxtLink
               >
               and generate a new digital business card.
             </li>
@@ -235,7 +235,7 @@
                   transition-colors
                   duration-200
                 "
-                >SMART vCARD</NuxtLink
+                >Simplisoft</NuxtLink
               >
               and generate a digital business card.
             </li>
@@ -278,7 +278,7 @@
                 "
                 href="/"
                 rel="noopener noreferrer"
-                >SMART vCARD</a
+                >Simplisoft</a
               >, and send your file to
               <NuxtLink
                 class="

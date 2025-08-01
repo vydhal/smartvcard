@@ -38,7 +38,7 @@
 
           <div class="mt-16" style="padding: 0">
             <h2 class="font-extrabold text-2xl" style="padding: 10px 5px">
-              How to Create Your Smart vCard
+              How to Create Your Simplisoft
             </h2>
             <div style="padding: 56.25% 0 0 0; position: relative">
               <iframe
@@ -60,7 +60,7 @@
           </div>
           <div class="mt-16" style="padding: 0">
             <h2 class="font-extrabold text-2xl" style="padding: 10px 5px">
-              How to Host Your Smart vCard
+              How to Host Your Simplisoft
             </h2>
             <div style="padding: 56.25% 0 0 0; position: relative">
               <iframe
@@ -92,7 +92,7 @@
                 allow="autoplay; fullscreen; picture-in-picture"
                 allowfullscreen
                 style="position:absolute;top:0;left:0;width:100%;height:100%;"
-                title="How to Activate Your Smart vCard Agency License"
+                title="How to Activate Your Simplisoft Agency License"
               ></iframe>
             </div>
             <script src="https://player.vimeo.com/api/player.js"></script>

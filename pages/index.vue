@@ -84,7 +84,7 @@
           style="width: 8rem !important; color: black !important"
           class="logo w-24"
           v-html="require(`~/assets/icons/logo.svg?include`)"
-          title="SMART vCARD - Another Software Solution By BizViz"
+          title="Simplisoft - Another Software Solution By BizViz"
         ></div>
         <Header />
       </div>
@@ -95,12 +95,12 @@
       </h1>
 
       <p class="mt-8 text-lg md:text-xl w-full md:w-3/4 text-gray-200">
-        SMART vCARD helps you create beautiful, responsive HTML&#8209;based
+        Simplisoft helps you create beautiful, responsive HTML&#8209;based
         digital business cards that can be hosted on your domain or ours.
       </p>
       <ul class="mt-4 text-gray-400">
         <li>
-          -&ensp;Smart vCard is a <b>FREE</b> Cartão Digital
+          -&ensp;Simplisoft is a <b>FREE</b> Cartão Digital
           tool
         </li>
         <li>
@@ -1218,7 +1218,7 @@
               />
             </center>
             <center>
-              <div class="font-weight-bold mt-10">Smart vCard</div>
+              <div class="font-weight-bold mt-10">Simplisoft</div>
               <div class="font-weight-light text-secondary">by BizViz</div>
             </center>
           </div>
@@ -2469,7 +2469,7 @@ export default {
         URL: website,
         KEY: this.genInfo.fp,
         LOCATION: Location[0],
-        UID: `SMART vCARD-${randomNumber}`,
+        UID: `Simplisoft-${randomNumber}`,
         PHOTO:
           lastEncodedPart !== undefined ? lastEncodedPart : this.altHeadShot,
         NOTE: note,

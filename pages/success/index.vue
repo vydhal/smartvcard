@@ -11,7 +11,7 @@
               class="logo w-24"
               style="width: 8rem !important"
               v-html="require(`~/assets/icons/logo.svg?include`)"
-              title="SMART vCARD - Another Software Solution By BizViz"
+              title="Simplisoft - Another Software Solution By BizViz"
             ></div
           ></NuxtLink>
           <Header />

@@ -11,7 +11,7 @@
               class="logo w-24"
               style="width: 8rem !important;     margin-top: -25px;"
               v-html="require(`~/assets/icons/logo.svg?include`)"
-              title="SMART vCARD - Online Business"
+              title="Simplisoft - Online Business"
             ></div
           ></NuxtLink>
           <Header />
@@ -26,7 +26,7 @@
             <br />
             <p>
               You have successfully scheduled a ZOOM consultation where we will
-              design your Smart vCard and get it online.
+              design your Simplisoft and get it online.
             </p>
             <p>
               <br />
