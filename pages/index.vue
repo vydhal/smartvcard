@@ -1,1133 +1,990 @@
 <template>
-  <div
-    ref="container"
-    class="container relative bg-gray-900 mx-auto text-gray-100"
-    style="max-width: 960px"
-  >
-    <!-- Start Engagement Widget Script -->
-    <!-- Start Engagement Widget Script -->
-    <script
-      async
-      crossorigin
-      type="module"
-      id="engagementWidget"
-      src="XXXXXXXXXXXXXXXXXX"
-      data-env="portal-api"
-      data-instance="XXXXXXXXXXXXXXXXXX"
-      data-container="#engagement-widget-container"
-    ></script>
-    <!-- End Engagement Widget Script -->
-    <!-- End Engagement Widget Script -->
-    <!-- MODEL WAS REPLACED HERE -->
-    <div
-      v-if="content"
-      id="notificationContainer"
-      class="flex justify-center fixed top-0 left-0 right-0 bottom-0 items-center z-50 bg-black bg-opacity-80"
-    >
-      <div
-        class="flex items-start notification content bg-gray-800 text-gray-100 rounded relative z-50 mx-8 max-w-md p-2"
-      >
+  <div ref="container" class="container relative bg-gray-900 mx-auto text-gray-100" style="max-width: 960px">
+    <script async crossorigin type="module" id="engagementWidget" src="XXXXXXXXXXXXXXXXXX" data-env="portal-api" data-instance="XXXXXXXXXXXXXXXXXX" data-container="#engagement-widget-container"></script>
+    <div v-if="content" id="notificationContainer" class="flex justify-center fixed top-0 left-0 right-0 bottom-0 items-center z-50 bg-black bg-opacity-80">
+      <div class="flex items-start notification content bg-gray-800 text-gray-100 rounded relative z-50 mx-8 max-w-md p-2">
         <div class="whitespace-pre-line p-2" v-html="content"></div>
-        <div
-          @click="clearContent()"
-          class="w-8 cursor-pointer flex-shrink-0 p-1 focus:outline-none rounded bg-gray-700 hover:bg-gray-600 focus:bg-gray-600 transition-colors duration-200 absolute -top-4 -right-4"
-          v-html="require(`~/assets/icons/x.svg?include`)"
-        ></div>
+        <div @click="clearContent()" class="w-8 cursor-pointer flex-shrink-0 p-1 focus:outline-none rounded bg-gray-700 hover:bg-gray-600 focus:bg-gray-600 transition-colors duration-200 absolute -top-4 -right-4" v-html="require(`~/assets/icons/x.svg?include`)"></div>
       </div>
     </div>
 
     <transition name="drop">
-      <div
-        v-if="inView || showPreview"
-        class="fixed top-0 w-full z-30 bg-gray-900 justify-between items-center flex md:hidden"
-      >
-        <div
-          class="logo w-16 m-4"
-          v-html="require(`~/assets/icons/logo.svg?include`)"
-        ></div>
-        <button
-          class="p-3 mx-4 font-extrabold rounded tracking-wide focus:outline-none select-none"
-          :class="showPreview ? 'bg-gray-700' : 'bg-green-600'"
-          @click="!opening && togglePreview()"
-        >
+      <div v-if="inView || showPreview" class="fixed top-0 w-full z-30 bg-gray-900 justify-between items-center flex md:hidden">
+        <div class="logo w-16 m-4" v-html="require(`~/assets/icons/logo.svg?include`)"></div>
+        <button class="p-3 mx-4 font-extrabold rounded tracking-wide focus:outline-none select-none" :class="showPreview ? 'bg-gray-700' : 'bg-green-600'" @click="!opening && togglePreview()">
           {{ showPreview ? 'Close preview' : 'Open preview' }}
         </button>
       </div>
     </transition>
     <transition name="fade">
-      <Preview
-        v-show="showPreview"
-        class="fixed top-20 w-full bottom-0 z-20 border-none rounded-b-none"
-        ref="html"
-        :username="username"
-        :genInfo="genInfo"
-        :images="images"
-        :featured="featured"
-        :colors="colors"
-        :primaryActions="primaryActions"
-        :secondaryActions="secondaryActions"
-        :PreviewMode="PreviewMode"
-        :downloadVcard="downloadVcard"
-        :footerCredit="footerCredit"
-        :simplifyCard="simplifyCard"
-        :isFeaturedOn="isFeaturedOn"
-        :showAlert="showAlert"
-        :hasLightBG="hasLightBG"
-        :downloadKey="downloadKey"
-        :pubKeyIsValid="pubKeyIsValid"
-      />
+      <Preview v-show="showPreview" class="fixed top-20 w-full bottom-0 z-20 border-none rounded-b-none" ref="html" :username="username" :genInfo="genInfo" :images="images" :featured="featured" :colors="colors" :primaryActions="primaryActions" :secondaryActions="secondaryActions" :PreviewMode="PreviewMode" :downloadVcard="downloadVcard" :footerCredit="footerCredit" :simplifyCard="simplifyCard" :isFeaturedOn="isFeaturedOn" :showAlert="showAlert" :hasLightBG="hasLightBG" :downloadKey="downloadKey" :pubKeyIsValid="pubKeyIsValid" />
     </transition>
 
     <div class="px-4">
       <div class="flex items-start justify-between pt-8">
-        <div
-          style="width: 8rem !important; color: black !important"
-          class="logo w-24"
-          v-html="require(`~/assets/icons/logo.svg?include`)"
-          title="Simplisoft - Another Software Solution By BizViz"
-        ></div>
+        <div style="width: 8rem !important; color: black !important" class="logo w-24" v-html="require(`~/assets/icons/logo.svg?include`)" title="Simplisoft - Another Software Solution By BizViz"></div>
         <Header />
       </div>
-      <h1
-        class="text-3xl md:text-5xl font-extrabold mt-24 md:mt-48 md:leading-tight"
-      >
+      <h1 class="text-3xl md:text-5xl font-extrabold mt-24 md:mt-48 md:leading-tight">
         Cartão Digital
       </h1>
 
       <p class="mt-8 text-lg md:text-xl w-full md:w-3/4 text-gray-200">
-        Simplisoft helps you create beautiful, responsive HTML&#8209;based
-        digital business cards that can be hosted on your domain or ours.
+        Simplisoft helps you create beautiful, responsive HTML‑based digital business cards that can be hosted on your domain or ours.
       </p>
       <ul class="mt-4 text-gray-400">
         <li>
-          -&ensp;Simplisoft is a <b>FREE</b> Cartão Digital
-          tool
+          - Simplisoft is a <b>FREE</b> Cartão Digital tool
         </li>
         <li>
-          -&ensp;Generate unlimited digital business cards for you and your team
+          - Generate unlimited digital business cards for you and your team
         </li>
-        <li>-&ensp;.vcf file included with every business card</li>
+        <li>- .vcf file included with every business card</li>
         <li>
-          -&ensp;Share your contact details effortlessly by link or QR code
+          - Share your contact details effortlessly by link or QR code
         </li>
-        <li>-&ensp;Host your card for free on your domain</li>
-        <li>-&ensp;Optionally host on our short URL (ie:vcard.fyi/yourname)</li>
+        <li>- Host your card for free on your domain</li>
+        <li>- Optionally host on our short URL (ie:vcard.fyi/yourname)</li>
       </ul>
       <div class="mt-4 flex flex-wrap items-center">
-        <button
-          class="font-extrabold leading-none text-lg tracking-wide select-none flex-shrink-0 p-5 mt-2 mr-2 text-white bg-green-500 rounded hover:bg-green-600 focus:bg-green-600 transition-colors duration-200 focus:outline-none"
-          @click="create()"
-        >
+        <button class="font-extrabold leading-none text-lg tracking-wide select-none flex-shrink-0 p-5 mt-2 mr-2 text-white bg-green-500 rounded hover:bg-green-600 focus:bg-green-600 transition-colors duration-200 focus:outline-none" @click="create()">
           Create your own
         </button>
-        <a
-          class="font-extrabold leading-none text-lg tracking-wide flex-shrink-0 p-5 mt-2 text-white bg-gray-700 rounded hover:bg-gray-600 focus:bg-gray-600 transition-colors duration-200"
-          href="https://getbizviz.com/vcard/"
-          target="_blank"
-          >View demo</a
+        <a class="font-extrabold leading-none text-lg tracking-wide flex-shrink-0 p-5 mt-2 text-white bg-gray-700 rounded hover:bg-gray-600 focus:bg-gray-600 transition-colors duration-200" href="https://getbizviz.com/vcard/" target="_blank">View demo</a
         >
       </div>
     </div>
     <div class="md:grid md:grid-cols-2">
       <div class="px-4 mt-32">
-        <div ref="create" id="step-1" class="pt-8">
-          <div id="step-6" class="mt-16">
-            <h2 class="font-extrabold text-2xl">
-              Header Image
-            </h2>
+        <div class="progress-bar flex justify-center space-x-2 mb-8">
+          <div v-for="step in totalSteps" :key="step" class="w-8 h-2 rounded-full" :class="{ 'bg-green-500': step <= currentStep, 'bg-gray-700': step > currentStep }"></div>
+        </div>
+
+        <div v-show="currentStep === 1">
+          <div ref="create" id="step-1" class="pt-8">
+            <div id="step-6" class="mt-16">
+              <h2 class="font-extrabold text-2xl">
+                Header Image
+              </h2>
+
+              <div class="stepC mt-6">
+                <p class=" ">Select between a logo or cover photo</p>
+                <br />
+                <div class="flex items-center">
+                  <div
+                    class="relative group inline-block w-24 h-12 mr-3 align-middle select-none transition duration-200 ease-in bg-gray-700 rounded hover:bg-gray-600 focus:bg-gray-600 cursor-pointer focus:outline-none"
+                    :class="{
+                      'bg-green-600 hover:bg-green-500 focus:bg-green-500': logoOrHeader
+                    }"
+                    tabindex="0"
+                    @click="logoOrHeader = !logoOrHeader"
+                  >
+                    <input
+                      type="checkbox"
+                      :value="logoOrHeader"
+                      id="logoOrHeader"
+                      v-model="logoOrHeader"
+                      class="toggle-switch absolute block w-10 h-10 m-1 rounded border-4 border-transparent appearance-none cursor-pointer transition-colors duration-200 focus:outline-none bg-white"
+                    />
+                  </div>
+                  <p>
+                    {{ logoOrHeader ? 'Cover Photo' : 'Brand Logo' }}
+                  </p>
+
+                  <br />
+                </div>
+
+                <div
+                  :style="{
+                    display: logoOrHeader ? 'flex' : 'none',
+                    flexDirection: 'column'
+                  }"
+                >
+                  <div class="stepC">
+                    <Attachment
+                      :content="images"
+                      type="cover"
+                      :resizeImage="resizeImage"
+                      label="Add cover photo"
+                      description="suggested format: svg, jpeg, png or gif"
+                      :showAlert="showAlert"
+                    />
+
+                    <p
+                      class="mt-6 border p-4 rounded border-gray-700 text-gray-400"
+                    >
+                      Recommended cover size is 960 x 640 pixels, with an expect
+                      ratio of 3:2.
+                    </p>
+                  </div>
+                </div>
+
+                <div
+                  :style="{
+                    display: logoOrHeader == false ? 'flex' : 'none',
+                    flexDirection: 'column'
+                  }"
+                >
+                  <div class="stepC">
+                    <Attachment
+                      :content="images"
+                      type="logo"
+                      :resizeImage="resizeImage"
+                      label="Upload your brand logo"
+                      description="suggested format: svg, png or gif"
+                      :showAlert="showAlert"
+                    />
+
+                    <p
+                      class="mt-6 border p-4 rounded border-gray-700 text-gray-400"
+                    >
+                      Recommended brand logo size is 350 x 100 pixels.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div v-show="currentStep === 2">
+          <div id="step-2" class="mt-16">
+            <h2 class="font-extrabold text-2xl">vCard information</h2>
+            <Attachment
+              :content="images"
+              type="photo"
+              :resizeImage="resizeImage"
+              label="Upload your headshot"
+              description="suggested format: jpeg, png or gif"
+              :showAlert="showAlert"
+            />
+            <p class="mt-6 border p-4 rounded border-gray-700 text-gray-400">
+              Recommended headshot is 300 x 300 pixels.
+            </p>
+            <br />
 
             <div class="stepC mt-6">
-              <p class=" ">Select between a logo or cover photo</p>
-              <br />
+              <div>
+                <label for="prefix" class="ml-4">Prefix</label>
+                <input
+                  id="prefix"
+                  spellcheck="false"
+                  type="text"
+                  placeholder="Dr./Mr./Prof."
+                  v-model="genInfo.prefix"
+                  autocapitalize="words"
+                  class="mt-2 px-4 w-full h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
+                />
+              </div>
+            </div>
+
+            <div class="stepC mt-6 grid grid-cols-2 gap-4">
+              <div>
+                <label for="firstname" class="ml-4">First name</label>
+                <input
+                  id="firstname"
+                  spellcheck="false"
+                  type="text"
+                  v-model="genInfo.fname"
+                  autocapitalize="words"
+                  class="mt-2 px-4 w-full h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
+                />
+              </div>
+              <div>
+                <label for="lastname" class="ml-4">Last name</label>
+                <input
+                  id="lastname"
+                  spellcheck="false"
+                  type="text"
+                  v-model="genInfo.lname"
+                  autocapitalize="words"
+                  class="mt-2 px-4 w-full h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
+                />
+              </div>
+            </div>
+
+            <div class="stepC mt-6">
+              <label for="pronouns" class="ml-4">Gender pronouns</label>
+              <input
+                id="pronouns"
+                spellcheck="false"
+                type="text"
+                v-model="genInfo.pronouns"
+                placeholder="He/Him/His"
+                autocapitalize="words"
+                class="mt-2 px-4 w-full h-12 bg-black placeholder-gray-600 rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
+              />
+            </div>
+
+            <div class="stepC mt-6">
+              <label for="job-title" class="ml-4">Job title</label>
+              <input
+                id="job-title"
+                type="text"
+                spellcheck="true"
+                v-model="genInfo.title"
+                class="mt-2 px-4 w-full h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
+              />
+            </div>
+            <div class="stepC mt-6">
+              <label for="business-name" class="ml-4">Business name</label>
+              <input
+                id="business-name"
+                spellcheck="false"
+                type="text"
+                :value="genInfo.biz"
+                @input="genInfo.biz = $event.target.value"
+                class="mt-2 px-4 w-full h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
+              />
+            </div>
+            <div class="stepC mt-6">
+              <label for="business-address" class="ml-4">Business address</label>
+              <input
+                placeholder="Street Address"
+                id="Street"
+                :value="genInfo.street"
+                @input="genInfo.street = $event.target.value"
+                class="block mt-2 px-4 py-3 w-full bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 resize-none hover:border-gray-600"
+              />
+            </div>
+
+            <div class="stepC mt-6 stepC mt-6 grid grid-cols-2 gap-4">
+              <div>
+                <input
+                  id="city"
+                  spellcheck="false"
+                  type="text"
+                  placeholder="City"
+                  v-model="genInfo.city"
+                  autocapitalize="words"
+                  class="mt-2 px-4 w-full h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
+                />
+              </div>
+              <div>
+                <input
+                  placeholder="State"
+                  id="state"
+                  spellcheck="false"
+                  type="text"
+                  v-model="genInfo.state"
+                  autocapitalize="words"
+                  class="mt-2 px-4 w-full h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
+                />
+              </div>
+            </div>
+
+            <div class="stepC mt-6 stepC mt-6 grid grid-cols-2 gap-4">
+              <div>
+                <input
+                  placeholder="Postal Code"
+                  id="Postal Code"
+                  spellcheck="false"
+                  type="text"
+                  v-model="genInfo.postal"
+                  autocapitalize="words"
+                  class="mt-2 px-4 w-full h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
+                />
+              </div>
+              <div>
+                <input
+                  placeholder="Country"
+                  id="country"
+                  spellcheck="false"
+                  type="text"
+                  v-model="genInfo.country"
+                  autocapitalize="words"
+                  class="mt-2 px-4 w-full h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
+                />
+              </div>
+            </div>
+            <div class="stepC mt-6">
+              <label for="business-description" class="ml-4"
+                >Business description
+              </label>
+              <textarea
+                id="business-description"
+                :value="genInfo.desc"
+                @input="genInfo.desc = $event.target.value"
+                class="block mt-2 px-4 py-3 w-full bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 resize-none hover:border-gray-600"
+                rows="4"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div v-show="currentStep === 3">
+          <div id="step-3" class="mt-16">
+            <h2 class="font-extrabold text-2xl">Primary actions</h2>
+            <draggable v-model="primaryActions" handle=".drag" animation="1" ghostClass="ghost">
+              <transition-group type="transition" name="list">
+                <Action v-for="(item, index) in primaryActions" :key="'item' + index" name="primaryActions" :type="primaryActions" :item="item" :index="index" :buttonBg="colors.buttonBg.color" :removeAction="removeAction" />
+              </transition-group>
+            </draggable>
+            <br />
+            <input spellcheck="false" type="text" v-model="filterPrimary" placeholder="Search an action" class="px-4 mb-2 w-full h-12 bg-black placeholder-gray-600 rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600" @keydown.esc="clearFilterActions" @keypress.enter="
+                  filteredAction('filteredPrimaryActions', 'primaryActions')
+                " />
+
+            <div class="stepC actions mt-6 border-gray-800" :class="{ 'border-t pt-6': primaryActions.length }">
+              <button v-for="(action, index) in filteredPrimaryActions" :key="index" @click="addAction('primaryActions', action.name)" class="p-3 flex-shrink-0 rounded-full hover:scale-125 focus:scale-125 transform transition-transform duration-200 focus:outline-none" :style="{
+                    backgroundColor: `${colors.buttonBg.color}`
+                  }" :title="
+                    action.name.substr(0, 1).toUpperCase() + action.name.slice(1)
+                  " :aria-label="action.name">
+                <div class="w-6 h-6 action" v-html="require(`~/assets/icons/${action.name}.svg?include`)"></div>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div v-show="currentStep === 4">
+          <div id="step-4" class="mt-16">
+            <h2 class="font-extrabold text-2xl">Secondary actions</h2>
+
+            <draggable v-model="secondaryActions" handle=".drag" animation="1" ghostClass="ghost">
+              <transition-group type="transition" name="list">
+                <Action v-for="(item, index) in secondaryActions" :key="'item' + index" name="secondaryActions" :type="secondaryActions" :item="item" :index="index" :removeAction="removeAction" /> </transition-group>
+            </draggable>
+            <br />
+            <input spellcheck="false" type="text" v-model="filterSecondary" placeholder="Search an action" class="px-4 mb-2 w-full h-12 bg-black placeholder-gray-600 rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600" @keydown.esc="clearFilterActions" @keypress.enter="
+                  filteredAction('filteredSecondaryActions', 'secondaryActions')
+                " />
+
+            <div class="stepC actions mt-6 border-gray-800" :class="{ 'border-t pt-6': secondaryActions.length }">
+              <button v-for="(action, index) in filteredSecondaryActions" :key="index" @click="addAction('secondaryActions', action.name)" class="p-3 flex-shrink-0 rounded-full hover:scale-125 focus:scale-125 transform transition-transform duration-200 focus:outline-none" :style="{ background: action.color }" :title="
+                    action.name.substr(0, 1).toUpperCase() + action.name.slice(1)
+                  ">
+                <div class="w-6 h-6" v-html="require(`~/assets/icons/${action.name}.svg?include`)"></div>
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <div v-show="currentStep === 5">
+          <div id="step-5" class="mt-16">
+            <h2 class="font-extrabold text-2xl">Featured content</h2>
+            <div class="stepC">
+              <draggable v-model="featured" handle=".drag" animation="1" ghostClass="ghost">
+                <transition-group type="transition" name="list">
+                  <Featured v-for="(content, index) in featured" :key="'content' + index" :featured="featured" :resizeImage="resizeImage" :index="index" label="Attach content" mimetypes="image/jpeg, image/png, audio/mpeg, video/mp4, video/webm, application/pdf" :showAlert="showAlert" /> </transition-group>
+              </draggable>
+
+              <div class="flex mt-6">
+                <div class="flex flex-wrap items-center">
+                  <button class="p-3 rounded bg-gray-700 hover:bg-gray-600 focus:bg-gray-600 transition-colors duration-200 focus:outline-none" @click="addFeature()" aria-label="Add section">
+                    <div class="w-6 h-6" v-html="require(`~/assets/icons/add.svg?include`)"></div>
+                  </button>
+                  <p class="ml-3 leading-none">Add section</p>
+                </div>
+              </div>
+              <p class="mt-6 border p-4 rounded border-gray-700 text-gray-400">
+                Supported media file formats: jpeg, png, mp3, mp4, webm and pdf
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div v-show="currentStep === 6">
+          <div id="step-6" class="mt-16">
+            <h2 class="font-extrabold text-2xl">
+              Customize the footer credit?
+            </h2>
+            <div class="stepC mt-6">
+              <div class="flex items-center">
+                <div class="relative group inline-block w-24 h-12 mr-3 align-middle select-none transition duration-200 ease-in bg-gray-700 rounded hover:bg-gray-600 focus:bg-gray-600 cursor-pointer focus:outline-none" :class="{
+                      'bg-green-600 hover:bg-green-500 focus:bg-green-500': footerCreditCustom
+                    }" tabindex="0" @click="footerCreditCustom = !footerCreditCustom">
+                  <input type="checkbox" :value="footerCreditCustom" id="footerCreditCustom" v-model="footerCreditCustom" class="toggle-switch absolute block w-10 h-10 m-1 rounded border-4 border-transparent appearance-none cursor-pointer transition-colors duration-200 focus:outline-none bg-white" />
+                </div>
+                <p>
+                  {{
+                    footerCreditCustom
+                      ? 'You have an active agency license.'
+                      : 'No, thanks'
+                  }}
+                </p>
+
+                <br />
+
+                <script async src="XXXXXXXXXXXXXXXXXX-USE-YOUR-THRIVECARD-XXXXXXXXXXXXXXXXXX"></script>
+                <button
+                  ref="myPurchaseBtn"
+                  data-thrivecart-account="XXXXXXXXXXXXXXXXXX"
+                  data-thrivecart-tpl="XXXXXXXXXXXXXXXXXX"
+                  data-thrivecart-product="XXXXXXXXXXXXXXXXXX"
+                  class="XXXXXXXXXXXXXXXXXX "
+                  style="background-color: #46cea3;display: none"
+                >
+                  Buy Agency
+                </button>
+              </div>
+
+              <div :style="{
+                    display: footerCreditCustom ? 'flex' : 'none',
+                    flexDirection: 'column'
+                  }">
+                <div class="mt-6">
+                  <label for="before-text-link" class="ml-4">Footer text</label>
+                  <input
+                    id="before-text-link"
+                    spellcheck="false"
+                    type="before-text-link"
+                    placeholder="Created by"
+                    :value="genInfo.beforeTextLink"
+                    @input="genInfo.beforeTextLink = $event.target.value"
+                    class="mt-2 px-4 w-full h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
+                  />
+                </div>
+                <div class="mt-6">
+                  <label for="linkedText" class="ml-4">Link Text</label>
+                  <input
+                    id="linkedText"
+                    spellcheck="false"
+                    type="linkedText"
+                    placeholder="Your Brand"
+                    :value="genInfo.linkedText"
+                    @input="genInfo.linkedText = $event.target.value"
+                    class="mt-2 px-4 w-full h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
+                  />
+                </div>
+                <div class="mt-6">
+                  <label for="url" class="ml-4">URL</label>
+                  <input
+                    id="url"
+                    spellcheck="false"
+                    type="url"
+                    placeholder="https://example.com"
+                    :value="genInfo.url"
+                    @input="genInfo.url = $event.target.value"
+                    class="mt-2 px-4 w-full h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div v-show="currentStep === 7">
+          <div id="step-6" class="mt-16">
+            <h2 class="font-extrabold text-2xl">
+              Simplify Your Visible vCard?
+            </h2>
+            <div class="stepC mt-6">
               <div class="flex items-center">
                 <div
                   class="relative group inline-block w-24 h-12 mr-3 align-middle select-none transition duration-200 ease-in bg-gray-700 rounded hover:bg-gray-600 focus:bg-gray-600 cursor-pointer focus:outline-none"
                   :class="{
-                    'bg-green-600 hover:bg-green-500 focus:bg-green-500': logoOrHeader
+                    'bg-green-600 hover:bg-green-500 focus:bg-green-500': isFeaturedOn
                   }"
                   tabindex="0"
-                  @click="logoOrHeader = !logoOrHeader"
+                  @click="isFeaturedOn = !isFeaturedOn"
                 >
-                  <!-- <transition name="slide"> -->
                   <input
                     type="checkbox"
-                    :value="logoOrHeader"
-                    id="logoOrHeader"
-                    v-model="logoOrHeader"
+                    :value="isFeaturedOn"
+                    id="isFeaturedOn"
+                    v-model="isFeaturedOn"
                     class="toggle-switch absolute block w-10 h-10 m-1 rounded border-4 border-transparent appearance-none cursor-pointer transition-colors duration-200 focus:outline-none bg-white"
                   />
                 </div>
                 <p>
-                  {{ logoOrHeader ? 'Cover Photo' : 'Brand Logo' }}
+                  {{
+                    isFeaturedOn
+                      ? 'Encourage downloads and hide icons'
+                      : 'No, Thanks'
+                  }}
                 </p>
 
                 <br />
-              </div>
 
-              <div
-                :style="{
-                  display: logoOrHeader ? 'flex' : 'none',
-                  flexDirection: 'column'
-                }"
-              >
-                <div class="stepC">
-                  <Attachment
-                    :content="images"
-                    type="cover"
-                    :resizeImage="resizeImage"
-                    label="Add cover photo"
-                    description="suggested format: svg, jpeg, png or gif"
-                    :showAlert="showAlert"
-                  />
-
-                  <p
-                    class="mt-6 border p-4 rounded border-gray-700 text-gray-400"
-                  >
-                    Recommended cover size is 960 x 640 pixels, with an expect
-                    ratio of 3:2.
-                  </p>
-                </div>
-              </div>
-
-              <div
-                :style="{
-                  display: logoOrHeader == false ? 'flex' : 'none',
-                  flexDirection: 'column'
-                }"
-              >
-                <div class="stepC">
-                  <Attachment
-                    :content="images"
-                    type="logo"
-                    :resizeImage="resizeImage"
-                    label="Upload your brand logo"
-                    description="suggested format: svg, png or gif"
-                    :showAlert="showAlert"
-                  />
-
-                  <p
-                    class="mt-6 border p-4 rounded border-gray-700 text-gray-400"
-                  >
-                    Recommended brand logo size is 350 x 100 pixels.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div id="step-2" class="mt-16">
-          <h2 class="font-extrabold text-2xl">vCard information</h2>
-          <Attachment
-            :content="images"
-            type="photo"
-            :resizeImage="resizeImage"
-            label="Upload your headshot"
-            description="suggested format: jpeg, png or gif"
-            :showAlert="showAlert"
-          />
-          <p class="mt-6 border p-4 rounded border-gray-700 text-gray-400">
-            Recommended headshot is 300 x 300 pixels.
-          </p>
-          <br />
-
-          <div class="stepC mt-6">
-            <div>
-              <label for="prefix" class="ml-4">Prefix</label>
-              <input
-                id="prefix"
-                spellcheck="false"
-                type="text"
-                placeholder="Dr./Mr./Prof."
-                v-model="genInfo.prefix"
-                autocapitalize="words"
-                class="mt-2 px-4 w-full h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
-              />
-            </div>
-          </div>
-
-          <div class="stepC mt-6 grid grid-cols-2 gap-4">
-            <div>
-              <label for="firstname" class="ml-4">First name</label>
-              <input
-                id="firstname"
-                spellcheck="false"
-                type="text"
-                v-model="genInfo.fname"
-                autocapitalize="words"
-                class="mt-2 px-4 w-full h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
-              />
-            </div>
-            <div>
-              <label for="lastname" class="ml-4">Last name</label>
-              <input
-                id="lastname"
-                spellcheck="false"
-                type="text"
-                v-model="genInfo.lname"
-                autocapitalize="words"
-                class="mt-2 px-4 w-full h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
-              />
-            </div>
-          </div>
-
-          <div class="stepC mt-6">
-            <label for="pronouns" class="ml-4">Gender pronouns</label>
-            <input
-              id="pronouns"
-              spellcheck="false"
-              type="text"
-              v-model="genInfo.pronouns"
-              placeholder="He/Him/His"
-              autocapitalize="words"
-              class="mt-2 px-4 w-full h-12 bg-black placeholder-gray-600 rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
-            />
-          </div>
-
-          <div class="stepC mt-6">
-            <label for="job-title" class="ml-4">Job title</label>
-            <input
-              id="job-title"
-              type="text"
-              spellcheck="true"
-              v-model="genInfo.title"
-              class="mt-2 px-4 w-full h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
-            />
-          </div>
-          <div class="stepC mt-6">
-            <label for="business-name" class="ml-4">Business name</label>
-            <input
-              id="business-name"
-              spellcheck="false"
-              type="text"
-              :value="genInfo.biz"
-              @input="genInfo.biz = $event.target.value"
-              class="mt-2 px-4 w-full h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
-            />
-          </div>
-          <div class="stepC mt-6">
-            <label for="business-address" class="ml-4">Business address</label>
-            <input
-              placeholder="Street Address"
-              id="Street"
-              :value="genInfo.street"
-              @input="genInfo.street = $event.target.value"
-              class="block mt-2 px-4 py-3 w-full bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 resize-none hover:border-gray-600"
-            />
-          </div>
-
-          <div class="stepC mt-6 stepC mt-6 grid grid-cols-2 gap-4">
-            <div>
-              <!-- <label for="city" class="ml-4">City</label> -->
-              <input
-                id="city"
-                spellcheck="false"
-                type="text"
-                placeholder="City"
-                v-model="genInfo.city"
-                autocapitalize="words"
-                class="mt-2 px-4 w-full h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
-              />
-            </div>
-            <div>
-              <!-- <label for="state" class="ml-4">State</label> -->
-              <input
-                placeholder="State"
-                id="state"
-                spellcheck="false"
-                type="text"
-                v-model="genInfo.state"
-                autocapitalize="words"
-                class="mt-2 px-4 w-full h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
-              />
-            </div>
-          </div>
-
-          <div class="stepC mt-6 stepC mt-6 grid grid-cols-2 gap-4">
-            <div>
-              <!-- <label for="city" class="ml-4">Postal Code</label> -->
-              <input
-                placeholder="Postal Code"
-                id="Postal Code"
-                spellcheck="false"
-                type="text"
-                v-model="genInfo.postal"
-                autocapitalize="words"
-                class="mt-2 px-4 w-full h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
-              />
-            </div>
-            <div>
-              <!-- <label for="state" class="ml-4">Country</label> -->
-              <input
-                placeholder="Country"
-                id="country"
-                spellcheck="false"
-                type="text"
-                v-model="genInfo.country"
-                autocapitalize="words"
-                class="mt-2 px-4 w-full h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
-              />
-            </div>
-          </div>
-          <div class="stepC mt-6">
-            <label for="business-description" class="ml-4"
-              >Business description
-            </label>
-            <textarea
-              id="business-description"
-              :value="genInfo.desc"
-              @input="genInfo.desc = $event.target.value"
-              class="block mt-2 px-4 py-3 w-full bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 resize-none hover:border-gray-600"
-              rows="4"
-            ></textarea>
-          </div>
-        </div>
-        <div id="step-3" class="mt-16">
-          <h2 class="font-extrabold text-2xl">Primary actions</h2>
-          <draggable
-            v-model="primaryActions"
-            handle=".drag"
-            animation="1"
-            ghostClass="ghost"
-          >
-            <transition-group type="transition" name="list">
-              <Action
-                v-for="(item, index) in primaryActions"
-                :key="'item' + index"
-                name="primaryActions"
-                :type="primaryActions"
-                :item="item"
-                :index="index"
-                :buttonBg="colors.buttonBg.color"
-                :removeAction="removeAction"
-              />
-            </transition-group>
-          </draggable>
-          <br />
-          <input
-            spellcheck="false"
-            type="text"
-            v-model="filterPrimary"
-            placeholder="Search an action"
-            class="px-4 mb-2 w-full h-12 bg-black placeholder-gray-600 rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
-            @keydown.esc="clearFilterActions"
-            @keypress.enter="
-              filteredAction('filteredPrimaryActions', 'primaryActions')
-            "
-          />
-
-          <div
-            class="stepC actions mt-6 border-gray-800"
-            :class="{ 'border-t pt-6': primaryActions.length }"
-          >
-            <button
-              v-for="(action, index) in filteredPrimaryActions"
-              :key="index"
-              @click="addAction('primaryActions', action.name)"
-              class="p-3 flex-shrink-0 rounded-full hover:scale-125 focus:scale-125 transform transition-transform duration-200 focus:outline-none"
-              :style="{
-                backgroundColor: `${colors.buttonBg.color}`
-              }"
-              :title="
-                action.name.substr(0, 1).toUpperCase() + action.name.slice(1)
-              "
-              :aria-label="action.name"
-            >
-              <div
-                class="w-6 h-6 action"
-                v-html="require(`~/assets/icons/${action.name}.svg?include`)"
-              ></div>
-            </button>
-          </div>
-        </div>
-        <div id="step-4" class="mt-16">
-          <h2 class="font-extrabold text-2xl">Secondary actions</h2>
-
-          <draggable
-            v-model="secondaryActions"
-            handle=".drag"
-            animation="1"
-            ghostClass="ghost"
-          >
-            <transition-group type="transition" name="list">
-              <Action
-                v-for="(item, index) in secondaryActions"
-                :key="'item' + index"
-                name="secondaryActions"
-                :type="secondaryActions"
-                :item="item"
-                :index="index"
-                :removeAction="removeAction"
-              /> </transition-group
-          ></draggable>
-          <br />
-          <input
-            spellcheck="false"
-            type="text"
-            v-model="filterSecondary"
-            placeholder="Search an action"
-            class="px-4 mb-2 w-full h-12 bg-black placeholder-gray-600 rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
-            @keydown.esc="clearFilterActions"
-            @keypress.enter="
-              filteredAction('filteredSecondaryActions', 'secondaryActions')
-            "
-          />
-
-          <div
-            class="stepC actions mt-6 border-gray-800"
-            :class="{ 'border-t pt-6': secondaryActions.length }"
-          >
-            <button
-              v-for="(action, index) in filteredSecondaryActions"
-              :key="index"
-              @click="addAction('secondaryActions', action.name)"
-              class="p-3 flex-shrink-0 rounded-full hover:scale-125 focus:scale-125 transform transition-transform duration-200 focus:outline-none"
-              :style="{ background: action.color }"
-              :title="
-                action.name.substr(0, 1).toUpperCase() + action.name.slice(1)
-              "
-            >
-              <div
-                class="w-6 h-6"
-                v-html="require(`~/assets/icons/${action.name}.svg?include`)"
-              ></div>
-            </button>
-          </div>
-        </div>
-        <div id="step-5" class="mt-16">
-          <h2 class="font-extrabold text-2xl">Featured content</h2>
-          <div class="stepC">
-            <draggable
-              v-model="featured"
-              handle=".drag"
-              animation="1"
-              ghostClass="ghost"
-            >
-              <transition-group type="transition" name="list">
-                <Featured
-                  v-for="(content, index) in featured"
-                  :key="'content' + index"
-                  :featured="featured"
-                  :resizeImage="resizeImage"
-                  :index="index"
-                  label="Attach content"
-                  mimetypes="image/jpeg, image/png, audio/mpeg, video/mp4, video/webm, application/pdf"
-                  :showAlert="showAlert"
-                /> </transition-group
-            ></draggable>
-
-            <div class="flex mt-6">
-              <div class="flex flex-wrap items-center">
+                <script async src="XXXXXXXXXXXXXXXXXX"></script>
                 <button
-                  class="p-3 rounded bg-gray-700 hover:bg-gray-600 focus:bg-gray-600 transition-colors duration-200 focus:outline-none"
-                  @click="addFeature()"
-                  aria-label="Add section"
+                  ref="myPurchaseBtn"
+                  data-thrivecart-account="XXXXXXXXXXXXXXXXXX"
+                  data-thrivecart-tpl="XXXXXXXXXXXXXXXXXX"
+                  data-thrivecart-product="XXXXXXXXXXXXXXXXXX"
+                  class="XXXXXXXXXXXXXXXXXX "
+                  style="background-color: #46cea3;display: none"
                 >
-                  <div
-                    class="w-6 h-6"
-                    v-html="require(`~/assets/icons/add.svg?include`)"
-                  ></div>
+                  Buy Agency
                 </button>
-                <p class="ml-3 leading-none">Add section</p>
-              </div>
-            </div>
-            <p class="mt-6 border p-4 rounded border-gray-700 text-gray-400">
-              Supported media file formats: jpeg, png, mp3, mp4, webm and pdf
-            </p>
-          </div>
-        </div>
-
-        <div id="step-6" class="mt-16">
-          <h2 class="font-extrabold text-2xl">Customize the footer credit?</h2>
-          <div class="stepC mt-6">
-            <div class="flex items-center">
-              <div
-                class="relative group inline-block w-24 h-12 mr-3 align-middle select-none transition duration-200 ease-in bg-gray-700 rounded hover:bg-gray-600 focus:bg-gray-600 cursor-pointer focus:outline-none"
-                :class="{
-                  'bg-green-600 hover:bg-green-500 focus:bg-green-500': footerCreditCustom
-                }"
-                tabindex="0"
-                @click="footerCreditCustom = !footerCreditCustom"
-              >
-                <!-- <transition name="slide"> -->
-                <input
-                  type="checkbox"
-                  :value="footerCreditCustom"
-                  id="footerCreditCustom"
-                  v-model="footerCreditCustom"
-                  class="toggle-switch absolute block w-10 h-10 m-1 rounded border-4 border-transparent appearance-none cursor-pointer transition-colors duration-200 focus:outline-none bg-white"
-                />
-              </div>
-              <p>
-                {{
-                  footerCreditCustom
-                    ? 'You have an active agency license.'
-                    : 'No, thanks'
-                }}
-              </p>
-
-              <br />
-
-              <script
-                async
-                src="XXXXXXXXXXXXXXXXXX-USE-YOUR-THRIVECARD-XXXXXXXXXXXXXXXXXX"
-              ></script>
-              <button
-                ref="myPurchaseBtn"
-                data-thrivecart-account="XXXXXXXXXXXXXXXXXX"
-                data-thrivecart-tpl="XXXXXXXXXXXXXXXXXX"
-                data-thrivecart-product="XXXXXXXXXXXXXXXXXX"
-                class="XXXXXXXXXXXXXXXXXX "
-                style="background-color: #46cea3;display: none"
-              >
-                Buy Agency
-              </button>
-            </div>
-
-            <div
-              :style="{
-                display: footerCreditCustom ? 'flex' : 'none',
-                flexDirection: 'column'
-              }"
-            >
-              <div class="mt-6">
-                <label for="before-text-link" class="ml-4">Footer text</label>
-                <input
-                  id="before-text-link"
-                  spellcheck="false"
-                  type="before-text-link"
-                  placeholder="Created by"
-                  :value="genInfo.beforeTextLink"
-                  @input="genInfo.beforeTextLink = $event.target.value"
-                  class="mt-2 px-4 w-full h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
-                />
-              </div>
-              <div class="mt-6">
-                <label for="linkedText" class="ml-4">Link Text</label>
-                <input
-                  id="linkedText"
-                  spellcheck="false"
-                  type="linkedText"
-                  placeholder="Your Brand"
-                  :value="genInfo.linkedText"
-                  @input="genInfo.linkedText = $event.target.value"
-                  class="mt-2 px-4 w-full h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
-                />
-              </div>
-              <div class="mt-6">
-                <label for="url" class="ml-4">URL</label>
-                <input
-                  id="url"
-                  spellcheck="false"
-                  type="url"
-                  placeholder="https://example.com"
-                  :value="genInfo.url"
-                  @input="genInfo.url = $event.target.value"
-                  class="mt-2 px-4 w-full h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
-                />
               </div>
             </div>
           </div>
         </div>
 
-        <div id="step-6" class="mt-16">
-          <h2 class="font-extrabold text-2xl">
-            Simplify Your Visible vCard?
-          </h2>
-          <div class="stepC mt-6">
-            <div class="flex items-center">
-              <div
-                class="relative group inline-block w-24 h-12 mr-3 align-middle select-none transition duration-200 ease-in bg-gray-700 rounded hover:bg-gray-600 focus:bg-gray-600 cursor-pointer focus:outline-none"
-                :class="{
-                  'bg-green-600 hover:bg-green-500 focus:bg-green-500': isFeaturedOn
-                }"
-                tabindex="0"
-                @click="isFeaturedOn = !isFeaturedOn"
-              >
-                <input
-                  type="checkbox"
-                  :value="isFeaturedOn"
-                  id="isFeaturedOn"
-                  v-model="isFeaturedOn"
-                  class="toggle-switch absolute block w-10 h-10 m-1 rounded border-4 border-transparent appearance-none cursor-pointer transition-colors duration-200 focus:outline-none bg-white"
-                />
+        <div v-show="currentStep === 8">
+          <div id="step-6" class="mt-16">
+            <h2 class="font-extrabold text-2xl">
+              Customize Your Favicon?
+            </h2>
+            <div class="stepC mt-6">
+              <div class="flex items-center">
+                <div
+                  class="relative group inline-block w-24 h-12 mr-3 align-middle select-none transition duration-200 ease-in bg-gray-700 rounded hover:bg-gray-600 focus:bg-gray-600 cursor-pointer focus:outline-none"
+                  :class="{
+                    'bg-green-600 hover:bg-green-500 focus:bg-green-500': customFavicon
+                  }"
+                  tabindex="0"
+                  @click="customFavicon = !customFavicon"
+                >
+                  <input
+                    type="checkbox"
+                    :value="customFavicon"
+                    id="footerCreditCustom"
+                    v-model="customFavicon"
+                    class="toggle-switch absolute block w-10 h-10 m-1 rounded border-4 border-transparent appearance-none cursor-pointer transition-colors duration-200 focus:outline-none bg-white"
+                  />
+                </div>
+                <p>
+                  {{
+                    customFavicon
+                      ? 'Yes, I will host my own favicon image'
+                      : 'No, thanks'
+                  }}
+                </p>
+
+                <br />
+
+                <script async src="XXXXXXXXXXXXXXXXXX"></script>
+                <button
+                  ref="myPurchaseBtn"
+                  data-thrivecart-account="XXXXXXXXXXXXXXXXXX"
+                  data-thrivecart-tpl="XXXXXXXXXXXXXXXXXX"
+                  data-thrivecart-product="XXXXXXXXXXXXXXXXXX"
+                  class="XXXXXXXXXXXXXXXXXX "
+                  style="background-color: #46cea3;display: none"
+                >
+                  Buy Agency
+                </button>
               </div>
-              <p>
-                {{
-                  isFeaturedOn
-                    ? 'Encourage downloads and hide icons'
-                    : 'No, Thanks'
-                }}
-              </p>
 
-              <br />
-
-              <script async src="XXXXXXXXXXXXXXXXXX"></script>
-              <button
-                ref="myPurchaseBtn"
-                data-thrivecart-account="XXXXXXXXXXXXXXXXXX"
-                data-thrivecart-tpl="XXXXXXXXXXXXXXXXXX"
-                data-thrivecart-product="XXXXXXXXXXXXXXXXXX"
-                class="XXXXXXXXXXXXXXXXXX "
-                style="background-color: #46cea3;display: none"
-              >
-                Buy Agency
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div id="step-6" class="mt-16">
-          <h2 class="font-extrabold text-2xl">
-            Customize Your Favicon?
-          </h2>
-          <div class="stepC mt-6">
-            <div class="flex items-center">
               <div
-                class="relative group inline-block w-24 h-12 mr-3 align-middle select-none transition duration-200 ease-in bg-gray-700 rounded hover:bg-gray-600 focus:bg-gray-600 cursor-pointer focus:outline-none"
-                :class="{
-                  'bg-green-600 hover:bg-green-500 focus:bg-green-500': customFavicon
+                :style="{
+                  display: customFavicon ? 'flex' : 'none',
+                  flexDirection: 'column'
                 }"
-                tabindex="0"
-                @click="customFavicon = !customFavicon"
               >
-                <!-- <transition name="slide"> -->
-                <input
-                  type="checkbox"
-                  :value="customFavicon"
-                  id="footerCreditCustom"
-                  v-model="customFavicon"
-                  class="toggle-switch absolute block w-10 h-10 m-1 rounded border-4 border-transparent appearance-none cursor-pointer transition-colors duration-200 focus:outline-none bg-white"
-                />
-              </div>
-              <p>
-                {{
-                  customFavicon
-                    ? 'Yes, I will host my own favicon image'
-                    : 'No, thanks'
-                }}
-              </p>
-
-              <br />
-
-              <script async src="XXXXXXXXXXXXXXXXXX"></script>
-              <button
-                ref="myPurchaseBtn"
-                data-thrivecart-account="XXXXXXXXXXXXXXXXXX"
-                data-thrivecart-tpl="XXXXXXXXXXXXXXXXXX"
-                data-thrivecart-product="XXXXXXXXXXXXXXXXXX"
-                class="XXXXXXXXXXXXXXXXXX "
-                style="background-color: #46cea3;display: none"
-              >
-                Buy Agency
-              </button>
-            </div>
-
-            <div
-              :style="{
-                display: customFavicon ? 'flex' : 'none',
-                flexDirection: 'column'
-              }"
-            >
-              <div class="mt-6">
-                <input
-                  id="before-text-link"
-                  spellcheck="false"
-                  type="before-text-link"
-                  placeholder="Enter secure (https://) image URL here
+                <div class="mt-6">
+                  <input
+                    id="before-text-link"
+                    spellcheck="false"
+                    type="before-text-link"
+                    placeholder="Enter secure (https://) image URL here
 
 "
-                  :value="genInfo.customFavi"
-                  @input="genInfo.customFavi = $event.target.value"
-                  class="mt-2 px-4 w-full h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
-                />
-                <p>Recommended image size is 100 x 100 png</p>
+                    :value="genInfo.customFavi"
+                    @input="genInfo.customFavi = $event.target.value"
+                    class="mt-2 px-4 w-full h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
+                  />
+                  <p>Recommended image size is 100 x 100 png</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div id="step-6" class="mt-16">
-          <h2 class="font-extrabold text-2xl">
-            Customize Your Share Image?
-          </h2>
-          <div class="stepC mt-6">
-            <div class="flex items-center">
-              <div
-                class="relative group inline-block w-24 h-12 mr-3 align-middle select-none transition duration-200 ease-in bg-gray-700 rounded hover:bg-gray-600 focus:bg-gray-600 cursor-pointer focus:outline-none"
-                :class="{
-                  'bg-green-600 hover:bg-green-500 focus:bg-green-500': shareImage
-                }"
-                tabindex="0"
-                @click="shareImage = !shareImage"
-              >
-                <!-- <transition name="slide"> -->
-                <input
-                  type="checkbox"
-                  :value="shareImage"
-                  id="footerCreditCustom"
-                  v-model="shareImage"
-                  class="toggle-switch absolute block w-10 h-10 m-1 rounded border-4 border-transparent appearance-none cursor-pointer transition-colors duration-200 focus:outline-none bg-white"
-                />
+        <div v-show="currentStep === 9">
+          <div id="step-6" class="mt-16">
+            <h2 class="font-extrabold text-2xl">
+              Customize Your Share Image?
+            </h2>
+            <div class="stepC mt-6">
+              <div class="flex items-center">
+                <div
+                  class="relative group inline-block w-24 h-12 mr-3 align-middle select-none transition duration-200 ease-in bg-gray-700 rounded hover:bg-gray-600 focus:bg-gray-600 cursor-pointer focus:outline-none"
+                  :class="{
+                    'bg-green-600 hover:bg-green-500 focus:bg-green-500': shareImage
+                  }"
+                  tabindex="0"
+                  @click="shareImage = !shareImage"
+                >
+                  <input
+                    type="checkbox"
+                    :value="shareImage"
+                    id="footerCreditCustom"
+                    v-model="shareImage"
+                    class="toggle-switch absolute block w-10 h-10 m-1 rounded border-4 border-transparent appearance-none cursor-pointer transition-colors duration-200 focus:outline-none bg-white"
+                  />
+                </div>
+                <p>
+                  {{
+                    shareImage
+                      ? 'Yes, I will host my own share image'
+                      : 'No, thanks'
+                  }}
+                </p>
+
+                <br />
+
+                <script async src="XXXXXXXXXXXXXXXXXX"></script>
+                <button
+                  ref="myPurchaseBtn"
+                  data-thrivecart-account="XXXXXXXXXXXXXXXXXX"
+                  data-thrivecart-tpl="XXXXXXXXXXXXXXXXXX"
+                  data-thrivecart-product="XXXXXXXXXXXXXXXXXX"
+                  class="XXXXXXXXXXXXXXXXXX "
+                  style="background-color: #46cea3;display: none"
+                >
+                  Buy Agency
+                </button>
               </div>
-              <p>
-                {{
-                  shareImage
-                    ? 'Yes, I will host my own share image'
-                    : 'No, thanks'
-                }}
-              </p>
 
-              <br />
-
-              <script async src="XXXXXXXXXXXXXXXXXX"></script>
-              <button
-                ref="myPurchaseBtn"
-                data-thrivecart-account="XXXXXXXXXXXXXXXXXX"
-                data-thrivecart-tpl="XXXXXXXXXXXXXXXXXX"
-                data-thrivecart-product="XXXXXXXXXXXXXXXXXX"
-                class="XXXXXXXXXXXXXXXXXX "
-                style="background-color: #46cea3;display: none"
+              <div
+                :style="{
+                  display: shareImage ? 'flex' : 'none',
+                  flexDirection: 'column'
+                }"
               >
-                Buy Agency
-              </button>
-            </div>
-
-            <div
-              :style="{
-                display: shareImage ? 'flex' : 'none',
-                flexDirection: 'column'
-              }"
-            >
-              <div class="mt-6">
-                <input
-                  id="before-text-link"
-                  spellcheck="false"
-                  type="before-text-link"
-                  placeholder="Enter secure (https://) image URL here
+                <div class="mt-6">
+                  <input
+                    id="before-text-link"
+                    spellcheck="false"
+                    type="before-text-link"
+                    placeholder="Enter secure (https://) image URL here
 
 "
-                  :value="genInfo.shareImg"
-                  @input="genInfo.shareImg = $event.target.value"
-                  class="mt-2 px-4 w-full h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
-                />
-                <p>Recommended image size is 1200 x 630 png</p>
+                    :value="genInfo.shareImg"
+                    @input="genInfo.shareImg = $event.target.value"
+                    class="mt-2 px-4 w-full h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
+                  />
+                  <p>Recommended image size is 1200 x 630 png</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div id="step-6" class="mt-16">
-          <h2 class="font-extrabold text-2xl">
-            Customize Your Bookmark Image?
-          </h2>
-          <div class="stepC mt-6">
-            <div class="flex items-center">
-              <div
-                class="relative group inline-block w-24 h-12 mr-3 align-middle select-none transition duration-200 ease-in bg-gray-700 rounded hover:bg-gray-600 focus:bg-gray-600 cursor-pointer focus:outline-none"
-                :class="{
-                  'bg-green-600 hover:bg-green-500 focus:bg-green-500': bookMarkImage
-                }"
-                tabindex="0"
-                @click="bookMarkImage = !bookMarkImage"
-              >
-                <!-- <transition name="slide"> -->
-                <input
-                  type="checkbox"
-                  :value="bookMarkImage"
-                  id="footerCreditCustom"
-                  v-model="bookMarkImage"
-                  class="toggle-switch absolute block w-10 h-10 m-1 rounded border-4 border-transparent appearance-none cursor-pointer transition-colors duration-200 focus:outline-none bg-white"
-                />
+        <div v-show="currentStep === 10">
+          <div id="step-6" class="mt-16">
+            <h2 class="font-extrabold text-2xl">
+              Customize Your Bookmark Image?
+            </h2>
+            <div class="stepC mt-6">
+              <div class="flex items-center">
+                <div
+                  class="relative group inline-block w-24 h-12 mr-3 align-middle select-none transition duration-200 ease-in bg-gray-700 rounded hover:bg-gray-600 focus:bg-gray-600 cursor-pointer focus:outline-none"
+                  :class="{
+                    'bg-green-600 hover:bg-green-500 focus:bg-green-500': bookMarkImage
+                  }"
+                  tabindex="0"
+                  @click="bookMarkImage = !bookMarkImage"
+                >
+                  <input
+                    type="checkbox"
+                    :value="bookMarkImage"
+                    id="footerCreditCustom"
+                    v-model="bookMarkImage"
+                    class="toggle-switch absolute block w-10 h-10 m-1 rounded border-4 border-transparent appearance-none cursor-pointer transition-colors duration-200 focus:outline-none bg-white"
+                  />
+                </div>
+                <p>
+                  {{
+                    bookMarkImage
+                      ? 'Yes, I will host my own Bookmark image. This is supported on iPhone only, not on Android.'
+                      : 'No, thanks'
+                  }}
+                </p>
+
+                <br />
+
+                <script async src="XXXXXXXXXXXXXXXXXX"></script>
+                <button
+                  ref="myPurchaseBtn"
+                  data-thrivecart-account="XXXXXXXXXXXXXXXXXX"
+                  data-thrivecart-tpl="XXXXXXXXXXXXXXXXXX"
+                  data-thrivecart-product="XXXXXXXXXXXXXXXXXX"
+                  class="XXXXXXXXXXXXXXXXXX "
+                  style="background-color: #46cea3;display: none"
+                >
+                  Buy Agency
+                </button>
               </div>
-              <p>
-                {{
-                  bookMarkImage
-                    ? 'Yes, I will host my own Bookmark image. This is supported on iPhone only, not on Android.'
-                    : 'No, thanks'
-                }}
-              </p>
 
-              <br />
-
-              <script async src="XXXXXXXXXXXXXXXXXX"></script>
-              <button
-                ref="myPurchaseBtn"
-                data-thrivecart-account="XXXXXXXXXXXXXXXXXX"
-                data-thrivecart-tpl="XXXXXXXXXXXXXXXXXX"
-                data-thrivecart-product="XXXXXXXXXXXXXXXXXX"
-                class="XXXXXXXXXXXXXXXXXX "
-                style="background-color: #46cea3;display: none"
+              <div
+                :style="{
+                  display: bookMarkImage ? 'flex' : 'none',
+                  flexDirection: 'column'
+                }"
               >
-                Buy Agency
-              </button>
-            </div>
-
-            <div
-              :style="{
-                display: bookMarkImage ? 'flex' : 'none',
-                flexDirection: 'column'
-              }"
-            >
-              <div class="mt-6">
-                <input
-                  id="before-text-link"
-                  spellcheck="false"
-                  type="before-text-link"
-                  placeholder="Enter secure (https://) image URL here
+                <div class="mt-6">
+                  <input
+                    id="before-text-link"
+                    spellcheck="false"
+                    type="before-text-link"
+                    placeholder="Enter secure (https://) image URL here
 
 "
-                  :value="genInfo.bookMarkImg"
-                  @input="genInfo.bookMarkImg = $event.target.value"
-                  class="mt-2 px-4 w-full h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
-                />
-                <p>Recommended image size is 128 x 128 png</p>
-                <input
-                  id="before-text-link"
-                  spellcheck="false"
-                  type="before-text-link"
-                  placeholder="Enter your bookmark title"
-                  :value="genInfo.bookMarkTitle"
-                  @input="genInfo.bookMarkTitle = $event.target.value"
-                  class="mt-2 px-4 w-full h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
-                />
+                    :value="genInfo.bookMarkImg"
+                    @input="genInfo.bookMarkImg = $event.target.value"
+                    class="mt-2 px-4 w-full h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
+                  />
+                  <p>Recommended image size is 128 x 128 png</p>
+                  <input
+                    id="before-text-link"
+                    spellcheck="false"
+                    type="before-text-link"
+                    placeholder="Enter your bookmark title"
+                    :value="genInfo.bookMarkTitle"
+                    @input="genInfo.bookMarkTitle = $event.target.value"
+                    class="mt-2 px-4 w-full h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div id="step-6" class="mt-16">
-          <h2 class="font-extrabold text-2xl">Customize your Meta Data</h2>
-          <div class="stepC mt-6">
-            <div class="flex items-center">
+        <div v-show="currentStep === 11">
+          <div id="step-6" class="mt-16">
+            <h2 class="font-extrabold text-2xl">Customize your Meta Data</h2>
+            <div class="stepC mt-6">
+              <div class="flex items-center">
+                <div
+                  class="relative group inline-block w-24 h-12 mr-3 align-middle select-none transition duration-200 ease-in bg-gray-700 rounded hover:bg-gray-600 focus:bg-gray-600 cursor-pointer focus:outline-none"
+                  :class="{
+                    'bg-green-600 hover:bg-green-500 focus:bg-green-500': metaData
+                  }"
+                  tabindex="0"
+                  @click="metaData = !metaData"
+                >
+                  <input
+                    type="checkbox"
+                    :value="metaData"
+                    id="metaData"
+                    v-model="metaData"
+                    class="toggle-switch absolute block w-10 h-10 m-1 rounded border-4 border-transparent appearance-none cursor-pointer transition-colors duration-200 focus:outline-none bg-white"
+                  />
+                </div>
+                <p>
+                  {{
+                    metaData ? 'Yes, I will customize my meta data' : 'No, thanks'
+                  }}
+                </p>
+
+                <br />
+
+                <script async src="XXXXXXXXXXXXXXXXXX"></script>
+                <button
+                  ref="myPurchaseBtn"
+                  data-thrivecart-account="XXXXXXXXXXXXXXXXXX"
+                  data-thrivecart-tpl="XXXXXXXXXXXXXXXXXX"
+                  data-thrivecart-product="XXXXXXXXXXXXXXXXXX"
+                  class="XXXXXXXXXXXXXXXXXX "
+                  style="background-color: #46cea3;display: none"
+                >
+                  Buy Agency
+                </button>
+              </div>
+
               <div
-                class="relative group inline-block w-24 h-12 mr-3 align-middle select-none transition duration-200 ease-in bg-gray-700 rounded hover:bg-gray-600 focus:bg-gray-600 cursor-pointer focus:outline-none"
-                :class="{
-                  'bg-green-600 hover:bg-green-500 focus:bg-green-500': metaData
+                :style="{
+                  display: metaData ? 'flex' : 'none',
+                  flexDirection: 'column'
                 }"
-                tabindex="0"
-                @click="metaData = !metaData"
               >
-                <!-- <transition name="slide"> -->
-                <input
-                  type="checkbox"
-                  :value="metaData"
-                  id="metaData"
-                  v-model="metaData"
-                  class="toggle-switch absolute block w-10 h-10 m-1 rounded border-4 border-transparent appearance-none cursor-pointer transition-colors duration-200 focus:outline-none bg-white"
-                />
-              </div>
-              <p>
-                {{
-                  metaData ? 'Yes, I will customize my meta data' : 'No, thanks'
-                }}
-              </p>
+                <div class="mt-6">
+                  <label for="before-text-link" class="ml-4">Name</label>
+                  <input
+                    id="before-text-link"
+                    spellcheck="false"
+                    type="before-text-link"
+                    placeholder="Enter your personal name or business name"
+                    :value="genInfo.metaName"
+                    @input="genInfo.metaName = $event.target.value"
+                    class="mt-2 px-4 w-full h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
+                  />
+                </div>
 
-              <br />
+                <div class="mt-6">
+                  <label for="linkedText" class="ml-4">Content</label>
+                  <input
+                    id="linkedText"
+                    spellcheck="false"
+                    type="linkedText"
+                    placeholder="Enter your product or service name"
+                    :value="genInfo.metaContent"
+                    @input="genInfo.metaContent = $event.target.value"
+                    class="mt-2 px-4 w-full h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
+                  />
+                </div>
 
-              <script async src="XXXXXXXXXXXXXXXXXX"></script>
-              <button
-                ref="myPurchaseBtn"
-                data-thrivecart-account="XXXXXXXXXXXXXXXXXX"
-                data-thrivecart-tpl="XXXXXXXXXXXXXXXXXX"
-                data-thrivecart-product="XXXXXXXXXXXXXXXXXX"
-                class="XXXXXXXXXXXXXXXXXX "
-                style="background-color: #46cea3;display: none"
-              >
-                Buy Agency
-              </button>
-            </div>
-
-            <div
-              :style="{
-                display: metaData ? 'flex' : 'none',
-                flexDirection: 'column'
-              }"
-            >
-              <div class="mt-6">
-                <label for="before-text-link" class="ml-4">Name</label>
-                <input
-                  id="before-text-link"
-                  spellcheck="false"
-                  type="before-text-link"
-                  placeholder="Enter your personal name or business name"
-                  :value="genInfo.metaName"
-                  @input="genInfo.metaName = $event.target.value"
-                  class="mt-2 px-4 w-full h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
-                />
-              </div>
-
-              <div class="mt-6">
-                <label for="linkedText" class="ml-4">Content</label>
-                <input
-                  id="linkedText"
-                  spellcheck="false"
-                  type="linkedText"
-                  placeholder="Enter your product or service name"
-                  :value="genInfo.metaContent"
-                  @input="genInfo.metaContent = $event.target.value"
-                  class="mt-2 px-4 w-full h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
-                />
-              </div>
-
-              <div class="mt-6">
-                <label for="linkedText" class="ml-4">URL</label>
-                <input
-                  id="linkedText"
-                  spellcheck="false"
-                  type="linkedText"
-                  placeholder="Enter your card offer URL (https://)"
-                  :value="genInfo.metaURL"
-                  @input="genInfo.metaURL = $event.target.value"
-                  class="mt-2 px-4 w-full h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
-                />
+                <div class="mt-6">
+                  <label for="linkedText" class="ml-4">URL</label>
+                  <input
+                    id="linkedText"
+                    spellcheck="false"
+                    type="linkedText"
+                    placeholder="Enter your card offer URL (https://)"
+                    :value="genInfo.metaURL"
+                    @input="genInfo.metaURL = $event.target.value"
+                    class="mt-2 px-4 w-full h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div id="step-6" class="mt-16">
-          <h2 class="font-extrabold text-2xl">Search Engine Visibility?</h2>
-          <div class="stepC mt-6">
-            <div class="flex items-center">
+        <div v-show="currentStep === 12">
+          <div id="step-6" class="mt-16">
+            <h2 class="font-extrabold text-2xl">Search Engine Visibility?</h2>
+            <div class="stepC mt-6">
+              <div class="flex items-center">
+                <div
+                  class="relative group inline-block w-24 h-12 mr-3 align-middle select-none transition duration-200 ease-in bg-gray-700 rounded hover:bg-gray-600 focus:bg-gray-600 cursor-pointer focus:outline-none"
+                  :class="{
+                    'bg-green-600 hover:bg-green-500 focus:bg-green-500': seoOptimization
+                  }"
+                  tabindex="0"
+                  @click="seoOptimization = !seoOptimization"
+                >
+                  <input
+                    type="checkbox"
+                    :value="seoOptimization"
+                    id="seoOptimization"
+                    v-model="seoOptimization"
+                    class="toggle-switch absolute block w-10 h-10 m-1 rounded border-4 border-transparent appearance-none cursor-pointer transition-colors duration-200 focus:outline-none bg-white"
+                  />
+                </div>
+                <p>
+                  {{
+                    seoOptimization
+                      ? 'Encourage search engine visibility'
+                      : 'Discourage search engine visibility'
+                  }}
+                </p>
+
+                <br />
+
+                <script async src="XXXXXXXXXXXXXXXXXX"></script>
+                <button
+                  ref="myPurchaseBtn"
+                  data-thrivecart-account="XXXXXXXXXXXXXXXXXX"
+                  data-thrivecart-tpl="XXXXXXXXXXXXXXXXXX"
+                  data-thrivecart-product="XXXXXXXXXXXXXXXXXX"
+                  class="XXXXXXXXXXXXXXXXXX "
+                  style="background-color: #46cea3;display: none"
+                >
+                  Buy Agency
+                </button>
+              </div>
+
               <div
-                class="relative group inline-block w-24 h-12 mr-3 align-middle select-none transition duration-200 ease-in bg-gray-700 rounded hover:bg-gray-600 focus:bg-gray-600 cursor-pointer focus:outline-none"
-                :class="{
-                  'bg-green-600 hover:bg-green-500 focus:bg-green-500': seoOptimization
+                :style="{
+                  display: seoOptimization ? 'flex' : 'none',
+                  flexDirection: 'column'
                 }"
-                tabindex="0"
-                @click="seoOptimization = !seoOptimization"
               >
-                <!-- <transition name="slide"> -->
-                <input
-                  type="checkbox"
-                  :value="seoOptimization"
-                  id="seoOptimization"
-                  v-model="seoOptimization"
-                  class="toggle-switch absolute block w-10 h-10 m-1 rounded border-4 border-transparent appearance-none cursor-pointer transition-colors duration-200 focus:outline-none bg-white"
-                />
+                <div class="mt-6">
+                  <label for="before-text-link" class="ml-4">SEO title</label>
+                  <input
+                    id="before-text-link"
+                    spellcheck="false"
+                    type="before-text-link"
+                    placeholder="Enter site title (50-60 characters)"
+                    :value="genInfo.seoTitle"
+                    @input="genInfo.seoTitle = $event.target.value"
+                    class="mt-2 px-4 w-full h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
+                  />
+                </div>
+                <div class="mt-6">
+                  <label for="linkedText" class="ml-4">Meta description</label>
+                  <input
+                    id="linkedText"
+                    spellcheck="false"
+                    type="linkedText"
+                    placeholder="Enter site description (150-160 characters)"
+                    :value="genInfo.metaDescription"
+                    @input="genInfo.metaDescription = $event.target.value"
+                    class="mt-2 px-4 w-full h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
+                  />
+                </div>
               </div>
-              <p>
-                {{
-                  seoOptimization
-                    ? 'Encourage search engine visibility'
-                    : 'Discourage search engine visibility'
-                }}
+              <p class="mt-6 border p-4 rounded border-gray-700 text-gray-400">
+                Please support this project and consider our Agency upgrade which
+                allows you to white-label unlimited digital business cards and
+                brand them as your own with a custom footer link, while optionally
+                turning on search engine indexing.
               </p>
-
-              <br />
-
-              <script async src="XXXXXXXXXXXXXXXXXX"></script>
-              <button
-                ref="myPurchaseBtn"
-                data-thrivecart-account="XXXXXXXXXXXXXXXXXX"
-                data-thrivecart-tpl="XXXXXXXXXXXXXXXXXX"
-                data-thrivecart-product="XXXXXXXXXXXXXXXXXX"
-                class="XXXXXXXXXXXXXXXXXX "
-                style="background-color: #46cea3;display: none"
-              >
-                Buy Agency
-              </button>
             </div>
+          </div>
+        </div>
 
-            <div
-              :style="{
-                display: seoOptimization ? 'flex' : 'none',
-                flexDirection: 'column'
-              }"
-            >
-              <div class="mt-6">
-                <label for="before-text-link" class="ml-4">SEO title</label>
-                <input
-                  id="before-text-link"
-                  spellcheck="false"
-                  type="before-text-link"
-                  placeholder="Enter site title (50-60 characters)"
-                  :value="genInfo.seoTitle"
-                  @input="genInfo.seoTitle = $event.target.value"
-                  class="mt-2 px-4 w-full h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
-                />
-              </div>
-              <div class="mt-6">
-                <label for="linkedText" class="ml-4">Meta description</label>
-                <input
-                  id="linkedText"
-                  spellcheck="false"
-                  type="linkedText"
-                  placeholder="Enter site description (150-160 characters)"
-                  :value="genInfo.metaDescription"
-                  @input="genInfo.metaDescription = $event.target.value"
-                  class="mt-2 px-4 w-full h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
-                />
-              </div>
+        <div v-show="currentStep === 13">
+          <div id="step-8" class="mt-16">
+            <h2 class="font-extrabold text-2xl">Color Customization</h2>
+            <div class="stepC">
+              <Colour name="logoBg" label="Header background" :colors="colors" />
+              <Colour name="mainBg" label="Body background" :colors="colors" />
+              <Colour
+                name="buttonBg"
+                label="Button background"
+                :colors="colors"
+              />
+              <Colour
+                name="cardBg"
+                label="Featured Content background"
+                :colors="colors"
+              />
             </div>
-            <p class="mt-6 border p-4 rounded border-gray-700 text-gray-400">
-              Please support this project and consider our Agency upgrade which
-              allows you to white-label unlimited digital business cards and
-              brand them as your own with a custom footer link, while optionally
-              turning on search engine indexing.
-            </p>
           </div>
+        </div>
+        <div v-show="currentStep === 14">
+          <div id="step-10" class="mt-16">
+            <h2 class="font-extrabold text-2xl">Analytics</h2>
+            <div class="stepC mt-6">
+              <textarea
+                id="tracking-code"
+                aria-label="tracking-code"
+                v-model="genInfo.tracker"
+                class="block mt-2 px-4 py-3 w-full bg-black placeholder-gray-600 rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 resize-none hover:border-gray-600"
+                rows="4"
+                spellcheck="false"
+                placeholder="Paste tracking code here"
+              ></textarea>
+              <p class="mt-6 border p-4 rounded border-gray-700 text-gray-400">
+                Supports services such as Clicky, Matomo, Google Analytics etc.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div v-show="currentStep === 15">
+          <div id="step-11" class="mt-16">
+            <h2 class="font-extrabold text-2xl">Hosting</h2>
+            <div class="stepC mt-6">
+              <label for="font-css" class="ml-4">Hosted card URL</label>
+              <input
+                spellcheck="false"
+                type="text"
+                id="font-css"
+                v-model="hostedURL"
+                class="block mt-2 px-4 py-3 w-full bg-black placeholder-gray-600 rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 resize-none hover:border-gray-600"
+                placeholder="https://yoursite/vcard/username"
+              />
+              <p class="mt-6 border p-4 rounded border-gray-700 text-gray-400">
+                Only paste your hosting URL if you've already decided where you
+                want to host this digital business card. If you haven't decided
+                yet, please skip this step.
+              </p>
+            </div>
+          </div>
+          <Download
+            :downloadCheckList="downloadCheckList"
+            :downloadChecked="downloadChecked"
+            :downloadPackage="downloadPackage"
+          />
+          <Help />
         </div>
 
-        <div id="step-8" class="mt-16">
-          <h2 class="font-extrabold text-2xl">Color Customization</h2>
-          <div class="stepC">
-            <Colour name="logoBg" label="Header background" :colors="colors" />
-            <Colour name="mainBg" label="Body background" :colors="colors" />
-            <Colour
-              name="buttonBg"
-              label="Button background"
-              :colors="colors"
-            />
-            <Colour
-              name="cardBg"
-              label="Featured Content background"
-              :colors="colors"
-            />
-          </div>
+        <div class="flex justify-between mt-8">
+          <button v-if="currentStep > 1" @click="prevStep" class="p-3 font-extrabold rounded tracking-wide bg-gray-700 hover:bg-gray-600 focus:bg-gray-600 focus:outline-none">
+            Anterior
+          </button>
+          <button v-if="currentStep < totalSteps" @click="nextStep" class="p-3 font-extrabold rounded tracking-wide bg-green-600 hover:bg-green-500 focus:bg-green-500 focus:outline-none">
+            Próximo
+          </button>
         </div>
-        <div id="step-10" class="mt-16">
-          <h2 class="font-extrabold text-2xl">Analytics</h2>
-          <div class="stepC mt-6">
-            <textarea
-              id="tracking-code"
-              aria-label="tracking-code"
-              v-model="genInfo.tracker"
-              class="block mt-2 px-4 py-3 w-full bg-black placeholder-gray-600 rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 resize-none hover:border-gray-600"
-              rows="4"
-              spellcheck="false"
-              placeholder="Paste tracking code here"
-            ></textarea>
-            <p class="mt-6 border p-4 rounded border-gray-700 text-gray-400">
-              Supports services such as Clicky, Matomo, Google Analytics etc.
-            </p>
-          </div>
-        </div>
-        <div id="step-11" class="mt-16">
-          <h2 class="font-extrabold text-2xl">Hosting</h2>
-          <div class="stepC mt-6">
-            <label for="font-css" class="ml-4">Hosted card URL</label>
-            <input
-              spellcheck="false"
-              type="text"
-              id="font-css"
-              v-model="hostedURL"
-              class="block mt-2 px-4 py-3 w-full bg-black placeholder-gray-600 rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 resize-none hover:border-gray-600"
-              placeholder="https://yoursite/vcard/username"
-            />
-            <p class="mt-6 border p-4 rounded border-gray-700 text-gray-400">
-              Only paste your hosting URL if you've already decided where you
-              want to host this digital business card. If you haven't decided
-              yet, please skip this step.
-            </p>
-          </div>
-        </div>
-        <Download
-          :downloadCheckList="downloadCheckList"
-          :downloadChecked="downloadChecked"
-          :downloadPackage="downloadPackage"
-        />
-        <Help />
       </div>
       <div
         id="preview-container"
@@ -1198,9 +1055,6 @@
         </div>
       </div>
     </div>
-    <!--
--->
-
     <transition name="fade">
       <div class="modal" v-if="show">
         <div class="card">
@@ -1224,7 +1078,6 @@
           </div>
           <div class="card-body">
             <div class="form-group mt-20">
-              <!-- <div class="form-control"> -->
               <GoogleLogin
                 :params="params"
                 :renderParams="renderParams"
@@ -1422,6 +1275,10 @@ export default {
   },
   data() {
     return {
+      // ** NOVO: Variáveis para o formulário de múltiplos passos
+      currentStep: 0,
+      totalSteps: 15,
+      // ** FIM NOVO
       account: undefined,
       msalConfig: {
         auth: {
@@ -2916,6 +2773,21 @@ export default {
     this.account = accounts[0]
   },
   methods: {
+    // ** NOVO: Métodos de navegação
+    create() {
+      this.currentStep = 1;
+    },
+    nextStep() {
+      if (this.currentStep < this.totalSteps) {
+        this.currentStep++;
+      }
+    },
+    prevStep() {
+      if (this.currentStep > 1) {
+        this.currentStep--;
+      }
+    },
+    // ** FIM NOVO
     async onSuccess(googleUser) {
       let response = await googleUser.getBasicProfile()
 
@@ -3208,10 +3080,6 @@ export default {
     },
     clearContent() {
       this.content = null
-    },
-
-    create() {
-      this.$refs.create.scrollIntoView({ behavior: 'smooth' })
     },
     getTitle(e) {
       return e
@@ -3627,35 +3495,6 @@ export default {
   appearance: none;
   border-radius: 0.25rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
-
-.font-weight-bold {
-  font-size: 20px;
-  font-weight: 600;
-}
-
-.font-weight-light {
-  font-size: 12px;
-}
-
-.text-secondary {
-  color: #787878;
-}
-
-.mt-10 {
-  margin-top: 2px;
-}
-
-.ml-10 {
-  margin-left: 10px;
-}
-
-.mt-20 {
-  margin-top: 20px;
-}
-
-.position-absolute {
-  position: absolute;
 }
 
 .btn {
