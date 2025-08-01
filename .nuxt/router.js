@@ -12,6 +12,7 @@ const _6e570590 = () => interopDefault(import('..\\pages\\cookie-policy\\index.v
 const _fbad28fe = () => interopDefault(import('..\\pages\\customer-support\\index.vue' /* webpackChunkName: "pages/customer-support/index" */))
 const _42ac04c2 = () => interopDefault(import('..\\pages\\easy\\index.vue' /* webpackChunkName: "pages/easy/index" */))
 const _58b34c8a = () => interopDefault(import('..\\pages\\hosting-guide\\index.vue' /* webpackChunkName: "pages/hosting-guide/index" */))
+const _81ada6b4 = () => interopDefault(import('..\\pages\\landing.vue' /* webpackChunkName: "pages/landing" */))
 const _5a194098 = () => interopDefault(import('..\\pages\\next-steps\\index.vue' /* webpackChunkName: "pages/next-steps/index" */))
 const _e4fe32ac = () => interopDefault(import('..\\pages\\privacy-policy\\index.vue' /* webpackChunkName: "pages/privacy-policy/index" */))
 const _7b5de0a0 = () => interopDefault(import('..\\pages\\success\\index.vue' /* webpackChunkName: "pages/success/index" */))
@@ -64,6 +65,10 @@ export const routerOptions = {
     path: "/hosting-guide",
     component: _58b34c8a,
     name: "hosting-guide"
+  }, {
+    path: "/landing",
+    component: _81ada6b4,
+    name: "landing"
   }, {
     path: "/next-steps",
     component: _5a194098,
