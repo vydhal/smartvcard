@@ -45,7 +45,7 @@ You can,
 ## License
 
 ```
-SMART vCARD - An Open_source Digital Business Card Generator based on the EnBizCard project from Vishnu Raghav B (https://github.com/vishnuraghavb)
+SMART vCARD - An Open_source Cartão Digital based on the EnBizCard project from Vishnu Raghav B (https://github.com/vishnuraghavb)
 Copyright (C) 2021 Vishnu Raghav B and 2024 ZiaGeek
 
 This program is free software: you can redistribute it and/or modify

@@ -91,7 +91,7 @@
       <h1
         class="text-3xl md:text-5xl font-extrabold mt-24 md:mt-48 md:leading-tight"
       >
-        Digital Business Card Generator
+        Cartão Digital
       </h1>
 
       <p class="mt-8 text-lg md:text-xl w-full md:w-3/4 text-gray-200">
@@ -100,7 +100,7 @@
       </p>
       <ul class="mt-4 text-gray-400">
         <li>
-          -&ensp;Smart vCard is a <b>FREE</b> digital business card generator
+          -&ensp;Smart vCard is a <b>FREE</b> Cartão Digital
           tool
         </li>
         <li>
@@ -1408,7 +1408,7 @@ export default {
   },
 
   head: {
-    titleTemplate: '%s - Digital Business Card Generator',
+    titleTemplate: '%s - Cartão Digital',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
