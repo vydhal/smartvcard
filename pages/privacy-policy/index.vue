@@ -30,7 +30,7 @@
           your privacy and comply with any applicable law and regulation
           regarding any personal information we may collect about you, including
           across our website,
-          <a href="https://www.smartvcard.com/">https://www.smartvcard.com/</a>,
+          <a href="https://www.simplisfot.com.br/">https://www.simplisfot.com.br/</a>,
           and other sites we own and operate.
         </p>
         <br />
@@ -418,7 +418,7 @@
               duration-200
             "
             rel="noopener noreferrer"
-            >https://www.smartvcard.com/customer-support</a
+            >https://www.simplisfot.com.br/customer-support</a
           >
         </p>
         <br />

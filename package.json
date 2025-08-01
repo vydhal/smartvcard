@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "NODE_OPTIONS=--openssl-legacy-provider nuxt --hostname  '0' --port 3000",
+    "dev": "cross-env NODE_OPTIONS=--openssl-legacy-provider nuxt --port 3000",
     "build": "nuxt generate",
     "start": "nuxt start",
     "generate": "nuxt generate"
@@ -35,6 +35,7 @@
     "@nuxtjs/tailwindcss": "^3.4.2",
     "@tailwindcss/postcss7-compat": "^2.0.3",
     "autoprefixer": "^9.8.6",
+    "cross-env": "^10.0.0",
     "imagemin-svgo": "^8.0.0",
     "pdfjs-dist": "^2.6.347",
     "postcss": "^7.0.35",

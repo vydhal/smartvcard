@@ -331,7 +331,7 @@
                     class="icon action"
                     v-html="require(`~/assets/icons/add-user.svg?include`)"
                   ></div>
-                  <p class="action">Save Contact</p>
+                  <p class="action">Salvar contato</p>
                 </a>
               </div>
               <!-- eslint-disable vue/no-use-v-if-with-v-for,vue/no-confusing-v-for-v-if -->

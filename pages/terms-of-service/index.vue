@@ -28,8 +28,8 @@
         <p>
           These Terms of Service govern your use of the website located at
           <u
-            ><a href="https://www.smartvcard.com/"
-              >https://www.smartvcard.com/</a
+            ><a href="https://www.simplisfot.com.br//"
+              >https://www.simplisfot.com.br/</a
             ></u
           >
           and any related services provided by BizViz.
@@ -38,8 +38,8 @@
         <p>
           By accessing
           <u
-            ><a href="https://www.smartvcard.com/"
-              >https://www.smartvcard.com/</a
+            ><a href="https://www.simplisfot.com.br//"
+              >https://www.simplisfot.com.br/</a
             ></u
           >, you agree to abide by these Terms of Service and to comply with all
           applicable laws and regulations. If you do not agree with these Terms

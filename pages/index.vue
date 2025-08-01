@@ -1427,7 +1427,7 @@ export default {
         auth: {
           clientId: '2b73afee-6100-44cd-a65f-e7d65ea2e0c1',
           authority: 'https://login.microsoftonline.com/common/',
-          redirectUri: 'https://www.smartvcard.com/'
+          redirectUri: 'https://www.simplisfot.com.br/'
         },
         cache: {
           cacheLocation: 'localStorage'

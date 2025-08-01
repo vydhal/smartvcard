@@ -17,14 +17,14 @@ export default {
     ogType: 'website',
     ogImage: '/VCARD-SHARE-IMAGE.jpg',
     // ogUrl: false,
-    ogTitle: 'SMARTvCARD - Free Digital Business Card Generator',
+    ogTitle: 'Simplisoft - BioLinks personalizados',
     ogDescription:
       'Create beautiful, responsive HTML‑based digital business cards that can be hosted on your domain or ours',
-    ogSiteName: 'SMARTvCARD - smartvcard.com',
+    ogSiteName: 'Simplisfot - simplisoft.com.,br',
     theme_color: '#111827',
     author: 'Jeff BAER',
     lang: 'en',
-    name: 'Smart vCard - A product of BizViz '
+    name: 'Simplicard - A product of BizViz '
   },
   head: {
     // title: 'SMART vCard - A product of BizViz (ZIA PLACEHOLDER)',

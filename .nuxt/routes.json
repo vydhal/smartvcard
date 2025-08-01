@@ -1,0 +1,114 @@
+[
+  {
+    "name": "acceptable-use-policy",
+    "path": "/acceptable-use-policy",
+    "component": "C:\\\\Users\\\\Vidal\\\\Desktop\\\\smartcard\\\\smartvcard\\\\pages\\\\acceptable-use-policy\\\\index.vue",
+    "chunkName": "pages/acceptable-use-policy/index",
+    "_name": "_23665b70"
+  },
+  {
+    "name": "appsumo",
+    "path": "/appsumo",
+    "component": "C:\\\\Users\\\\Vidal\\\\Desktop\\\\smartcard\\\\smartvcard\\\\pages\\\\appsumo\\\\index.vue",
+    "chunkName": "pages/appsumo/index",
+    "_name": "_523ecd64"
+  },
+  {
+    "name": "booked",
+    "path": "/booked",
+    "component": "C:\\\\Users\\\\Vidal\\\\Desktop\\\\smartcard\\\\smartvcard\\\\pages\\\\booked\\\\index.vue",
+    "chunkName": "pages/booked/index",
+    "_name": "_2a0b26d9"
+  },
+  {
+    "name": "contact-us",
+    "path": "/contact-us",
+    "component": "C:\\\\Users\\\\Vidal\\\\Desktop\\\\smartcard\\\\smartvcard\\\\pages\\\\contact-us\\\\index.vue",
+    "chunkName": "pages/contact-us/index",
+    "_name": "_550cbd54"
+  },
+  {
+    "name": "cookie-policy",
+    "path": "/cookie-policy",
+    "component": "C:\\\\Users\\\\Vidal\\\\Desktop\\\\smartcard\\\\smartvcard\\\\pages\\\\cookie-policy\\\\index.vue",
+    "chunkName": "pages/cookie-policy/index",
+    "_name": "_6e570590"
+  },
+  {
+    "name": "customer-support",
+    "path": "/customer-support",
+    "component": "C:\\\\Users\\\\Vidal\\\\Desktop\\\\smartcard\\\\smartvcard\\\\pages\\\\customer-support\\\\index.vue",
+    "chunkName": "pages/customer-support/index",
+    "_name": "_fbad28fe"
+  },
+  {
+    "name": "easy",
+    "path": "/easy",
+    "component": "C:\\\\Users\\\\Vidal\\\\Desktop\\\\smartcard\\\\smartvcard\\\\pages\\\\easy\\\\index.vue",
+    "chunkName": "pages/easy/index",
+    "_name": "_42ac04c2"
+  },
+  {
+    "name": "hosting-guide",
+    "path": "/hosting-guide",
+    "component": "C:\\\\Users\\\\Vidal\\\\Desktop\\\\smartcard\\\\smartvcard\\\\pages\\\\hosting-guide\\\\index.vue",
+    "chunkName": "pages/hosting-guide/index",
+    "_name": "_58b34c8a"
+  },
+  {
+    "name": "next-steps",
+    "path": "/next-steps",
+    "component": "C:\\\\Users\\\\Vidal\\\\Desktop\\\\smartcard\\\\smartvcard\\\\pages\\\\next-steps\\\\index.vue",
+    "chunkName": "pages/next-steps/index",
+    "_name": "_5a194098"
+  },
+  {
+    "name": "privacy-policy",
+    "path": "/privacy-policy",
+    "component": "C:\\\\Users\\\\Vidal\\\\Desktop\\\\smartcard\\\\smartvcard\\\\pages\\\\privacy-policy\\\\index.vue",
+    "chunkName": "pages/privacy-policy/index",
+    "_name": "_e4fe32ac"
+  },
+  {
+    "name": "success",
+    "path": "/success",
+    "component": "C:\\\\Users\\\\Vidal\\\\Desktop\\\\smartcard\\\\smartvcard\\\\pages\\\\success\\\\index.vue",
+    "chunkName": "pages/success/index",
+    "_name": "_7b5de0a0"
+  },
+  {
+    "name": "terms-and-conditions",
+    "path": "/terms-and-conditions",
+    "component": "C:\\\\Users\\\\Vidal\\\\Desktop\\\\smartcard\\\\smartvcard\\\\pages\\\\terms-and-conditions\\\\index.vue",
+    "chunkName": "pages/terms-and-conditions/index",
+    "_name": "_0d5766ed"
+  },
+  {
+    "name": "terms-of-service",
+    "path": "/terms-of-service",
+    "component": "C:\\\\Users\\\\Vidal\\\\Desktop\\\\smartcard\\\\smartvcard\\\\pages\\\\terms-of-service\\\\index.vue",
+    "chunkName": "pages/terms-of-service/index",
+    "_name": "_0fd7f67c"
+  },
+  {
+    "name": "thank-you",
+    "path": "/thank-you",
+    "component": "C:\\\\Users\\\\Vidal\\\\Desktop\\\\smartcard\\\\smartvcard\\\\pages\\\\thank-you\\\\index.vue",
+    "chunkName": "pages/thank-you/index",
+    "_name": "_5874e117"
+  },
+  {
+    "name": "training",
+    "path": "/training",
+    "component": "C:\\\\Users\\\\Vidal\\\\Desktop\\\\smartcard\\\\smartvcard\\\\pages\\\\training\\\\index.vue",
+    "chunkName": "pages/training/index",
+    "_name": "_22578e47"
+  },
+  {
+    "name": "index",
+    "path": "/",
+    "component": "C:\\\\Users\\\\Vidal\\\\Desktop\\\\smartcard\\\\smartvcard\\\\pages\\\\index.vue",
+    "chunkName": "pages/index",
+    "_name": "_1cf4b7a1"
+  }
+]

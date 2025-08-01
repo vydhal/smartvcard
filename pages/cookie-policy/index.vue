@@ -28,8 +28,8 @@
         <p>
           We use cookies to help improve your experience of our website at
           <u
-            ><a href="https://www.smartvcard.com/"
-              >https://www.smartvcard.com/</a
+            ><a href="https://www.simplisfot.com.br/"
+              >https://www.simplisfot.com.br/</a
             ></u
           >. This cookie policy is part of BizViz&#39;s privacy policy. It
           covers the use of cookies between your device and our site.
@@ -45,8 +45,8 @@
           If you don’t wish to accept cookies from us, you should instruct your
           browser to refuse cookies from
           <u
-            ><a href="https://www.smartvcard.com/"
-              >https://www.smartvcard.com/</a
+            ><a href="https://www.simplisfot.com.br/"
+              >https://www.simplisfot.com.br/</a
             ></u
           >. In such a case, we may be unable to provide you with some of your
           desired content and services.
