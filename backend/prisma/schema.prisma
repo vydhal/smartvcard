@@ -1,0 +1,59 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Empresa {
+  id         Int      @id @default(autoincrement())
+  nome       String
+  email      String   @unique
+  senha_hash String
+  criado_em  DateTime @default(now())
+
+  cartoes Cartao[]
+
+  @@map("empresas")
+}
+
+model Cartao {
+  id                   Int      @id @default(autoincrement())
+  empresa_id           Int?
+  chave_acesso         String   @unique
+  nome_perfil          String?
+  cargo                String?
+  empresa_atual        String?
+  telefone             String?
+  whatsapp             String?
+  email_contato        String?
+  bio                  String?
+  link_google_reviews  String?  // Módulo de avaliações do google
+  ativo                Boolean  @default(true)
+  criado_em            DateTime @default(now())
+
+  empresa      Empresa?     @relation(fields: [empresa_id], references: [id])
+  tags_fisicas TagFisica[]
+
+  @@map("cartoes")
+}
+
+model TagFisica {
+  id             Int      @id @default(autoincrement())
+  cartao_id      Int?
+  codigo_qr      String   @unique
+  rfid_uid       String?  @unique
+  status         String   @default("estoque") // estoque, vendida, ativa
+  criado_em      DateTime @default(now())
+
+  cartao Cartao? @relation(fields: [cartao_id], references: [id])
+
+  @@map("tags_fisicas")
+}
