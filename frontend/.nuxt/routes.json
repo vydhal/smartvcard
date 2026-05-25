@@ -2,103 +2,176 @@
   {
     "name": "acceptable-use-policy",
     "path": "/acceptable-use-policy",
-    "component": "C:\\\\Users\\\\Vidal\\\\Desktop\\\\smartcard\\\\smartvcard\\\\pages\\\\acceptable-use-policy\\\\index.vue",
-    "chunkName": "pages/acceptable-use-policy/index"
+    "component": "/app/pages/acceptable-use-policy/index.vue",
+    "chunkName": "pages/acceptable-use-policy/index",
+    "_name": "_4bf55568"
+  },
+  {
+    "name": "admin",
+    "path": "/admin",
+    "component": "/app/pages/admin/index.vue",
+    "chunkName": "pages/admin/index",
+    "_name": "_be9dc5d0"
   },
   {
     "name": "appsumo",
     "path": "/appsumo",
-    "component": "C:\\\\Users\\\\Vidal\\\\Desktop\\\\smartcard\\\\smartvcard\\\\pages\\\\appsumo\\\\index.vue",
-    "chunkName": "pages/appsumo/index"
+    "component": "/app/pages/appsumo/index.vue",
+    "chunkName": "pages/appsumo/index",
+    "_name": "_35f02fee"
   },
   {
     "name": "booked",
     "path": "/booked",
-    "component": "C:\\\\Users\\\\Vidal\\\\Desktop\\\\smartcard\\\\smartvcard\\\\pages\\\\booked\\\\index.vue",
-    "chunkName": "pages/booked/index"
+    "component": "/app/pages/booked/index.vue",
+    "chunkName": "pages/booked/index",
+    "_name": "_3c80fa96"
+  },
+  {
+    "name": "cadastro",
+    "path": "/cadastro",
+    "component": "/app/pages/cadastro.vue",
+    "chunkName": "pages/cadastro",
+    "_name": "_2fc3a7a3"
   },
   {
     "name": "contact-us",
     "path": "/contact-us",
-    "component": "C:\\\\Users\\\\Vidal\\\\Desktop\\\\smartcard\\\\smartvcard\\\\pages\\\\contact-us\\\\index.vue",
-    "chunkName": "pages/contact-us/index"
+    "component": "/app/pages/contact-us/index.vue",
+    "chunkName": "pages/contact-us/index",
+    "_name": "_0cce6818"
   },
   {
     "name": "cookie-policy",
     "path": "/cookie-policy",
-    "component": "C:\\\\Users\\\\Vidal\\\\Desktop\\\\smartcard\\\\smartvcard\\\\pages\\\\cookie-policy\\\\index.vue",
-    "chunkName": "pages/cookie-policy/index"
+    "component": "/app/pages/cookie-policy/index.vue",
+    "chunkName": "pages/cookie-policy/index",
+    "_name": "_f7eb7cf8"
   },
   {
     "name": "customer-support",
     "path": "/customer-support",
-    "component": "C:\\\\Users\\\\Vidal\\\\Desktop\\\\smartcard\\\\smartvcard\\\\pages\\\\customer-support\\\\index.vue",
-    "chunkName": "pages/customer-support/index"
+    "component": "/app/pages/customer-support/index.vue",
+    "chunkName": "pages/customer-support/index",
+    "_name": "_175dcc66"
+  },
+  {
+    "name": "dashboard",
+    "path": "/dashboard",
+    "component": "/app/pages/dashboard/index.vue",
+    "chunkName": "pages/dashboard/index",
+    "_name": "_72270b1d"
   },
   {
     "name": "easy",
     "path": "/easy",
-    "component": "C:\\\\Users\\\\Vidal\\\\Desktop\\\\smartcard\\\\smartvcard\\\\pages\\\\easy\\\\index.vue",
-    "chunkName": "pages/easy/index"
+    "component": "/app/pages/easy/index.vue",
+    "chunkName": "pages/easy/index",
+    "_name": "_9feffd22"
+  },
+  {
+    "name": "edit",
+    "path": "/edit",
+    "component": "/app/pages/edit.vue",
+    "chunkName": "pages/edit",
+    "_name": "_224e3c18"
   },
   {
     "name": "hosting-guide",
     "path": "/hosting-guide",
-    "component": "C:\\\\Users\\\\Vidal\\\\Desktop\\\\smartcard\\\\smartvcard\\\\pages\\\\hosting-guide\\\\index.vue",
-    "chunkName": "pages/hosting-guide/index"
+    "component": "/app/pages/hosting-guide/index.vue",
+    "chunkName": "pages/hosting-guide/index",
+    "_name": "_0769801c"
   },
   {
     "name": "landing",
     "path": "/landing",
-    "component": "C:\\\\Users\\\\Vidal\\\\Desktop\\\\smartcard\\\\smartvcard\\\\pages\\\\landing.vue",
-    "chunkName": "pages/landing"
+    "component": "/app/pages/landing.vue",
+    "chunkName": "pages/landing",
+    "_name": "_afda8cc6"
+  },
+  {
+    "name": "login",
+    "path": "/login",
+    "component": "/app/pages/login.vue",
+    "chunkName": "pages/login",
+    "_name": "_10ba8d22"
   },
   {
     "name": "next-steps",
     "path": "/next-steps",
-    "component": "C:\\\\Users\\\\Vidal\\\\Desktop\\\\smartcard\\\\smartvcard\\\\pages\\\\next-steps\\\\index.vue",
-    "chunkName": "pages/next-steps/index"
+    "component": "/app/pages/next-steps/index.vue",
+    "chunkName": "pages/next-steps/index",
+    "_name": "_781465fa"
   },
   {
     "name": "privacy-policy",
     "path": "/privacy-policy",
-    "component": "C:\\\\Users\\\\Vidal\\\\Desktop\\\\smartcard\\\\smartvcard\\\\pages\\\\privacy-policy\\\\index.vue",
-    "chunkName": "pages/privacy-policy/index"
+    "component": "/app/pages/privacy-policy/index.vue",
+    "chunkName": "pages/privacy-policy/index",
+    "_name": "_7de68bc4"
   },
   {
     "name": "success",
     "path": "/success",
-    "component": "C:\\\\Users\\\\Vidal\\\\Desktop\\\\smartcard\\\\smartvcard\\\\pages\\\\success\\\\index.vue",
-    "chunkName": "pages/success/index"
+    "component": "/app/pages/success/index.vue",
+    "chunkName": "pages/success/index",
+    "_name": "_3546654c"
   },
   {
     "name": "terms-and-conditions",
     "path": "/terms-and-conditions",
-    "component": "C:\\\\Users\\\\Vidal\\\\Desktop\\\\smartcard\\\\smartvcard\\\\pages\\\\terms-and-conditions\\\\index.vue",
-    "chunkName": "pages/terms-and-conditions/index"
+    "component": "/app/pages/terms-and-conditions/index.vue",
+    "chunkName": "pages/terms-and-conditions/index",
+    "_name": "_fe62773e"
   },
   {
     "name": "terms-of-service",
     "path": "/terms-of-service",
-    "component": "C:\\\\Users\\\\Vidal\\\\Desktop\\\\smartcard\\\\smartvcard\\\\pages\\\\terms-of-service\\\\index.vue",
-    "chunkName": "pages/terms-of-service/index"
+    "component": "/app/pages/terms-of-service/index.vue",
+    "chunkName": "pages/terms-of-service/index",
+    "_name": "_4b77c372"
   },
   {
     "name": "thank-you",
     "path": "/thank-you",
-    "component": "C:\\\\Users\\\\Vidal\\\\Desktop\\\\smartcard\\\\smartvcard\\\\pages\\\\thank-you\\\\index.vue",
-    "chunkName": "pages/thank-you/index"
+    "component": "/app/pages/thank-you/index.vue",
+    "chunkName": "pages/thank-you/index",
+    "_name": "_60303945"
   },
   {
     "name": "training",
     "path": "/training",
-    "component": "C:\\\\Users\\\\Vidal\\\\Desktop\\\\smartcard\\\\smartvcard\\\\pages\\\\training\\\\index.vue",
-    "chunkName": "pages/training/index"
+    "component": "/app/pages/training/index.vue",
+    "chunkName": "pages/training/index",
+    "_name": "_28c9bf47"
+  },
+  {
+    "name": "admin-login",
+    "path": "/admin/login",
+    "component": "/app/pages/admin/login.vue",
+    "chunkName": "pages/admin/login",
+    "_name": "_6a58c02f"
+  },
+  {
+    "name": "c-chave",
+    "path": "/c/:chave?",
+    "component": "/app/pages/c/_chave.vue",
+    "chunkName": "pages/c/_chave",
+    "_name": "_20b58a62"
+  },
+  {
+    "name": "dashboard-chave",
+    "path": "/dashboard/:chave",
+    "component": "/app/pages/dashboard/_chave.vue",
+    "chunkName": "pages/dashboard/_chave",
+    "_name": "_9758d4de"
   },
   {
     "name": "index",
     "path": "/",
-    "component": "C:\\\\Users\\\\Vidal\\\\Desktop\\\\smartcard\\\\smartvcard\\\\pages\\\\index.vue",
-    "chunkName": "pages/index"
+    "component": "/app/pages/index.vue",
+    "chunkName": "pages/index",
+    "_name": "_2dfb1658"
   }
 ]

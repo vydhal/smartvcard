@@ -30,14 +30,14 @@
           type="text"
           name="link"
           class="pLink px-4 h-12 mt-2 w-full bg-black placeholder-gray-600 rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-500 hover:border-gray-500"
-          placeholder="Button link"
+          placeholder="Link do botão"
           v-model="item.link"
         />
         <input
           type="text"
           name="label"
           class="pLabel px-4 h-12 mt-2 w-full bg-black placeholder-gray-600 rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-500 hover:border-gray-500"
-          placeholder="Button label"
+          placeholder="Texto do botão"
           v-model="item.label"
         />
       </div>

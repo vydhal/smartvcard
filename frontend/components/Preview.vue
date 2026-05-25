@@ -131,7 +131,31 @@
 
           <style>
             #body{ font-family: sans-serif; } input[type='range']::-moz-range-track { background: none; } input[type='range']::-moz-range-thumb { -moz-appearance: none; width: 3rem; height: 3rem; border-radius: 100%; border: none; background: {{colors.buttonBg.color}}; z-index: 3; cursor: pointer; } input[type='range']::-webkit-slider-thumb { -webkit-appearance: none; width: 3rem; height: 3rem; border-radius: 100%; border: none; background: {{colors.buttonBg.color}}; z-index: 3; cursor: pointer; } .closeBtnColor{ {{hasLightBG('mainBg') && 'filter:invert(1)'}} } .topAction{ {{hasLightBG('logoBg') && 'filter:invert(1)'}} } .action{ color:#fff; {{hasLightBG('buttonBg') ? 'filter:invert(1)' : null}} } .card{ {{hasLightBG('cardBg') && 'color:#000 !important'}} } .ziacard{ {{hasLightBG('cardBg') ? 'color:#000 !important' : 'color:#fff !important'}};padding-top: 20px; } .text{ text-align: center;line-height: 1.5;{{hasLightBG('mainBg') ? 'color:#000 !important' : 'color:#fff !important'}} }
-          </style>
+          
+  .carousel-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none; /* Firefox */
+  }
+  .carousel-container::-webkit-scrollbar { 
+    display: none; /* Safari and Chrome */
+  }
+  .carousel-item {
+    flex: 0 0 85%;
+    scroll-snap-align: center;
+  }
+  .carousel-item .content.image img {
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+  .carousel-item .content.embedded iframe {
+    border-radius: 8px;
+  }
+</style>
           <style v-if="getCssHref">
             #body{
             {{genInfo.fontCss && getFontFamily}}
@@ -400,7 +424,7 @@
               :key="'fc' + index"
             >
               <h2 class="section text">{{ item.title }}</h2>
-              <div v-for="(item, i) in item.content" :key="i">
+              <div class="carousel-container"><div v-for="(item, i) in item.content" :key="i" class="carousel-item">
                 <div
                   v-if="item.contentType == 'media'"
                   class="content"
@@ -487,6 +511,7 @@
                     allowfullscreen
                   ></iframe>
                 </div>
+              </div>
               </div>
             </div>
           </main>

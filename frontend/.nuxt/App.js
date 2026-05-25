@@ -2,17 +2,17 @@ import Vue from 'vue'
 import { decode, parsePath, withoutBase, withoutTrailingSlash, normalizeURL } from 'ufo'
 
 import { getMatchedComponentsInstances, getChildrenComponentInstancesUsingFetch, promisify, globalHandleError, urlJoin, sanitizeComponent } from './utils'
-import NuxtError from '..\\layouts\\error.vue'
+import NuxtError from '../layouts/error.vue'
 
 import NuxtBuildIndicator from './components/nuxt-build-indicator'
 
-import '..\\node_modules\\@fortawesome\\fontawesome-svg-core\\styles.css'
+import '../node_modules/@fortawesome/fontawesome-svg-core/styles.css'
 
-import '..\\assets\\css\\tailwind.css'
+import '../assets/css/tailwind.css'
 
-import '..\\node_modules\\@fortawesome\\fontawesome-free\\css\\all.css'
+import '../node_modules/@fortawesome/fontawesome-free/css/all.css'
 
-import _6f6c098b from '..\\layouts\\default.vue'
+import _6f6c098b from '../layouts/default.vue'
 
 const layouts = { "_default": sanitizeComponent(_6f6c098b) }
 

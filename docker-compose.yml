@@ -9,7 +9,7 @@ services:
       POSTGRES_PASSWORD: smartpassword
       POSTGRES_DB: smartvcard
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
@@ -34,9 +34,11 @@ services:
       context: ./frontend
     container_name: smartvcard-frontend
     ports:
-      - "3000:3000"
+      - "3005:3000"
     environment:
       - API_URL=http://localhost:3001
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
     depends_on:
       - backend
     volumes:

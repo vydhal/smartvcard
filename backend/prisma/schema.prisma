@@ -10,6 +10,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Empresa {
@@ -24,6 +25,19 @@ model Empresa {
   @@map("empresas")
 }
 
+model Usuario {
+  id         Int      @id @default(autoincrement())
+  nome       String
+  email      String   @unique
+  telefone   String?
+  senha_hash String
+  criado_em  DateTime @default(now())
+
+  cartoes Cartao[]
+
+  @@map("usuarios")
+}
+
 model Cartao {
   id                   Int      @id @default(autoincrement())
   empresa_id           Int?
@@ -36,10 +50,13 @@ model Cartao {
   email_contato        String?
   bio                  String?
   link_google_reviews  String?  // Módulo de avaliações do google
+  dados_json           Json?    // Armazena toda a configuração complexa (cores, links, produtos, imagens)
   ativo                Boolean  @default(true)
   criado_em            DateTime @default(now())
+  usuario_id           Int?
 
   empresa      Empresa?     @relation(fields: [empresa_id], references: [id])
+  usuario      Usuario?     @relation(fields: [usuario_id], references: [id])
   tags_fisicas TagFisica[]
 
   @@map("cartoes")

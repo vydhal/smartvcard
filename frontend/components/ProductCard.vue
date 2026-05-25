@@ -26,8 +26,8 @@
             v-else
             class="p-3 h-12 w-12 box-border rounded cursor-pointer border border-dashed border-black hover:border-gray-400 focus:border-gray-400 transition-colors duration-200 focus:outline-none"
             @click="loadFile(i)"
-            aria-label="Attach product image"
-            title="Attach product image"
+            aria-label="Anexar imagem do produto"
+            title="Anexar imagem do produto"
             :class="dragOver ? 'outline-white' : ''"
             @drop.prevent="fileLoaded($event, i, true)"
             @dragleave.prevent.self="dragOver = false"
@@ -53,15 +53,15 @@
             ref="input"
             type="text"
             v-model="item.title"
-            aria-label="Product title"
-            title="Product title"
-            placeholder="Product title"
+            aria-label="Título do produto"
+            title="Título do produto"
+            placeholder="Título do produto"
           />
         </div>
       </div>
       <textarea
         name="description"
-        placeholder="Product description"
+        placeholder="Descrição do produto"
         class="pDescription block mt-2 px-4 py-3 w-full bg-black placeholder-gray-600 rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-500 resize-none hover:border-gray-500"
         rows="2"
         v-model="item.description"
@@ -78,14 +78,14 @@
           type="text"
           name="link"
           class="pLink px-4 h-12 mt-2 w-full bg-black placeholder-gray-600 rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-500 hover:border-gray-500"
-          placeholder="Button link"
+          placeholder="Link do botão"
           v-model="item.link"
         />
         <input
           type="text"
           name="label"
           class="pLabel px-4 h-12 mt-2 w-full bg-black placeholder-gray-600 rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-500 hover:border-gray-500"
-          placeholder="Button label"
+          placeholder="Texto do botão"
           v-model="item.label"
         />
       </div>
@@ -93,8 +93,8 @@
     <button
       class="p-1 m-2 flex-shrink-0 focus:outline-none rounded hover:bg-gray-600 focus:bg-gray-600 transition-colors duration-200"
       @click="removeItem(i)"
-      aria-label="Remove product"
-      title="Remove product"
+      aria-label="Remover produto"
+      title="Remover produto"
     >
       <div
         class="w-6 h-6"

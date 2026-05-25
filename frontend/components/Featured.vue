@@ -28,9 +28,9 @@
             "
             type="text"
             name="section title"
-            placeholder="Section title"
+            placeholder="Título da seção"
             v-model="featured[index].title"
-            title="Type your own section title"
+            title="Digite o título da sua seção"
           />
         </div>
       </div>
@@ -47,8 +47,8 @@
           duration-200
         "
         @click="featured.splice(index, 1)"
-        aria-label="Remove section"
-        title="Remove section"
+        aria-label="Remover seção"
+        title="Remover seção"
       >
         <div
           class="w-6 h-6"
@@ -129,8 +129,8 @@
                 duration-200
               "
               @click="removeItem(i)"
-              aria-label="Remove media"
-              title="Remove media"
+              aria-label="Remover mídia"
+              title="Remover mídia"
             >
               <div
                 class="w-6 h-6"
@@ -190,10 +190,10 @@
                   hover:border-gray-500
                 "
                 ref="text"
-                aria-label="Type text content here"
-                title="Type text content here"
+                aria-label="Digite o conteúdo do texto aqui"
+                title="Digite o conteúdo do texto aqui"
                 v-model="featured[index].content[i].value"
-                placeholder="Type text content here"
+                placeholder="Digite o conteúdo do texto aqui"
                 rows="5"
               ></textarea>
             </div>
@@ -250,10 +250,10 @@
                 "
                 ref="link"
                 type="text"
-                aria-label="Paste  JavaScript code here"
-                title="Paste  JavaScript code here"
+                aria-label="Cole o código JavaScript aqui"
+                title="Cole o código JavaScript aqui"
                 v-model="featured[index].content[i].value"
-                placeholder="Paste  JavaScript code here"
+                placeholder="Cole o código JavaScript aqui"
                 rows="5"
               />
             </div>
@@ -279,9 +279,9 @@
                 "
                 ref="link"
                 type="text"
-                aria-label="Paste HTML embed code here"
-                title="Paste HTML embed code here"
-                placeholder="Paste HTML embed code here"
+                aria-label="Cole o código HTML embutido aqui"
+                title="Cole o código HTML embutido aqui"
+                placeholder="Cole o código HTML embutido aqui"
                 v-model="featured[index].content[i].value"
               />
             </div>
@@ -331,7 +331,7 @@
           focus:outline-none
         "
         @click="attachMedia()"
-        aria-label="Attach media"
+        aria-label="Anexar mídia"
         :class="
           dragOver ? 'bg-gray-900 outline-white' : 'bg-gray-700 border-none'
         "
@@ -351,7 +351,7 @@
           class="w-6 h-6 mr-2 sm:mr-0 pointer-events-none"
           v-html="require(`~/assets/icons/file.svg?include`)"
         ></div>
-        <p class="sm:mt-2 leading-none pointer-events-none">Attach media</p>
+        <p class="sm:mt-2 leading-none pointer-events-none">Anexar mídia</p>
       </button>
       <button
         class="
@@ -369,13 +369,13 @@
           focus:outline-none
         "
         @click="addText()"
-        aria-label="Add text"
+        aria-label="Adicionar texto"
       >
         <div
           class="w-6 h-6 mr-2 sm:mr-0"
           v-html="require(`~/assets/icons/text.svg?include`)"
         ></div>
-        <p class="sm:mt-2 leading-none">Add text</p>
+        <p class="sm:mt-2 leading-none">Adicionar texto</p>
       </button>
       <button
         class="
@@ -393,13 +393,13 @@
           focus:outline-none
         "
         @click="addProduct()"
-        aria-label="Add product"
+        aria-label="Adicionar produto"
       >
         <div
           class="w-6 h-6 mr-2 sm:mr-0"
           v-html="require(`~/assets/icons/box.svg?include`)"
         ></div>
-        <p class="sm:mt-2 leading-none">Add product</p>
+        <p class="sm:mt-2 leading-none">Adicionar produto</p>
       </button>
 
       <button
@@ -424,7 +424,7 @@
           class="w-6 h-6 mr-2 sm:mr-0"
           v-html="require(`~/assets/icons/box.svg?include`)"
         ></div>
-        <p class="sm:mt-2 leading-none">Custom Button</p>
+        <p class="sm:mt-2 leading-none">Botão Custom.</p>
       </button>
 
       <button
@@ -449,7 +449,7 @@
           class="w-6 h-6 mr-2 sm:mr-0"
           v-html="require(`~/assets/icons/videos.svg?include`)"
         ></div>
-        <p class="sm:mt-2 leading-none">iframe code</p>
+        <p class="sm:mt-2 leading-none">Código iframe</p>
       </button>
       <button
         class="
@@ -473,7 +473,7 @@
           class="w-6 h-6 mr-2 sm:mr-0"
           v-html="require(`~/assets/icons/code.svg?include`)"
         ></div>
-        <p class="sm:mt-2 leading-none">Embed code</p>
+        <p class="sm:mt-2 leading-none">Código embutido</p>
       </button>
     </div>
   </div>

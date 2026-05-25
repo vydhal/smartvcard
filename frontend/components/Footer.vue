@@ -20,8 +20,7 @@
           "
           rel="noopener noreferrer"
           style="font-size: 16px; font-weight: 800"
-        >
-          Home
+          Início
         </a>
         |
         <a
@@ -37,8 +36,7 @@
           "
           rel="noopener noreferrer"
           style="font-size: 16px; font-weight: 800"
-        >
-          Self-Hosting Guide
+          Guia de Hospedagem
         </a>
         |
         <!-- <a
@@ -71,8 +69,7 @@
           "
           rel="noopener noreferrer"
           style="font-size: 16px; font-weight: 800"
-        >
-          Training
+          Treinamento
         </a>
         |
         <a
@@ -88,7 +85,7 @@
           "
           rel="noopener noreferrer"
           style="font-size: 16px; font-weight: 800"
-          >Support</a
+          >Suporte</a
         >
       </p>
       <a href="/">
@@ -130,7 +127,7 @@
             duration-200
           "
           rel="noopener noreferrer"
-          >Privacy&nbsp;Policy
+          >Política de Privacidade
         </a>
         |
         <a
@@ -146,7 +143,7 @@
             duration-200
           "
           rel="noopener noreferrer"
-          >Terms of Service</a
+          >Termos de Serviço</a
         >
         |
         <a
@@ -163,7 +160,7 @@
             nuxt-link-exact-active nuxt-link-active
           "
           rel="noopener noreferrer"
-          >Cookie Policy</a
+          >Política de Cookies</a
         >
         |
         <a
@@ -179,7 +176,7 @@
             duration-200
           "
           rel="noopener noreferrer"
-          >Acceptable Use Policy</a
+          >Política de Uso Aceitável</a
         >
       </p>
       <p class="mt-1 mb-8 text-center text-xs text-gray-400">
@@ -188,7 +185,7 @@
           href="https://github.com/ziageek/smartvcard"
           target="_blank"
           rel="noopener noreferrer"
-          >View&nbsp;Source</a
+          >Ver Código</a
         >
         | AGPLv3 License
       </p>
