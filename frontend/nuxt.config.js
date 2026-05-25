@@ -79,10 +79,7 @@ export default {
       }
     ],
     script: [
-      { src: '/qrcode.min.js' },
-      {
-        src: 'https://js.stripe.com/v3'
-      }
+      { src: '/qrcode.min.js' }
     ]
   },
   manifest: {

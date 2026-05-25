@@ -1,0 +1,73 @@
+version: '3.8'
+
+# Modo desenvolvimento com hot-reload.
+# REQUISITO: mover o projeto para dentro do WSL2 filesystem (~/projetos/smartvcard)
+# para que bind mounts funcionem no Windows sem erros de permissão.
+#
+# Uso:
+#   docker-compose -f docker-compose.dev.yml up
+#
+# Na primeira vez, aplicar schema e seed:
+#   docker exec smartvcard-backend-dev npx prisma db push
+#   docker exec smartvcard-backend-dev npx prisma db seed
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: smartvcard-db-dev
+    environment:
+      POSTGRES_USER: smartuser
+      POSTGRES_PASSWORD: smartpassword
+      POSTGRES_DB: smartvcard
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data_dev:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U smartuser -d smartvcard"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+    container_name: smartvcard-backend-dev
+    ports:
+      - "3001:3001"
+    environment:
+      - DATABASE_URL=postgresql://smartuser:smartpassword@db:5432/smartvcard?schema=public
+      - PORT=3001
+      - JWT_SECRET=supersecret123
+    volumes:
+      - ./backend/src:/app/src         # hot-reload do código TypeScript
+      - ./backend/prisma:/app/prisma   # hot-reload do schema
+      - uploads_dev:/app/uploads       # imagens persistem entre restarts
+    command: npm run dev
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: smartvcard-frontend-dev
+    ports:
+      - "3005:3000"
+    environment:
+      - NUXT_ENV_API_URL=http://localhost:3001
+      - CHOKIDAR_USEPOLLING=true       # necessário para file-watching dentro do container
+      - WATCHPACK_POLLING=true
+    volumes:
+      - ./frontend/pages:/app/pages
+      - ./frontend/components:/app/components
+      - ./frontend/layouts:/app/layouts
+      - ./frontend/utils:/app/utils
+      - ./frontend/assets:/app/assets
+      - ./frontend/store:/app/store
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data_dev:
+  uploads_dev:

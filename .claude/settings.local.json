@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s -o /dev/null -w \"toggle: %{http_code}\\\\n\" -X PATCH http://localhost:3001/admin/cartoes/1/toggle)",
+      "Bash(curl -s -o /dev/null -w \"view: %{http_code}\\\\n\" -X POST http://localhost:3001/cartoes/acesso/8AJ1N7TU/view)",
+      "Bash(curl -s -o /dev/null -w \"upload \\(sem auth\\): %{http_code}\\\\n\" -X POST http://localhost:3001/cartoes/acesso/8AJ1N7TU/upload)"
+    ]
+  }
+}

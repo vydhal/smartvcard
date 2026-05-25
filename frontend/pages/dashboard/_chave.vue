@@ -21,41 +21,26 @@
     </transition>
 
     <div class="px-4">
-      <div class="flex items-start justify-between pt-8">
-        <div style="width: 8rem !important; color: black !important" class="logo w-24" v-html="require(`~/assets/icons/logo.svg?include`)" title="Simplisoft - Another Software Solution By BizViz"></div>
-        <Header />
-      </div>
-      <h1 class="text-3xl md:text-5xl font-extrabold mt-24 md:mt-48 md:leading-tight">
-        Cartão Digital
-      </h1>
-
-      <p class="mt-8 text-lg md:text-xl w-full md:w-3/4 text-gray-200">
-        A Simplisoft ajuda você a criar cartões de visita digitais bonitos, responsivos e em HTML que podem ser hospedados no seu domínio ou no nosso.
-      </p>
-      <ul class="mt-4 text-gray-400">
-        <li>
-          - A Simplisoft é uma ferramenta <b>GRATUITA</b> de Cartão Digital
-        </li>
-        <li>
-          - Gere cartões de visita digitais ilimitados para você e sua equipe
-        </li>
-        <li>- Arquivo .vcf incluído em todos os cartões de visita</li>
-        <li>
-          - Compartilhe seus detalhes de contato sem esforço por link ou QR code
-        </li>
-        <li>- Hospede seu cartão gratuitamente no seu domínio</li>
-        <li>- Opcionalmente hospede na nossa URL curta (ex: vcard.fyi/seunome)</li>
-      </ul>
-      <div class="mt-4 flex flex-wrap items-center">
-        <button class="font-extrabold leading-none text-lg tracking-wide select-none flex-shrink-0 p-5 mt-2 mr-2 text-white bg-green-500 rounded hover:bg-green-600 focus:bg-green-600 transition-colors duration-200 focus:outline-none" @click="create()">
-          Crie o seu agora
-        </button>
-        <a class="font-extrabold leading-none text-lg tracking-wide flex-shrink-0 p-5 mt-2 text-white bg-gray-700 rounded hover:bg-gray-600 focus:bg-gray-600 transition-colors duration-200" href="https://getbizviz.com/vcard/" target="_blank">Ver demonstração</a
-        >
+      <div class="flex justify-between items-center mt-6 mb-4 bg-gray-800 rounded-xl p-4">
+        <nuxt-link to="/dashboard" class="text-gray-300 hover:text-white font-bold flex items-center gap-2 transition-colors duration-200">
+          ← Meus Cartões
+        </nuxt-link>
+        <div class="flex items-center gap-3">
+          <a :href="`/c/${$route.params.chave}`" target="_blank" class="text-green-400 text-sm font-semibold hover:text-green-300 transition-colors duration-200">
+            🔗 Ver cartão online
+          </a>
+          <span v-if="autoSaving" class="text-xs text-gray-400 italic">{{ autoSaving }}</span>
+          <button @click="salvarCartao()" class="bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-6 rounded-xl transition-colors duration-200 focus:outline-none">
+            Salvar
+          </button>
+          <button @click="logout()" class="bg-gray-700 hover:bg-gray-600 text-gray-200 font-bold py-2 px-4 rounded-xl transition-colors duration-200 focus:outline-none">
+            Sair
+          </button>
+        </div>
       </div>
     </div>
     <div class="md:grid md:grid-cols-2">
-      <div class="px-4 mt-32">
+      <div class="px-4 mt-8">
         <div class="progress-bar flex justify-center space-x-2 mb-8">
           <div v-for="step in totalSteps" :key="step" class="w-8 h-2 rounded-full" :class="{ 'bg-green-500': step <= currentStep, 'bg-gray-700': step > currentStep }"></div>
         </div>
@@ -1009,7 +994,7 @@
                     class="pl-4 h-12 w-full bg-black rounded text-gray-500"
                     aria-label="vCard URL"
                     disabled
-                    :value="'yoursite/vcard/' + username + '/'"
+                    :value="publicCardURL"
                     tabindex="-1"
                   />
                   <div
@@ -1216,7 +1201,8 @@ import {
   createAvatar,
   payToDownloadZip,
   saveToGoogleSheet,
-  checkLicense
+  checkLicense,
+  uploadImage
 } from '../../utils/api.js'
 import { PublicClientApplication } from '@azure/msal-browser'
 import Modal from '@/components/Modal'
@@ -1276,8 +1262,11 @@ export default {
   data() {
     return {
       // ** NOVO: Variáveis para o formulário de múltiplos passos
-      currentStep: 0,
+      currentStep: 1,
       totalSteps: 15,
+      autoSaving: null,
+      _cardLoaded: false,
+      _autoSaveTimer: null,
       // ** FIM NOVO
       account: undefined,
       msalConfig: {
@@ -2128,6 +2117,10 @@ export default {
         this.address != ''
       )
     },
+    publicCardURL() {
+      const origin = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3005'
+      return `${origin}/c/${this.$route.params.chave}`
+    },
     getFullname() {
       let pr = this.genInfo.prefix
       let fn = this.genInfo.fname
@@ -2662,8 +2655,7 @@ export default {
         }
       }
     },
-    deep: true
-  },
+    deep: true,
 
   metaData: {
     async handler(newValue, oldValue) {
@@ -2761,6 +2753,23 @@ export default {
       }
     },
     deep: true
+    },
+    genInfo: {
+      handler() { this._scheduleAutoSave(); },
+      deep: true
+    },
+    colors: {
+      handler() { this._scheduleAutoSave(); },
+      deep: true
+    },
+    primaryActions: {
+      handler() { this._scheduleAutoSave(); },
+      deep: true
+    },
+    secondaryActions: {
+      handler() { this._scheduleAutoSave(); },
+      deep: true
+    },
   },
   async mounted() {
     this.loadCardData();
@@ -2804,12 +2813,27 @@ export default {
         }
       } catch (e) {
         console.error(e);
+      } finally {
+        this._cardLoaded = true;
       }
     },
-    async salvarCartao() {
+    async salvarCartao(silent = false) {
       const chave = this.$route.params.chave;
       const token = localStorage.getItem('user_token');
-      
+
+      for (const tipo of ['photo', 'cover', 'logo']) {
+        const img = this.images[tipo];
+        if (!img || !img.url || !img.url.startsWith('data:')) continue;
+        try {
+          const blob = img.resized || img.blob || this._dataURLtoBlob(img.url);
+          if (!blob) continue;
+          const { url } = await uploadImage(chave, tipo, blob);
+          this.images[tipo] = { url: (process.env.NUXT_ENV_API_URL || 'http://localhost:3001') + url };
+        } catch (e) {
+          console.warn('Falha no upload de ' + tipo, e);
+        }
+      }
+
       const payload = {
         nome_perfil: this.genInfo.fname || this.genInfo.name,
         cargo: this.genInfo.title,
@@ -2825,30 +2849,53 @@ export default {
       };
 
       try {
-        const response = await fetch(`${process.env.NUXT_ENV_API_URL || 'http://localhost:3001'}/cartoes/acesso/${chave}`, {
+        const apiBase = process.env.NUXT_ENV_API_URL || 'http://localhost:3001';
+        const response = await fetch(apiBase + '/cartoes/acesso/' + chave, {
           method: 'PUT',
-          headers: { 
+          headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            'Authorization': 'Bearer ' + token
           },
           body: JSON.stringify(payload)
         });
 
         if (response.ok) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Salvo!',
-            text: 'Cartão atualizado com sucesso!',
-            timer: 2000,
-            showConfirmButton: false
-          });
+          if (!silent) Swal.fire({ icon: 'success', title: 'Salvo!', text: 'Cartão atualizado com sucesso!', timer: 2000, showConfirmButton: false });
         } else {
           const err = await response.json();
-          Swal.fire({ icon: 'error', title: 'Erro', text: err.error || 'Erro ao salvar' });
+          if (!silent) Swal.fire({ icon: 'error', title: 'Erro', text: err.error || 'Erro ao salvar' });
         }
       } catch (e) {
-        Swal.fire({ icon: 'error', title: 'Erro', text: 'Falha na conexão com o servidor' });
+        if (!silent) Swal.fire({ icon: 'error', title: 'Erro', text: 'Falha na conexão com o servidor' });
       }
+    },
+
+    _dataURLtoBlob(dataURL) {
+      try {
+        const parts = dataURL.split(',');
+        const mime = parts[0].match(/:(.*?);/)[1];
+        const binary = atob(parts[1]);
+        const arr = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i++) arr[i] = binary.charCodeAt(i);
+        return new Blob([arr], { type: mime });
+      } catch (e) { return null; }
+    },
+
+    logout() {
+      localStorage.removeItem('user_token');
+      this.$router.push('/login');
+    },
+
+    _scheduleAutoSave() {
+      if (!this._cardLoaded) return;
+      clearTimeout(this._autoSaveTimer);
+      this.autoSaving = 'aguardando...';
+      this._autoSaveTimer = setTimeout(async () => {
+        this.autoSaving = 'salvando...';
+        await this.salvarCartao(true);
+        this.autoSaving = 'salvo';
+        setTimeout(() => { this.autoSaving = null; }, 2000);
+      }, 3000);
     },
 
     // ** NOVO: Métodos de navegação

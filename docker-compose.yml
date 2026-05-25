@@ -12,6 +12,11 @@ services:
       - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U smartuser -d smartvcard"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
   backend:
     build:
@@ -23,11 +28,11 @@ services:
       - DATABASE_URL=postgresql://smartuser:smartpassword@db:5432/smartvcard?schema=public
       - PORT=3001
       - JWT_SECRET=supersecret123
-    depends_on:
-      - db
     volumes:
-      - ./backend:/app
-      - /app/node_modules
+      - uploads_data:/app/uploads
+    depends_on:
+      db:
+        condition: service_healthy
 
   frontend:
     build:
@@ -36,14 +41,10 @@ services:
     ports:
       - "3005:3000"
     environment:
-      - API_URL=http://localhost:3001
-      - CHOKIDAR_USEPOLLING=true
-      - WATCHPACK_POLLING=true
+      - NUXT_ENV_API_URL=http://localhost:3001
     depends_on:
       - backend
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
 
 volumes:
   postgres_data:
+  uploads_data:

@@ -5,12 +5,11 @@
         <nuxt-link to="/admin" class="text-blue-500 hover:underline mb-2 inline-block">&larr; Voltar ao Painel</nuxt-link>
         <h1 class="text-2xl font-bold text-gray-800">Gerenciar Produtos</h1>
       </div>
-      <button @click="abrirModal" class="bg-green-600 text-white px-4 py-2 rounded shadow hover:bg-green-700">
+      <button @click="abrirModal(null)" class="bg-green-600 text-white px-4 py-2 rounded shadow hover:bg-green-700">
         + Novo Produto
       </button>
     </div>
 
-    <!-- Tabela de Produtos -->
     <div class="bg-white rounded shadow overflow-hidden">
       <table class="w-full text-left border-collapse">
         <thead>
@@ -33,22 +32,23 @@
               <span class="font-bold text-green-600">R$ {{ produto.preco_promocional || produto.preco }}</span>
             </td>
             <td class="py-3 px-6">
-              <span class="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs">Ativo</span>
-            </td>
-            <td class="py-3 px-6 text-center">
-              <button @click="deletarProduto(produto.id)" class="text-red-500 hover:text-red-700">
-                Remover
+              <button @click="toggleAtivo(produto)" :class="produto.ativo ? 'bg-green-200 text-green-700' : 'bg-gray-200 text-gray-500'" class="py-1 px-3 rounded-full text-xs font-semibold">
+                {{ produto.ativo ? 'Ativo' : 'Inativo' }}
               </button>
+            </td>
+            <td class="py-3 px-6 text-center space-x-3">
+              <button @click="abrirModal(produto)" class="text-blue-500 hover:text-blue-700 font-medium">Editar</button>
+              <button @click="deletarProduto(produto.id)" class="text-red-500 hover:text-red-700 font-medium">Remover</button>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <!-- Modal Novo Produto -->
+    <!-- Modal Criar / Editar -->
     <div v-if="modalAberto" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div class="bg-white rounded-lg p-6 w-full max-w-md">
-        <h2 class="text-xl font-bold mb-4">Adicionar Produto</h2>
+      <div class="bg-white rounded-lg p-6 w-full max-w-md max-h-screen overflow-y-auto">
+        <h2 class="text-xl font-bold mb-4">{{ editando ? 'Editar Produto' : 'Adicionar Produto' }}</h2>
         <form @submit.prevent="salvarProduto">
           <div class="mb-4">
             <label class="block text-gray-700 text-sm font-bold mb-2">Nome</label>
@@ -69,13 +69,18 @@
             </div>
           </div>
           <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2">Imagem do Produto</label>
-            <input type="file" @change="onFileChange" accept="image/*" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-500" />
+            <label class="block text-gray-700 text-sm font-bold mb-2">
+              Imagem {{ editando ? '(deixe vazio para manter a atual)' : '' }}
+            </label>
+            <div v-if="editando && form.imagem_url_atual" class="mb-2">
+              <img :src="getImagemUrl(form.imagem_url_atual)" class="w-16 h-16 object-cover rounded" />
+            </div>
+            <input type="file" @change="onFileChange" accept="image/*" :required="!editando" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-500" />
           </div>
           <div class="flex justify-end gap-2 mt-6">
-            <button type="button" @click="modalAberto = false" class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400">Cancelar</button>
+            <button type="button" @click="fecharModal" class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400">Cancelar</button>
             <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700" :disabled="loading">
-              {{ loading ? 'Salvando...' : 'Salvar Produto' }}
+              {{ loading ? 'Salvando...' : (editando ? 'Atualizar' : 'Salvar Produto') }}
             </button>
           </div>
         </form>
@@ -94,100 +99,122 @@ export default {
       produtos: [],
       modalAberto: false,
       loading: false,
+      editando: null,
       form: {
         nome: '',
         descricao: '',
         preco: '',
         preco_promocional: '',
-        imagem: null
+        imagem: null,
+        imagem_url_atual: null
       }
     }
   },
   mounted() {
+    this.verificarAuth()
     this.carregarProdutos()
   },
   methods: {
-    getImagemUrl(caminho) {
-      const baseUrl = process.env.NUXT_ENV_API_URL || 'http://localhost:3001'
-      return `${baseUrl}${caminho}`
+    verificarAuth() {
+      if (!localStorage.getItem('admin_token')) this.$router.push('/admin/login')
     },
-    abrirModal() {
-      this.form = { nome: '', descricao: '', preco: '', preco_promocional: '', imagem: null }
+    getImagemUrl(caminho) {
+      return (process.env.NUXT_ENV_API_URL || 'http://localhost:3001') + caminho
+    },
+    abrirModal(produto) {
+      if (produto) {
+        this.editando = produto.id
+        this.form = {
+          nome: produto.nome,
+          descricao: produto.descricao || '',
+          preco: produto.preco,
+          preco_promocional: produto.preco_promocional || '',
+          imagem: null,
+          imagem_url_atual: produto.imagem_url
+        }
+      } else {
+        this.editando = null
+        this.form = { nome: '', descricao: '', preco: '', preco_promocional: '', imagem: null, imagem_url_atual: null }
+      }
       this.modalAberto = true
     },
+    fecharModal() {
+      this.modalAberto = false
+      this.editando = null
+    },
     onFileChange(e) {
-      this.form.imagem = e.target.files[0]
+      this.form.imagem = e.target.files[0] || null
     },
     async carregarProdutos() {
       try {
-        const response = await fetch(`${process.env.NUXT_ENV_API_URL || 'http://localhost:3001'}/produtos`)
-        if (response.ok) {
-          this.produtos = await response.json()
-        }
-      } catch (err) {
-        console.error(err)
-      }
+        const res = await fetch((process.env.NUXT_ENV_API_URL || 'http://localhost:3001') + '/produtos?todos=1', {
+          headers: { 'Authorization': 'Bearer ' + localStorage.getItem('admin_token') }
+        })
+        if (res.ok) this.produtos = await res.json()
+      } catch (err) { console.error(err) }
     },
     async salvarProduto() {
       this.loading = true
       const token = localStorage.getItem('admin_token')
-      
       const formData = new FormData()
       formData.append('nome', this.form.nome)
       formData.append('descricao', this.form.descricao)
       formData.append('preco', this.form.preco)
-      if (this.form.preco_promocional) {
-        formData.append('preco_promocional', this.form.preco_promocional)
-      }
-      formData.append('file', this.form.imagem)
+      if (this.form.preco_promocional) formData.append('preco_promocional', this.form.preco_promocional)
+      if (this.form.imagem) formData.append('file', this.form.imagem)
+
+      const url = this.editando
+        ? (process.env.NUXT_ENV_API_URL || 'http://localhost:3001') + '/admin/produtos/' + this.editando
+        : (process.env.NUXT_ENV_API_URL || 'http://localhost:3001') + '/admin/produtos'
+      const method = this.editando ? 'PUT' : 'POST'
 
       try {
-        const response = await fetch(`${process.env.NUXT_ENV_API_URL || 'http://localhost:3001'}/admin/produtos`, {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${token}`
-          },
-          body: formData
-        })
-
-        if (response.ok) {
-          Swal.fire({ icon: 'success', title: 'Sucesso', text: 'Produto cadastrado!', timer: 2000 })
-          this.modalAberto = false
+        const res = await fetch(url, { method, headers: { 'Authorization': 'Bearer ' + token }, body: formData })
+        if (res.ok) {
+          Swal.fire({ icon: 'success', title: this.editando ? 'Atualizado!' : 'Criado!', timer: 1500, showConfirmButton: false })
+          this.fecharModal()
           this.carregarProdutos()
         } else {
-          const err = await response.json()
-          Swal.fire({ icon: 'error', title: 'Erro', text: err.error || 'Erro ao cadastrar' })
+          const err = await res.json()
+          Swal.fire({ icon: 'error', title: 'Erro', text: err.error || 'Erro ao salvar' })
         }
-      } catch (err) {
+      } catch {
         Swal.fire({ icon: 'error', title: 'Erro', text: 'Falha na conexão' })
       } finally {
         this.loading = false
       }
     },
+    async toggleAtivo(produto) {
+      const token = localStorage.getItem('admin_token')
+      try {
+        const formData = new FormData()
+        formData.append('nome', produto.nome)
+        formData.append('preco', String(produto.preco))
+        formData.append('ativo', String(!produto.ativo))
+        const res = await fetch((process.env.NUXT_ENV_API_URL || 'http://localhost:3001') + '/admin/produtos/' + produto.id, {
+          method: 'PUT',
+          headers: { 'Authorization': 'Bearer ' + token },
+          body: formData
+        })
+        if (res.ok) this.carregarProdutos()
+      } catch { console.error('Erro ao alterar status') }
+    },
     async deletarProduto(id) {
       const confirm = await Swal.fire({
-        title: 'Tem certeza?',
-        text: 'O produto não será mais exibido na loja.',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Sim, excluir'
+        title: 'Tem certeza?', text: 'O produto não será mais exibido na loja.',
+        icon: 'warning', showCancelButton: true, confirmButtonText: 'Sim, excluir', cancelButtonText: 'Cancelar'
       })
-
-      if (confirm.isConfirmed) {
-        const token = localStorage.getItem('admin_token')
-        try {
-          const response = await fetch(`${process.env.NUXT_ENV_API_URL || 'http://localhost:3001'}/admin/produtos/${id}`, {
-            method: 'DELETE',
-            headers: { 'Authorization': `Bearer ${token}` }
-          })
-          if (response.ok) {
-            this.carregarProdutos()
-            Swal.fire({ icon: 'success', title: 'Excluído', timer: 1500, showConfirmButton: false })
-          }
-        } catch (err) {
-          Swal.fire({ icon: 'error', title: 'Erro' })
+      if (!confirm.isConfirmed) return
+      const token = localStorage.getItem('admin_token')
+      try {
+        const res = await fetch((process.env.NUXT_ENV_API_URL || 'http://localhost:3001') + '/admin/produtos/' + id, {
+          method: 'DELETE', headers: { 'Authorization': 'Bearer ' + token }
+        })
+        if (res.ok) {
+          this.carregarProdutos()
+          Swal.fire({ icon: 'success', title: 'Excluído', timer: 1500, showConfirmButton: false })
         }
-      }
+      } catch { Swal.fire({ icon: 'error', title: 'Erro' }) }
     }
   }
 }

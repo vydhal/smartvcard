@@ -135,6 +135,11 @@ export default {
       loading: false
     }
   },
+  mounted() {
+    if (this.$route.query.chave) {
+      this.form.chave_acesso = this.$route.query.chave
+    }
+  },
   methods: {
     generatePassword() {
       const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+";
@@ -164,11 +169,12 @@ export default {
         
         Swal.fire({
           icon: 'success',
-          title: 'Passadaaa!',
-          text: 'Sua conta foi criada com sucesso, anjo!',
-          confirmButtonColor: '#3b82f6'
+          title: 'Conta criada!',
+          text: 'Bem-vindo! Vamos configurar seu cartão.',
+          timer: 2000,
+          showConfirmButton: false
         }).then(() => {
-          this.$router.push('/dashboard');
+          this.$router.push('/dashboard/' + this.form.chave_acesso)
         });
 
       } catch (error) {

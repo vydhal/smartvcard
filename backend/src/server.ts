@@ -7,6 +7,7 @@ import path from 'path'
 import fs from 'fs'
 import { pipeline } from 'stream/promises'
 import { PrismaClient } from '@prisma/client'
+import bcrypt from 'bcryptjs'
 
 const prisma = new PrismaClient()
 const fastify: FastifyInstance = Fastify({ logger: true })
@@ -29,6 +30,40 @@ if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true })
 }
 
+// Registra visualização do cartão público
+fastify.post('/cartoes/acesso/:chave/view', async (request, reply) => {
+  const { chave } = request.params as { chave: string }
+  const cartao = await prisma.cartao.findUnique({ where: { chave_acesso: chave } })
+  if (!cartao) return reply.status(404).send({ error: 'Cartão não encontrado.' })
+  // @ts-ignore — modelo adicionado ao schema, types regenerados no build
+  await prisma.visualizacao.create({ data: { cartao_id: cartao.id } })
+  return { ok: true }
+})
+
+// Retorna contagem de visualizações dos cartões do usuário logado
+fastify.get('/usuarios/meus-analytics', async (request, reply) => {
+  try {
+    await request.jwtVerify()
+    const usuarioId = (request.user as any).id
+    const cartoes = await prisma.cartao.findMany({ where: { usuario_id: usuarioId } })
+    const sete_dias_atras = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+
+    const resultados = await Promise.all(cartoes.map(async (c) => {
+      // @ts-ignore — modelo adicionado ao schema, types regenerados no build
+      const total = await prisma.visualizacao.count({ where: { cartao_id: c.id } })
+      // @ts-ignore
+      const ultimos7dias = await prisma.visualizacao.count({
+        where: { cartao_id: c.id, criado_em: { gte: sete_dias_atras } }
+      })
+      return { chave_acesso: c.chave_acesso, nome_perfil: c.nome_perfil, total, ultimos7dias }
+    }))
+
+    return resultados
+  } catch {
+    return reply.status(401).send({ error: 'Não autorizado.' })
+  }
+})
+
 // Rota de Health Check
 fastify.get('/ping', async (request, reply) => {
   return { status: 'Vitualll! Tá no brilho!', timestamp: new Date() }
@@ -48,6 +83,37 @@ fastify.get('/cartoes/acesso/:chave', async (request, reply) => {
   }
 
   return cartao
+})
+
+// Upload de imagem para um cartão (foto, capa, logo)
+fastify.post('/cartoes/acesso/:chave/upload', async (request, reply) => {
+  try {
+    await request.jwtVerify()
+    const { chave } = request.params as { chave: string }
+    const usuarioId = (request.user as any).id
+
+    const cartao = await prisma.cartao.findUnique({ where: { chave_acesso: chave } })
+    if (!cartao) return reply.status(404).send({ error: 'Cartão não encontrado.' })
+    if (cartao.usuario_id !== usuarioId && !(request.user as any).empresa_id) {
+      return reply.status(403).send({ error: 'Sem permissão para editar esse cartão.' })
+    }
+
+    const data = await request.file()
+    if (!data) return reply.status(400).send({ error: 'Arquivo não enviado.' })
+
+    const tipo = (data.fields as any)?.tipo?.value || 'photo'
+    const allowed = ['photo', 'cover', 'logo']
+    if (!allowed.includes(tipo)) return reply.status(400).send({ error: 'Tipo inválido.' })
+
+    const ext = data.filename.split('.').pop()?.toLowerCase() || 'jpg'
+    const filename = `${chave}-${tipo}-${Date.now()}.${ext}`
+    const filepath = path.join(uploadDir, filename)
+    await pipeline(data.file, fs.createWriteStream(filepath))
+
+    return { url: `/uploads/${filename}` }
+  } catch (err) {
+    return reply.status(401).send({ error: 'Não autorizado.' })
+  }
 })
 
 // Rota para atualizar o cartão via chave de acesso (Protegido para o Cliente)
@@ -107,9 +173,8 @@ fastify.post('/usuarios/register', async (request, reply) => {
     return reply.status(400).send({ error: 'Email já cadastrado!' })
   }
 
-  // Cria o usuário
   const usuario = await prisma.usuario.create({
-    data: { nome, email, telefone, senha_hash: senha } // Em prod, use bcrypt!
+    data: { nome, email, telefone, senha_hash: await bcrypt.hash(senha, 10) }
   })
 
   // Vincula o cartão ao usuário
@@ -126,7 +191,7 @@ fastify.post('/usuarios/login', async (request, reply) => {
   const { email, senha } = request.body as any
   const usuario = await prisma.usuario.findUnique({ where: { email } })
   
-  if (!usuario || usuario.senha_hash !== senha) {
+  if (!usuario || !(await bcrypt.compare(senha, usuario.senha_hash))) {
     return reply.status(401).send({ error: 'Email ou senha incorretos. Tenta de novo, amor!' })
   }
 
@@ -154,7 +219,7 @@ fastify.post('/empresas', async (request, reply) => {
   const { nome, email, senha } = request.body as any
   // Simplificação: em produção use bcrypt para hash
   const empresa = await prisma.empresa.create({
-    data: { nome, email, senha_hash: senha }
+    data: { nome, email, senha_hash: await bcrypt.hash(senha, 10) }
   })
   return reply.status(201).send(empresa)
 })
@@ -162,7 +227,7 @@ fastify.post('/empresas', async (request, reply) => {
 fastify.post('/empresas/login', async (request, reply) => {
   const { email, senha } = request.body as any
   const empresa = await prisma.empresa.findUnique({ where: { email } })
-  if (!empresa || empresa.senha_hash !== senha) {
+  if (!empresa || !(await bcrypt.compare(senha, empresa.senha_hash))) {
     return reply.status(401).send({ error: 'Acesso negado, gatinha! Credenciais inválidas.' })
   }
   const token = fastify.jwt.sign({ id: empresa.id, email: empresa.email, tipo: 'empresa' })
@@ -212,6 +277,20 @@ fastify.post('/admin/gerar-chave', async (request, reply) => {
 
     return reply.status(201).send({ chave_acesso: chave, id: cartao.id })
   } catch (err) {
+    return reply.status(401).send({ error: 'Não autorizado.' })
+  }
+})
+
+fastify.patch('/admin/cartoes/:id/toggle', async (request, reply) => {
+  try {
+    await request.jwtVerify()
+    if ((request.user as any).tipo !== 'empresa') return reply.status(403).send({ error: 'Acesso restrito!' })
+    const { id } = request.params as { id: string }
+    const cartao = await prisma.cartao.findUnique({ where: { id: parseInt(id) } })
+    if (!cartao) return reply.status(404).send({ error: 'Cartão não encontrado.' })
+    const updated = await prisma.cartao.update({ where: { id: parseInt(id) }, data: { ativo: !cartao.ativo } })
+    return { ativo: updated.ativo }
+  } catch {
     return reply.status(401).send({ error: 'Não autorizado.' })
   }
 })
@@ -287,6 +366,44 @@ fastify.post('/admin/produtos', async (request, reply) => {
   } catch (err) {
     console.error(err)
     return reply.status(401).send({ error: 'Erro ao processar produto.' })
+  }
+})
+
+fastify.put('/admin/produtos/:id', async (request, reply) => {
+  try {
+    await request.jwtVerify()
+    if ((request.user as any).tipo !== 'empresa') return reply.status(403).send({ error: 'Apenas admin!' })
+    const { id } = request.params as { id: string }
+
+    const data = await request.file()
+    let fields: any = {}
+    if (data) {
+      for (const key in data.fields) {
+        // @ts-ignore
+        if (data.fields[key].value) fields[key] = data.fields[key].value
+      }
+    } else {
+      Object.assign(fields, request.body as any)
+    }
+
+    const updateData: any = {}
+    if (fields.nome) updateData.nome = fields.nome
+    if (fields.descricao !== undefined) updateData.descricao = fields.descricao
+    if (fields.preco) updateData.preco = parseFloat(fields.preco)
+    if (fields.preco_promocional !== undefined) updateData.preco_promocional = fields.preco_promocional ? parseFloat(fields.preco_promocional) : null
+    if (fields.ativo !== undefined) updateData.ativo = fields.ativo === 'true'
+
+    if (data?.file) {
+      const filename = `${Date.now()}-${data.filename}`
+      const filepath = path.join(uploadDir, filename)
+      await pipeline(data.file, fs.createWriteStream(filepath))
+      updateData.imagem_url = `/uploads/${filename}`
+    }
+
+    const produto = await prisma.produto.update({ where: { id: parseInt(id) }, data: updateData })
+    return produto
+  } catch (err) {
+    return reply.status(500).send({ error: 'Erro ao atualizar produto.' })
   }
 })
 

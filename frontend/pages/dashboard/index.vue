@@ -1,7 +1,6 @@
 <template>
   <div class="min-h-screen bg-gray-50 flex flex-col font-sans">
-    
-    <!-- Navbar -->
+
     <header class="bg-white shadow-sm px-6 py-4 flex justify-between items-center">
       <h1 class="text-2xl font-bold text-blue-600">Meus Cartões</h1>
       <button @click="logout" class="text-gray-500 hover:text-red-500 font-medium">Sair</button>
@@ -24,7 +23,7 @@
 
       <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div v-for="cartao in cartoes" :key="cartao.id" class="bg-white rounded-2xl shadow-sm hover:shadow-md border border-gray-100 p-6 transition flex flex-col h-full">
-          
+
           <div class="flex-grow">
             <div class="flex justify-between items-start mb-4">
               <div class="bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
@@ -33,20 +32,32 @@
               <span v-if="cartao.ativo" class="h-3 w-3 bg-green-400 rounded-full" title="Ativo"></span>
               <span v-else class="h-3 w-3 bg-red-400 rounded-full" title="Inativo"></span>
             </div>
-            
+
             <h3 class="text-lg font-bold text-gray-900 line-clamp-1">{{ cartao.nome_perfil || 'Cartão sem nome' }}</h3>
-            <p class="text-gray-500 text-sm mb-4 line-clamp-1">{{ cartao.cargo || 'Cargo não definido' }}</p>
-            
-            <div class="text-xs text-gray-400 bg-gray-50 p-2 rounded mb-4 font-mono text-center">
+            <p class="text-gray-500 text-sm mb-3 line-clamp-1">{{ cartao.cargo || 'Cargo não definido' }}</p>
+
+            <!-- Analytics -->
+            <div v-if="analytics[cartao.chave_acesso]" class="flex gap-3 mb-4">
+              <div class="flex-1 bg-blue-50 rounded-xl p-3 text-center">
+                <p class="text-2xl font-bold text-blue-600">{{ analytics[cartao.chave_acesso].total }}</p>
+                <p class="text-xs text-gray-500 mt-1">Total de visitas</p>
+              </div>
+              <div class="flex-1 bg-green-50 rounded-xl p-3 text-center">
+                <p class="text-2xl font-bold text-green-600">{{ analytics[cartao.chave_acesso].ultimos7dias }}</p>
+                <p class="text-xs text-gray-500 mt-1">Últimos 7 dias</p>
+              </div>
+            </div>
+
+            <div class="text-xs text-gray-400 bg-gray-50 p-2 rounded font-mono text-center">
               Chave: {{ cartao.chave_acesso }}
             </div>
           </div>
 
-          <div class="mt-auto space-y-2">
-            <nuxt-link :to="`/dashboard/${cartao.chave_acesso}`" class="w-full block text-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 rounded-xl transition">
+          <div class="mt-4 space-y-2">
+            <nuxt-link :to="'/dashboard/' + cartao.chave_acesso" class="w-full block text-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 rounded-xl transition">
               Editar Cartão
             </nuxt-link>
-            <a :target="'_blank'" :href="`/?id=${cartao.chave_acesso}`" class="w-full block text-center bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-bold py-2 rounded-xl transition">
+            <a target="_blank" :href="'/c/' + cartao.chave_acesso" class="w-full block text-center bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-bold py-2 rounded-xl transition">
               Ver Cartão Online
             </a>
           </div>
@@ -58,42 +69,44 @@
 </template>
 
 <script>
+import { api } from '~/utils/api.js'
+
 export default {
   data() {
     return {
       cartoes: [],
+      analytics: {},
       loading: true
     }
   },
   mounted() {
     const token = localStorage.getItem('user_token')
-    if (!token) {
-      this.$router.push('/login')
-      return
-    }
+    if (!token) { this.$router.push('/login'); return }
     this.carregarCartoes()
   },
   methods: {
     async carregarCartoes() {
       try {
         const token = localStorage.getItem('user_token')
-        const response = await fetch(`${process.env.NUXT_ENV_API_URL || 'http://localhost:3001'}/usuarios/meus-cartoes`, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
+        const response = await fetch((process.env.NUXT_ENV_API_URL || 'http://localhost:3001') + '/usuarios/meus-cartoes', {
+          headers: { 'Authorization': 'Bearer ' + token }
         })
-        
-        if (response.status === 401 || response.status === 403) {
-          this.logout()
-          return
-        }
-
+        if (response.status === 401 || response.status === 403) { this.logout(); return }
         this.cartoes = await response.json()
+        this.carregarAnalytics()
       } catch (err) {
         console.error(err)
       } finally {
         this.loading = false
       }
+    },
+    async carregarAnalytics() {
+      try {
+        const dados = await api.meusAnalytics()
+        const map = {}
+        dados.forEach(d => { map[d.chave_acesso] = d })
+        this.analytics = map
+      } catch {}
     },
     logout() {
       localStorage.removeItem('user_token')

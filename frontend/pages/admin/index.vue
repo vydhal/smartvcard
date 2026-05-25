@@ -1,33 +1,49 @@
 <template>
   <div class="min-h-screen bg-gray-100 p-8 font-sans">
     <div class="max-w-6xl mx-auto">
-      
+
       <div class="flex justify-between items-center mb-8">
         <div>
           <h1 class="text-3xl font-bold text-gray-800">Painel do Administrador</h1>
           <p class="text-gray-500">Gerencie chaves de acesso e cartões da plataforma</p>
         </div>
-        <div class="flex space-x-4">
-          <nuxt-link 
-            to="/admin/produtos" 
-            class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transition flex items-center"
-          >
-            Gerenciar Produtos
+        <div class="flex space-x-3">
+          <nuxt-link to="/admin/produtos" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-5 rounded-lg shadow transition">
+            Produtos
           </nuxt-link>
-          <button 
-            @click="gerarChave" 
-            :disabled="gerando"
-            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transition"
-          >
+          <button @click="gerarChave" :disabled="gerando" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-5 rounded-lg shadow transition">
             {{ gerando ? 'Gerando...' : '+ Nova Chave' }}
           </button>
-          <button 
-            @click="logout"
-            class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg shadow-md transition"
-          >
+          <button @click="logout" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg shadow transition">
             Sair
           </button>
         </div>
+      </div>
+
+      <!-- Cards de resumo -->
+      <div class="grid grid-cols-3 gap-4 mb-8">
+        <div class="bg-white rounded-xl p-5 shadow text-center">
+          <p class="text-3xl font-black text-blue-600">{{ cartoes.length }}</p>
+          <p class="text-sm text-gray-500 mt-1">Total de chaves</p>
+        </div>
+        <div class="bg-white rounded-xl p-5 shadow text-center">
+          <p class="text-3xl font-black text-green-600">{{ cartoes.filter(c => c.usuario).length }}</p>
+          <p class="text-sm text-gray-500 mt-1">Ativadas por clientes</p>
+        </div>
+        <div class="bg-white rounded-xl p-5 shadow text-center">
+          <p class="text-3xl font-black text-yellow-500">{{ cartoes.filter(c => !c.usuario).length }}</p>
+          <p class="text-sm text-gray-500 mt-1">Aguardando cadastro</p>
+        </div>
+      </div>
+
+      <!-- Filtro -->
+      <div class="mb-4 flex gap-2">
+        <button v-for="f in ['todos', 'pendentes', 'ativos']" :key="f"
+          @click="filtro = f"
+          :class="filtro === f ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'"
+          class="px-4 py-1.5 rounded-full text-sm font-semibold shadow-sm border border-gray-200 transition capitalize">
+          {{ f }}
+        </button>
       </div>
 
       <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
@@ -36,51 +52,50 @@
             <thead>
               <tr class="bg-gray-50 border-b border-gray-200">
                 <th class="p-4 text-sm font-semibold text-gray-600">ID</th>
-                <th class="p-4 text-sm font-semibold text-gray-600">Chave de Acesso</th>
-                <th class="p-4 text-sm font-semibold text-gray-600">Cliente / Usuário</th>
+                <th class="p-4 text-sm font-semibold text-gray-600">Chave</th>
+                <th class="p-4 text-sm font-semibold text-gray-600">Cliente</th>
                 <th class="p-4 text-sm font-semibold text-gray-600">Status</th>
-                <th class="p-4 text-sm font-semibold text-gray-600">Data de Geração</th>
+                <th class="p-4 text-sm font-semibold text-gray-600">Gerado em</th>
                 <th class="p-4 text-sm font-semibold text-gray-600 text-center">Ações</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-if="loading" class="border-b border-gray-100">
-                <td colspan="6" class="p-8 text-center text-gray-500">Carregando cartões...</td>
+              <tr v-if="loading">
+                <td colspan="6" class="p-8 text-center text-gray-500">Carregando...</td>
               </tr>
-              <tr v-else-if="cartoes.length === 0" class="border-b border-gray-100">
-                <td colspan="6" class="p-8 text-center text-gray-500">Nenhuma chave gerada ainda.</td>
+              <tr v-else-if="cartoesFiltrados.length === 0">
+                <td colspan="6" class="p-8 text-center text-gray-400">Nenhuma chave encontrada.</td>
               </tr>
-              <tr 
-                v-for="cartao in cartoes" 
-                :key="cartao.id"
-                class="border-b border-gray-100 hover:bg-gray-50 transition"
-              >
-                <td class="p-4 text-sm text-gray-700">#{{ cartao.id }}</td>
-                <td class="p-4 text-sm font-bold text-gray-900 bg-gray-100 rounded inline-block mt-2 ml-4 tracking-wider">{{ cartao.chave_acesso }}</td>
-                <td class="p-4 text-sm text-gray-700">
+              <tr v-for="cartao in cartoesFiltrados" :key="cartao.id" class="border-b border-gray-100 hover:bg-gray-50 transition">
+                <td class="p-4 text-sm text-gray-500">#{{ cartao.id }}</td>
+                <td class="p-4">
+                  <span class="font-mono font-bold text-sm bg-gray-100 px-2 py-1 rounded tracking-wider">{{ cartao.chave_acesso }}</span>
+                </td>
+                <td class="p-4 text-sm">
                   <div v-if="cartao.usuario">
-                    <p class="font-bold">{{ cartao.usuario.nome }}</p>
-                    <p class="text-xs text-gray-500">{{ cartao.usuario.email }}</p>
+                    <p class="font-bold text-gray-800">{{ cartao.usuario.nome }}</p>
+                    <p class="text-xs text-gray-400">{{ cartao.usuario.email }}</p>
                   </div>
-                  <div v-else>
-                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                      Aguardando cadastro
-                    </span>
-                  </div>
-                </td>
-                <td class="p-4 text-sm text-gray-700">
-                  <span v-if="cartao.ativo" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                    Ativo
-                  </span>
-                  <span v-else class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                    Inativo
+                  <span v-else class="px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-700">
+                    Aguardando cadastro
                   </span>
                 </td>
-                <td class="p-4 text-sm text-gray-500">
+                <td class="p-4">
+                  <button @click="toggleAtivo(cartao)"
+                    :class="cartao.ativo ? 'bg-green-100 text-green-700 hover:bg-green-200' : 'bg-red-100 text-red-600 hover:bg-red-200'"
+                    class="px-2.5 py-0.5 rounded-full text-xs font-semibold transition">
+                    {{ cartao.ativo ? 'Ativo' : 'Inativo' }}
+                  </button>
+                </td>
+                <td class="p-4 text-sm text-gray-400">
                   {{ new Date(cartao.criado_em).toLocaleDateString('pt-BR') }}
                 </td>
-                <td class="p-4 text-sm text-center">
-                  <button class="text-blue-500 hover:text-blue-700 text-xs font-bold" @click="copiarChave(cartao.chave_acesso)">Copiar Chave</button>
+                <td class="p-4 text-center">
+                  <div class="flex justify-center gap-3 text-xs font-semibold">
+                    <button @click="copiarChave(cartao.chave_acesso)" class="text-blue-500 hover:text-blue-700">Copiar chave</button>
+                    <button @click="copiarLinkCadastro(cartao.chave_acesso)" class="text-purple-500 hover:text-purple-700">Link cadastro</button>
+                    <a v-if="cartao.usuario" :href="'/c/' + cartao.chave_acesso" target="_blank" class="text-green-600 hover:text-green-800">Ver cartão</a>
+                  </div>
                 </td>
               </tr>
             </tbody>
@@ -93,7 +108,7 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2';
+import Swal from 'sweetalert2'
 
 export default {
   layout: 'blank',
@@ -102,73 +117,75 @@ export default {
       cartoes: [],
       loading: true,
       gerando: false,
+      filtro: 'todos'
+    }
+  },
+  computed: {
+    cartoesFiltrados() {
+      if (this.filtro === 'pendentes') return this.cartoes.filter(c => !c.usuario)
+      if (this.filtro === 'ativos') return this.cartoes.filter(c => c.usuario)
+      return this.cartoes
     }
   },
   mounted() {
-    const token = localStorage.getItem('admin_token');
-    if (!token) {
-      this.$router.push('/admin/login');
-      return;
-    }
-    this.carregarCartoes();
+    if (!localStorage.getItem('admin_token')) { this.$router.push('/admin/login'); return }
+    this.carregarCartoes()
   },
   methods: {
     async carregarCartoes() {
       try {
-        const token = localStorage.getItem('admin_token');
-        const response = await fetch(`${process.env.NUXT_ENV_API_URL || 'http://localhost:3001'}/admin/cartoes`, {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-        if (response.status === 401 || response.status === 403) {
-          this.logout();
-          return;
-        }
-        const data = await response.json();
-        this.cartoes = data;
-      } catch (err) {
-        console.error(err);
-      } finally {
-        this.loading = false;
-      }
+        const token = localStorage.getItem('admin_token')
+        const res = await fetch((process.env.NUXT_ENV_API_URL || 'http://localhost:3001') + '/admin/cartoes', {
+          headers: { 'Authorization': 'Bearer ' + token }
+        })
+        if (res.status === 401 || res.status === 403) { this.logout(); return }
+        this.cartoes = await res.json()
+      } catch (err) { console.error(err) }
+      finally { this.loading = false }
     },
     async gerarChave() {
-      this.gerando = true;
+      this.gerando = true
       try {
-        const token = localStorage.getItem('admin_token');
-        const response = await fetch(`${process.env.NUXT_ENV_API_URL || 'http://localhost:3001'}/admin/gerar-chave`, {
-          method: 'POST',
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-        const data = await response.json();
-        if (response.ok) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Chave Gerada!',
-            text: `A nova chave de acesso é: ${data.chave_acesso}`,
-          });
-          this.carregarCartoes();
+        const token = localStorage.getItem('admin_token')
+        const res = await fetch((process.env.NUXT_ENV_API_URL || 'http://localhost:3001') + '/admin/gerar-chave', {
+          method: 'POST', headers: { 'Authorization': 'Bearer ' + token }
+        })
+        const data = await res.json()
+        if (res.ok) {
+          Swal.fire({ icon: 'success', title: 'Chave Gerada!', text: 'Nova chave: ' + data.chave_acesso })
+          this.carregarCartoes()
         } else {
-          throw new Error(data.error || 'Erro ao gerar chave');
+          throw new Error(data.error || 'Erro ao gerar chave')
         }
       } catch (err) {
-        Swal.fire({ icon: 'error', title: 'Erro', text: err.message });
-      } finally {
-        this.gerando = false;
-      }
+        Swal.fire({ icon: 'error', title: 'Erro', text: err.message })
+      } finally { this.gerando = false }
+    },
+    async toggleAtivo(cartao) {
+      const token = localStorage.getItem('admin_token')
+      try {
+        const res = await fetch((process.env.NUXT_ENV_API_URL || 'http://localhost:3001') + '/admin/cartoes/' + cartao.id + '/toggle', {
+          method: 'PATCH', headers: { 'Authorization': 'Bearer ' + token }
+        })
+        if (res.ok) {
+          const data = await res.json()
+          cartao.ativo = data.ativo
+        }
+      } catch { console.error('Erro ao alterar status') }
     },
     copiarChave(chave) {
-      navigator.clipboard.writeText(chave);
-      Swal.fire({
-        icon: 'success',
-        title: 'Copiada!',
-        text: 'A chave foi copiada para a área de transferência.',
-        timer: 1500,
-        showConfirmButton: false
-      });
+      navigator.clipboard.writeText(chave)
+      Swal.fire({ icon: 'success', title: 'Copiada!', timer: 1200, showConfirmButton: false })
+    },
+    copiarLinkCadastro(chave) {
+      const origin = window.location.origin
+      const link = origin + '/cadastro?chave=' + chave
+      navigator.clipboard.writeText(link)
+      Swal.fire({ icon: 'success', title: 'Link copiado!', text: link, timer: 2500, showConfirmButton: false })
     },
     logout() {
-      localStorage.removeItem('admin_token');
-      this.$router.push('/admin/login');
+      localStorage.removeItem('admin_token')
+      this.$router.push('/admin/login')
     }
   }
 }

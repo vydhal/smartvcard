@@ -1,210 +1,30 @@
 <template>
-  <footer class="h-30 mt-32 mx-4 flex flex-col">
-    <div class="flex flex-col justify-center items-center">
-      <p
-        class="mt-1 mb-8 text-center text-xs text-gray-400"
-        style="font-size: 16px; font-weight: 800"
-      >
-        <a
-          href="/"
-          aria-current="page"
-          class="
-            underline
-            text-green-500
-            font-extrabold
-            hover:text-green-600
-            focus:text-green-600
-            transition-colors
-            duration-200
-            nuxt-link-exact-active nuxt-link-active
-          "
-          rel="noopener noreferrer"
-          style="font-size: 16px; font-weight: 800"
-          Início
-        </a>
-        |
-        <a
-          href="/hosting-guide"
-          class="
-            underline
-            text-green-500
-            font-extrabold
-            hover:text-green-600
-            focus:text-green-600
-            transition-colors
-            duration-200
-          "
-          rel="noopener noreferrer"
-          style="font-size: 16px; font-weight: 800"
-          Guia de Hospedagem
-        </a>
-        |
-        <!-- <a
-          href="/hosting-upgrade/"
-          class="
-            underline
-            text-green-500
-            font-extrabold
-            hover:text-green-600
-            focus:text-green-600
-            transition-colors
-            duration-200
-          "
-          rel="noopener noreferrer"
-          style="font-size: 16px; font-weight: 800"
-        >
-          Host with Us
-        </a>
-        | -->
-        <a
-          href="/training"
-          class="
-            underline
-            text-green-500
-            font-extrabold
-            hover:text-green-600
-            focus:text-green-600
-            transition-colors
-            duration-200
-          "
-          rel="noopener noreferrer"
-          style="font-size: 16px; font-weight: 800"
-          Treinamento
-        </a>
-        |
-        <a
-          href="/customer-support"
-          class="
-            underline
-            text-green-500
-            font-extrabold
-            hover:text-green-600
-            focus:text-green-600
-            transition-colors
-            duration-200
-          "
-          rel="noopener noreferrer"
-          style="font-size: 16px; font-weight: 800"
-          >Suporte</a
-        >
-      </p>
-      <a href="/">
-        <div
-          style="height: 140px"
-          class="ftr logo w-12"
-          v-html="require(`~/assets/icons/footer_logo.svg?include`)"
-        ></div
-      ></a>
-      <!-- <p class="font-extrabold leading-tight">
-        Digital&nbsp;Business&nbsp;Card
-        <br />
-        Generator
-      </p> -->
-      <p style="color: rgb(255, 255, 255)">
-        Copyright © 2024
-        <a
-          href="https://getbizviz.com/"
-          target="_blank"
-          rel="noopener noreferrer"
-          style="color: rgb(255, 255, 255)"
-          >Simplisoft</a
-        >
-      </p>
-      <p
-        class="mt-1 mb-8 text-center text-xs text-gray-400"
-        style="color: rgb(211, 211, 211)"
-      >
-        <a
-          style="color: rgb(255, 255, 255)"
-          href="/privacy-policy"
-          class="
-            underline
-            text-green-500
-            font-extrabold
-            hover:text-green-600
-            focus:text-green-600
-            transition-colors
-            duration-200
-          "
-          rel="noopener noreferrer"
-          >Política de Privacidade
-        </a>
-        |
-        <a
-          style="color: white"
-          href="/terms-of-service"
-          class="
-            underline
-            text-green-500
-            font-extrabold
-            hover:text-green-600
-            focus:text-green-600
-            transition-colors
-            duration-200
-          "
-          rel="noopener noreferrer"
-          >Termos de Serviço</a
-        >
-        |
-        <a
-          style="color: white"
-          href="/cookie-policy"
-          class="
-            underline
-            text-green-500
-            font-extrabold
-            hover:text-green-600
-            focus:text-green-600
-            transition-colors
-            duration-200
-            nuxt-link-exact-active nuxt-link-active
-          "
-          rel="noopener noreferrer"
-          >Política de Cookies</a
-        >
-        |
-        <a
-          style="color: white"
-          href="/acceptable-use-policy"
-          class="
-            underline
-            text-green-500
-            font-extrabold
-            hover:text-green-600
-            focus:text-green-600
-            transition-colors
-            duration-200
-          "
-          rel="noopener noreferrer"
-          >Política de Uso Aceitável</a
-        >
-      </p>
-      <p class="mt-1 mb-8 text-center text-xs text-gray-400">
-        <a
-          class="underline text-emerald-600 font-extrabold hover:text-emerald-500 focus:text-emerald-500 transition-colors duration-200"
-          href="https://github.com/ziageek/smartvcard"
-          target="_blank"
-          rel="noopener noreferrer"
-          >Ver Código</a
-        >
-        | AGPLv3 License
-      </p>
-    </div>
+  <footer class="mt-16 mx-4 pb-8 flex flex-col items-center">
+    <a href="/">
+      <div
+        style="height: 90px; width: 160px"
+        class="mb-4"
+        v-html="require(`~/assets/icons/footer_logo.svg?include`)"
+      ></div>
+    </a>
+
+    <p class="text-sm text-gray-400 mb-3">
+      Copyright © 2025
+      <a href="/" class="text-white hover:text-green-400 transition-colors duration-200">Simplisoft</a>
+    </p>
+
+    <p class="text-xs text-gray-500 text-center space-x-3">
+      <a href="/privacy-policy" class="hover:text-green-400 transition-colors duration-200">Política de Privacidade</a>
+      <span>|</span>
+      <a href="/terms-of-service" class="hover:text-green-400 transition-colors duration-200">Termos de Serviço</a>
+      <span>|</span>
+      <a href="/cookie-policy" class="hover:text-green-400 transition-colors duration-200">Política de Cookies</a>
+      <span>|</span>
+      <a href="/customer-support" class="hover:text-green-400 transition-colors duration-200">Suporte</a>
+    </p>
   </footer>
 </template>
 
 <script>
 export default {}
 </script>
-
-<style>
-.ftr {
-  width: 200px;
-  height: 110px;
-}
-
-/* .footer_stick {
-  position: relative;
-  bottom: 0;
-} */
-</style>
