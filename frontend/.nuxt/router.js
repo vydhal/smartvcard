@@ -26,6 +26,7 @@ const _4b77c372 = () => interopDefault(import('../pages/terms-of-service/index.v
 const _60303945 = () => interopDefault(import('../pages/thank-you/index.vue' /* webpackChunkName: "pages/thank-you/index" */))
 const _28c9bf47 = () => interopDefault(import('../pages/training/index.vue' /* webpackChunkName: "pages/training/index" */))
 const _6a58c02f = () => interopDefault(import('../pages/admin/login.vue' /* webpackChunkName: "pages/admin/login" */))
+const _eb347678 = () => interopDefault(import('../pages/admin/produtos.vue' /* webpackChunkName: "pages/admin/produtos" */))
 const _20b58a62 = () => interopDefault(import('../pages/c/_chave.vue' /* webpackChunkName: "pages/c/_chave" */))
 const _9758d4de = () => interopDefault(import('../pages/dashboard/_chave.vue' /* webpackChunkName: "pages/dashboard/_chave" */))
 const _2dfb1658 = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
@@ -129,6 +130,10 @@ export const routerOptions = {
     path: "/admin/login",
     component: _6a58c02f,
     name: "admin-login"
+  }, {
+    path: "/admin/produtos",
+    component: _eb347678,
+    name: "admin-produtos"
   }, {
     path: "/c/:chave?",
     component: _20b58a62,

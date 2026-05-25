@@ -1,167 +1,72 @@
 <template>
-  <div class="stepC mt-1" v-if="isLoading === false">
-    <input
-      v-if="isLoggedIn === false"
-      placeholder="Enter agency license"
-      id="fullname"
-      spellcheck="false"
-      type="text"
-      v-model="licenseKey"
-      class="mt-2 px-2 h-12 bg-black rounded border border-transparent transition-colors duration-200 focus:outline-none focus:border-gray-600 hover:border-gray-600"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-    <button
-      href="/customer-support"
-      class="font-extrabold tracking-wide leading-none flex-shrink-0 p-3 border-2 text-white border-gray-700 rounded hover:bg-gray-700 focus:bg-gray-700 transition-colors duration-200"
-      @click="loginOrBuy"
-    >
-      {{
-        isLoggedIn === false
-          ? licenseKey !== ''
-            ? 'Activate'
-            : 'Buy agency'
-          : 'Logout'
-      }}
-    </button>
+  <header class="bg-gray-900 shadow-md sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        
+        <!-- Logo -->
+        <div class="flex-shrink-0 flex items-center">
+          <nuxt-link to="/" class="flex items-center gap-2 text-white hover:text-green-400 transition">
+            <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"></path>
+            </svg>
+            <span class="font-extrabold text-2xl tracking-tight">Smart <span class="text-green-500">vCard</span></span>
+          </nuxt-link>
+        </div>
 
-    <script async src="//tinder.thrivecart.com/embed/v1/thrivecart.js"></script>
-    <button
-      ref="myPurchaseBtn"
-      data-thrivecart-account="dfy"
-      data-thrivecart-tpl="v2"
-      data-thrivecart-product="82"
-      class="thrivecart-button thrivecart-button-styled thrivecart-button_style-rounded thrivecart-button-custom "
-      style="background-color: #46cea3;display: none"
-    >
-      Buy Agency
-    </button>
-  </div>
+        <!-- Desktop Menu -->
+        <nav class="hidden md:flex space-x-8">
+          <a href="/#marketplace" class="text-gray-300 hover:text-white font-medium transition-colors">Produtos</a>
+          <nuxt-link to="/cadastro" class="text-gray-300 hover:text-white font-medium transition-colors">Tenho uma Chave</nuxt-link>
+        </nav>
+
+        <!-- CTAs -->
+        <div class="hidden md:flex items-center space-x-4">
+          <nuxt-link 
+            to="/login" 
+            class="text-gray-300 hover:text-white font-medium px-4 py-2 transition-colors"
+          >
+            Entrar
+          </nuxt-link>
+          <a 
+            href="#marketplace"
+            class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-full transition-colors shadow-lg"
+          >
+            Começar Agora
+          </a>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <div class="md:hidden flex items-center">
+          <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-gray-300 hover:text-white focus:outline-none">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path v-if="!mobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+              <path v-else stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Menu Panel -->
+    <div v-if="mobileMenuOpen" class="md:hidden bg-gray-800 border-t border-gray-700">
+      <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+        <a href="/#marketplace" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Produtos</a>
+        <nuxt-link to="/cadastro" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Tenho uma Chave</nuxt-link>
+        <nuxt-link to="/login" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Entrar</nuxt-link>
+        <a href="#marketplace" class="block w-full text-center mt-4 bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-md transition-colors">
+          Começar Agora
+        </a>
+      </div>
+    </div>
+  </header>
 </template>
 
 <script>
-import { checkLicense, logOut } from './../utils/api.js'
-import swal from 'sweetalert2'
-window.Swal = swal
 export default {
   data() {
     return {
-      isLoading: true,
-      isLoggedIn: false,
-      licenseKey: ''
+      mobileMenuOpen: false
     }
-  },
-  methods: {
-    async loginOrBuy() {
-      if (localStorage.getItem('license_key') !== null) {
-        let key = localStorage.getItem('license_key')
-        let myresponse = await logOut(key)
-        if (myresponse.status === 200) {
-          localStorage.removeItem('license_key')
-          this.isLoggedIn = false
-          window.location.reload()
-        }
-      } else {
-        if (this.licenseKey === '' || this.licenseKey === null) {
-          const elem = this.$refs.myPurchaseBtn
-          elem.click()
-        } else {
-          let response = await checkLicense(this.licenseKey, 'login')
-          // console.log('My response', response?.data.message)
-          if (response.status !== 200) {
-            this.licenseKey = ''
-            // alert(
-            //   `ERROR CODE:- ${response.status} REASON: ${response.data.message}`
-            // )
-            Swal.fire({
-              title: 'Error!',
-              html:
-                `${response?.data.message}` ||
-                'Something bad happened, try again later',
-              icon: 'error',
-              confirmButtonText: 'Ok'
-            })
-            if (response.status === 404) {
-              setTimeout(() => {
-                const elem = this.$refs.myPurchaseBtn
-                elem.click()
-              }, 2000)
-            }
-            if (response.status === 400) {
-              Swal.fire({
-                title: 'Error!',
-                text:
-                  `${response?.data.message}` ||
-                  'Something bad happened, try again later',
-                icon: 'error',
-                confirmButtonText: 'Ok'
-              })
-              // alert('BYE BYE TA TA')
-              return
-            }
-          } else if (response.status === 200) {
-            localStorage.setItem('license_key', response.data.license_key)
-            this.licenseKey = ''
-            this.isLoggedIn = true
-            Swal.fire({
-              title: 'Congratulations!',
-              text: 'You have successfully activated your Agency License!',
-              icon: 'success',
-              confirmButtonText: 'Ok'
-            })
-            return
-            // console.log('RESPONSE SHAREEEF', response)
-          }
-          //check the key, if true, login, else fail.
-          // this.isLoggedIn = true
-          // console.log(this.isLoggedIn)
-          return
-          const elem = this.$refs.myPurchaseBtn
-          elem.click()
-        }
-      }
-    }
-  },
-  async mounted() {
-    let isPresent = localStorage.getItem('license_key')
-    if (isPresent !== null) {
-      let licenseKey = localStorage.getItem('license_key')
-      let response = await checkLicense(licenseKey, 'ignore')
-      // console.log('My response', response)
-      if (response.status !== 200) {
-        this.isLoading = false
-        localStorage.removeItem('license_key')
-        // alert(
-        //   `ERROR CODE:- ${response.status} REASON: `
-        // )
-        Swal.fire({
-          title: 'Error!',
-          html:
-            `${response?.data.message}` ||
-            'Something bad happened, try again later',
-          icon: 'error',
-          confirmButtonText: 'Ok'
-        })
-        if (response.status === 404) {
-          const elem = this.$refs.myPurchaseBtn
-          elem.click()
-        }
-        if (response.status === 400) {
-          localStorage.removeItem('license_key')
-        }
-      } else if (response.status === 200) {
-        this.isLoading = false
-        this.isLoggedIn = true
-        return
-        // console.log('RESPONSE SHAREEEF', response)
-      }
-      this.isLoading = false
-    } else {
-      this.isLoading = false
-    }
-    // setTimeout(() => {
-    //   this.isLoggedIn = true
-    // }, 2000)
-    // console.log(`the component is now mounted.`)
   }
 }
 </script>

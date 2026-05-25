@@ -8,6 +8,12 @@
           <p class="text-gray-500">Gerencie chaves de acesso e cartões da plataforma</p>
         </div>
         <div class="flex space-x-4">
+          <nuxt-link 
+            to="/admin/produtos" 
+            class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transition flex items-center"
+          >
+            Gerenciar Produtos
+          </nuxt-link>
           <button 
             @click="gerarChave" 
             :disabled="gerando"

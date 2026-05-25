@@ -154,6 +154,13 @@
     "_name": "_6a58c02f"
   },
   {
+    "name": "admin-produtos",
+    "path": "/admin/produtos",
+    "component": "/app/pages/admin/produtos.vue",
+    "chunkName": "pages/admin/produtos",
+    "_name": "_eb347678"
+  },
+  {
     "name": "c-chave",
     "path": "/c/:chave?",
     "component": "/app/pages/c/_chave.vue",

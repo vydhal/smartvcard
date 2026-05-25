@@ -74,3 +74,16 @@ model TagFisica {
 
   @@map("tags_fisicas")
 }
+
+model Produto {
+  id                Int      @id @default(autoincrement())
+  nome              String
+  descricao         String?
+  preco             Float
+  preco_promocional Float?
+  imagem_url        String   // Caminho do arquivo de upload local
+  ativo             Boolean  @default(true)
+  criado_em         DateTime @default(now())
+
+  @@map("produtos")
+}
