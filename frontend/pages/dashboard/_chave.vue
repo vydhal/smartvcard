@@ -21,19 +21,22 @@
     </transition>
 
     <div class="px-4">
-      <div class="flex justify-between items-center mt-6 mb-4 bg-gray-800 rounded-xl p-4">
-        <nuxt-link to="/dashboard" class="text-gray-300 hover:text-white font-bold flex items-center gap-2 transition-colors duration-200">
-          ← Meus Cartões
+      <div class="mt-6 mb-4 bg-gray-800 rounded-xl p-3 flex flex-wrap items-center gap-2 justify-between">
+        <nuxt-link to="/dashboard" class="text-gray-300 hover:text-white font-bold flex items-center gap-1 text-sm transition-colors duration-200">
+          ← <span class="hidden sm:inline">Meus Cartões</span><span class="sm:hidden">Voltar</span>
         </nuxt-link>
-        <div class="flex items-center gap-3">
-          <a :href="`/c/${$route.params.chave}`" target="_blank" class="text-green-400 text-sm font-semibold hover:text-green-300 transition-colors duration-200">
-            🔗 Ver cartão online
+        <div class="flex items-center gap-2 flex-wrap">
+          <a :href="'/c/' + $route.params.chave" target="_blank" class="text-green-400 text-xs font-semibold hover:text-green-300 transition-colors duration-200 hidden sm:inline">
+            🔗 Ver online
           </a>
           <span v-if="autoSaving" class="text-xs text-gray-400 italic">{{ autoSaving }}</span>
-          <button @click="salvarCartao()" class="bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-6 rounded-xl transition-colors duration-200 focus:outline-none">
+          <button @click="salvarCartao()" class="bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-4 rounded-xl text-sm transition-colors duration-200 focus:outline-none">
             Salvar
           </button>
-          <button @click="logout()" class="bg-gray-700 hover:bg-gray-600 text-gray-200 font-bold py-2 px-4 rounded-xl transition-colors duration-200 focus:outline-none">
+          <a :href="'/c/' + $route.params.chave" target="_blank" class="text-green-400 sm:hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          </a>
+          <button @click="logout()" class="bg-gray-700 hover:bg-gray-600 text-gray-200 font-bold py-2 px-3 rounded-xl text-sm transition-colors duration-200 focus:outline-none">
             Sair
           </button>
         </div>
@@ -979,6 +982,21 @@
           id="preview"
           class="flex flex-col items-center justify-center sm:sticky sm:top-0 md:mx-6 lg:mx-12"
         >
+          <!-- Reordenar seções -->
+          <div class="bg-gray-800 rounded-xl p-3 mb-3 w-full max-w-xs mx-auto">
+            <p class="text-xs text-gray-400 font-semibold text-center mb-2 uppercase tracking-wider">Ordem das seções</p>
+            <draggable v-model="sectionOrder" animation="150" ghostClass="opacity-50" class="flex flex-col gap-1">
+              <div
+                v-for="s in sectionOrder"
+                :key="s"
+                class="flex items-center gap-2 bg-gray-700 hover:bg-gray-600 rounded-lg px-3 py-1.5 cursor-grab text-sm text-gray-200 select-none"
+              >
+                <svg class="w-3.5 h-3.5 text-gray-400 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor"><path d="M7 2a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 2zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 8zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 14zm6-8a2 2 0 1 0-.001-4.001A2 2 0 0 0 13 6zm0 2a2 2 0 1 0 .001 4.001A2 2 0 0 0 13 8zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 13 14z"/></svg>
+                <span>{{ s === 'primary' ? 'Ações Primárias' : s === 'secondary' ? 'Ações Secundárias' : 'Conteúdo Destaque' }}</span>
+              </div>
+            </draggable>
+          </div>
+
           <div id="device" class="bg-black rounded sm:mt-10">
             <h2 class="text-center py-4 font-extrabold text-gray-200">
               LIVE PREVIEW
@@ -1034,6 +1052,7 @@
                 :hasLightBG="hasLightBG"
                 :downloadKey="downloadKey"
                 :pubKeyIsValid="pubKeyIsValid"
+                :sectionOrder="sectionOrder"
               />
             </div>
           </div>
@@ -2084,6 +2103,7 @@ export default {
           content: []
         }
       ],
+      sectionOrder: ['primary', 'secondary', 'featured'],
       hostedURL: null,
       footerCredit: true,
       footerCreditCustom: false,
@@ -2770,6 +2790,10 @@ export default {
       handler() { this._scheduleAutoSave(); },
       deep: true
     },
+    sectionOrder: {
+      handler() { this._scheduleAutoSave(); },
+      deep: true
+    },
   },
   async mounted() {
     this.loadCardData();
@@ -2803,6 +2827,7 @@ export default {
             this.featured = state.featured || this.featured;
             this.primaryActions = state.primaryActions || this.primaryActions;
             this.secondaryActions = state.secondaryActions || this.secondaryActions;
+            this.sectionOrder = state.sectionOrder || ['primary', 'secondary', 'featured'];
           }
           // Fallback from db standard fields
           this.genInfo.fname = data.nome_perfil || this.genInfo.fname;
@@ -2844,7 +2869,8 @@ export default {
           images: this.images,
           featured: this.featured,
           primaryActions: this.primaryActions,
-          secondaryActions: this.secondaryActions
+          secondaryActions: this.secondaryActions,
+          sectionOrder: this.sectionOrder
         }
       };
 

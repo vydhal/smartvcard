@@ -119,6 +119,8 @@ export default {
       if (!localStorage.getItem('admin_token')) this.$router.push('/admin/login')
     },
     getImagemUrl(caminho) {
+      if (!caminho) return ''
+      if (caminho.startsWith('http')) return caminho
       return (process.env.NUXT_ENV_API_URL || 'http://localhost:3001') + caminho
     },
     abrirModal(produto) {

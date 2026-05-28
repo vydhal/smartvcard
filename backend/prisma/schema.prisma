@@ -26,12 +26,14 @@ model Empresa {
 }
 
 model Usuario {
-  id         Int      @id @default(autoincrement())
-  nome       String
-  email      String   @unique
-  telefone   String?
-  senha_hash String
-  criado_em  DateTime @default(now())
+  id                  Int       @id @default(autoincrement())
+  nome                String
+  email               String    @unique
+  telefone            String?
+  senha_hash          String
+  reset_token         String?
+  reset_token_expiry  DateTime?
+  criado_em           DateTime  @default(now())
 
   cartoes Cartao[]
 

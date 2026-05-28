@@ -8,11 +8,34 @@ import fs from 'fs'
 import { pipeline } from 'stream/promises'
 import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcryptjs'
+import nodemailer from 'nodemailer'
 
 const prisma = new PrismaClient()
+
+async function enviarEmail(to: string, subject: string, html: string) {
+  const host = process.env.SMTP_HOST
+  if (!host) {
+    console.log('[EMAIL] SMTP não configurado. Destino:', to, '| Assunto:', subject)
+    return
+  }
+  const transporter = nodemailer.createTransport({
+    host,
+    port: Number(process.env.SMTP_PORT) || 587,
+    secure: process.env.SMTP_SECURE === 'true',
+    auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS }
+  })
+  await transporter.sendMail({
+    from: process.env.SMTP_FROM || process.env.SMTP_USER,
+    to, subject, html
+  })
+}
 const fastify: FastifyInstance = Fastify({ logger: true })
 
-fastify.register(cors, { origin: '*' })
+fastify.register(cors, {
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+})
 
 fastify.register(jwt, {
   secret: process.env.JWT_SECRET || 'supersecret123'
@@ -422,6 +445,83 @@ fastify.delete('/admin/produtos/:id', async (request, reply) => {
   } catch(e) {
      return reply.status(500).send({ error: 'Erro ao deletar' })
   }
+})
+
+// --- Envio de convite por email (Admin) ---
+fastify.post('/admin/enviar-convite', async (request, reply) => {
+  try {
+    await request.jwtVerify()
+    if ((request.user as any).tipo !== 'empresa') {
+      return reply.status(403).send({ error: 'Apenas admin pode fazer isso!' })
+    }
+    const { email, chave } = request.body as { email: string, chave: string }
+    if (!email || !chave) return reply.status(400).send({ error: 'Email e chave são obrigatórios.' })
+
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3005'
+    const link = frontendUrl + '/cadastro?chave=' + chave
+
+    await enviarEmail(
+      email,
+      'Seu cartão digital está pronto!',
+      '<h2>Olá!</h2><p>Você foi convidado(a) para criar seu cartão digital personalizado.</p>' +
+      '<p>Clique no botão abaixo para criar sua conta:</p>' +
+      '<p><a href="' + link + '" style="background:#3b82f6;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;">Criar minha conta</a></p>' +
+      '<p style="color:#888;font-size:12px;">Ou acesse: ' + link + '</p>'
+    )
+
+    return { ok: true, link }
+  } catch (err: any) {
+    return reply.status(500).send({ error: 'Erro ao enviar convite: ' + (err.message || '') })
+  }
+})
+
+// --- Recuperação de senha ---
+fastify.post('/usuarios/esqueci-senha', async (request, reply) => {
+  const { email } = request.body as { email: string }
+  const usuario = await prisma.usuario.findUnique({ where: { email } })
+  if (usuario) {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+    let token = ''
+    for (let i = 0; i < 8; i++) token += chars.charAt(Math.floor(Math.random() * chars.length))
+    const expiry = new Date(Date.now() + 60 * 60 * 1000) // 1 hora
+
+    // @ts-ignore — campos adicionados ao schema, types regenerados no build
+    await prisma.usuario.update({
+      where: { id: usuario.id },
+      data: { reset_token: token, reset_token_expiry: expiry }
+    })
+
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3005'
+    const link = frontendUrl + '/resetar-senha?token=' + token
+
+    await enviarEmail(
+      email,
+      'Redefinição de senha — Smart vCard',
+      '<h2>Redefinição de senha</h2>' +
+      '<p>Recebemos um pedido de redefinição de senha para sua conta.</p>' +
+      '<p><a href="' + link + '" style="background:#3b82f6;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;">Redefinir minha senha</a></p>' +
+      '<p style="color:#888;font-size:12px;">Link válido por 1 hora. Se você não solicitou isso, ignore este email.</p>'
+    )
+  }
+  return { ok: true }
+})
+
+fastify.post('/usuarios/resetar-senha', async (request, reply) => {
+  const { token, nova_senha } = request.body as { token: string, nova_senha: string }
+  if (!token || !nova_senha) return reply.status(400).send({ error: 'Token e nova senha são obrigatórios.' })
+
+  // @ts-ignore — campos adicionados ao schema, types regenerados no build
+  const usuario = await prisma.usuario.findFirst({
+    where: { reset_token: token, reset_token_expiry: { gt: new Date() } }
+  })
+  if (!usuario) return reply.status(400).send({ error: 'Token inválido ou expirado.' })
+
+  // @ts-ignore
+  await prisma.usuario.update({
+    where: { id: usuario.id },
+    data: { senha_hash: await bcrypt.hash(nova_senha, 10), reset_token: null, reset_token_expiry: null }
+  })
+  return { ok: true }
 })
 
 const start = async () => {

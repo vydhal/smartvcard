@@ -36,14 +36,20 @@
         </div>
       </div>
 
-      <!-- Filtro -->
-      <div class="mb-4 flex gap-2">
-        <button v-for="f in ['todos', 'pendentes', 'ativos']" :key="f"
-          @click="filtro = f"
-          :class="filtro === f ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'"
-          class="px-4 py-1.5 rounded-full text-sm font-semibold shadow-sm border border-gray-200 transition capitalize">
-          {{ f }}
-        </button>
+      <!-- Filtro e busca -->
+      <div class="mb-4 flex flex-col sm:flex-row gap-3">
+        <div class="flex gap-2">
+          <button v-for="f in ['todos', 'pendentes', 'ativos']" :key="f"
+            @click="filtro = f"
+            :class="filtro === f ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'"
+            class="px-4 py-1.5 rounded-full text-sm font-semibold shadow-sm border border-gray-200 transition capitalize">
+            {{ f }}
+          </button>
+        </div>
+        <div class="relative flex-1 sm:max-w-xs">
+          <svg class="absolute inset-y-0 left-3 my-auto h-4 w-4 text-gray-400 pointer-events-none" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          <input v-model="busca" type="text" placeholder="Buscar por chave ou cliente…" class="w-full pl-9 pr-3 py-1.5 rounded-full text-sm border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 transition">
+        </div>
       </div>
 
       <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
@@ -94,6 +100,7 @@
                   <div class="flex justify-center gap-3 text-xs font-semibold">
                     <button @click="copiarChave(cartao.chave_acesso)" class="text-blue-500 hover:text-blue-700">Copiar chave</button>
                     <button @click="copiarLinkCadastro(cartao.chave_acesso)" class="text-purple-500 hover:text-purple-700">Link cadastro</button>
+                    <button v-if="!cartao.usuario" @click="abrirEnvioEmail(cartao.chave_acesso)" class="text-orange-500 hover:text-orange-700">Enviar convite</button>
                     <a v-if="cartao.usuario" :href="'/c/' + cartao.chave_acesso" target="_blank" class="text-green-600 hover:text-green-800">Ver cartão</a>
                   </div>
                 </td>
@@ -117,14 +124,24 @@ export default {
       cartoes: [],
       loading: true,
       gerando: false,
-      filtro: 'todos'
+      filtro: 'todos',
+      busca: ''
     }
   },
   computed: {
     cartoesFiltrados() {
-      if (this.filtro === 'pendentes') return this.cartoes.filter(c => !c.usuario)
-      if (this.filtro === 'ativos') return this.cartoes.filter(c => c.usuario)
-      return this.cartoes
+      let lista = this.cartoes
+      if (this.filtro === 'pendentes') lista = lista.filter(c => !c.usuario)
+      else if (this.filtro === 'ativos') lista = lista.filter(c => c.usuario)
+      if (this.busca.trim()) {
+        const q = this.busca.trim().toLowerCase()
+        lista = lista.filter(c =>
+          c.chave_acesso.toLowerCase().includes(q) ||
+          (c.usuario && c.usuario.nome.toLowerCase().includes(q)) ||
+          (c.usuario && c.usuario.email.toLowerCase().includes(q))
+        )
+      }
+      return lista
     }
   },
   mounted() {
@@ -182,6 +199,40 @@ export default {
       const link = origin + '/cadastro?chave=' + chave
       navigator.clipboard.writeText(link)
       Swal.fire({ icon: 'success', title: 'Link copiado!', text: link, timer: 2500, showConfirmButton: false })
+    },
+    async abrirEnvioEmail(chave) {
+      const { value: email } = await Swal.fire({
+        title: 'Enviar convite por email',
+        input: 'email',
+        inputLabel: 'Email do cliente',
+        inputPlaceholder: 'cliente@email.com',
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Enviar',
+        confirmButtonColor: '#f97316',
+        inputValidator: (v) => !v && 'Por favor informe um email.'
+      })
+      if (!email) return
+      try {
+        const token = localStorage.getItem('admin_token')
+        const res = await fetch((process.env.NUXT_ENV_API_URL || 'http://localhost:3001') + '/admin/enviar-convite', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+          body: JSON.stringify({ email, chave })
+        })
+        const data = await res.json()
+        if (!res.ok) throw new Error(data.error || 'Erro ao enviar')
+        Swal.fire({
+          icon: 'success',
+          title: 'Convite enviado!',
+          html: process.env.NUXT_ENV_API_URL
+            ? '<p>Email enviado para <strong>' + email + '</strong></p>'
+            : '<p>SMTP não configurado. Link para compartilhar manualmente:</p><p style="word-break:break-all;font-size:12px;margin-top:8px;">' + data.link + '</p>',
+          confirmButtonColor: '#3b82f6'
+        })
+      } catch (err) {
+        Swal.fire({ icon: 'error', title: 'Erro', text: err.message })
+      }
     },
     logout() {
       localStorage.removeItem('admin_token')

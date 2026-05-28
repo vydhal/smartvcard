@@ -139,6 +139,8 @@ export default {
       }
     },
     getImagemUrl(caminho) {
+      if (!caminho) return ''
+      if (caminho.startsWith('http')) return caminho
       const baseUrl = process.env.NUXT_ENV_API_URL || 'http://localhost:3001'
       return `${baseUrl}${caminho}`
     },

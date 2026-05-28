@@ -132,28 +132,68 @@
           <style>
             #body{ font-family: sans-serif; } input[type='range']::-moz-range-track { background: none; } input[type='range']::-moz-range-thumb { -moz-appearance: none; width: 3rem; height: 3rem; border-radius: 100%; border: none; background: {{colors.buttonBg.color}}; z-index: 3; cursor: pointer; } input[type='range']::-webkit-slider-thumb { -webkit-appearance: none; width: 3rem; height: 3rem; border-radius: 100%; border: none; background: {{colors.buttonBg.color}}; z-index: 3; cursor: pointer; } .closeBtnColor{ {{hasLightBG('mainBg') && 'filter:invert(1)'}} } .topAction{ {{hasLightBG('logoBg') && 'filter:invert(1)'}} } .action{ color:#fff; {{hasLightBG('buttonBg') ? 'filter:invert(1)' : null}} } .card{ {{hasLightBG('cardBg') && 'color:#000 !important'}} } .ziacard{ {{hasLightBG('cardBg') ? 'color:#000 !important' : 'color:#fff !important'}};padding-top: 20px; } .text{ text-align: center;line-height: 1.5;{{hasLightBG('mainBg') ? 'color:#000 !important' : 'color:#fff !important'}} }
           
-  .carousel-container {
+  .carousel-wrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 2.5rem;
+    padding-top: 0.5rem;
+    min-height: 2rem;
+  }
+  .carousel-slide .content.image img {
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.15);
+    display: block;
+  }
+  .carousel-slide .content.embedded iframe {
+    border-radius: 8px;
+  }
+  .carousel-arrow {
+    position: absolute;
+    top: calc(50% - 1.25rem);
+    background: rgba(0,0,0,0.5);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    font-size: 1.4rem;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 10;
     display: flex;
-    overflow-x: auto;
-    gap: 1rem;
-    padding-bottom: 1rem;
-    padding-top: 1rem;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none; /* Firefox */
+    align-items: center;
+    justify-content: center;
+    padding: 0;
   }
-  .carousel-container::-webkit-scrollbar { 
-    display: none; /* Safari and Chrome */
+  .carousel-prev { left: 0.3rem; }
+  .carousel-next { right: 0.3rem; }
+  .carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.4rem;
+    position: absolute;
+    bottom: 0.5rem;
+    left: 0; right: 0;
   }
-  .carousel-item {
-    flex: 0 0 85%;
-    scroll-snap-align: center;
+  .carousel-dot {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.35);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
   }
-  .carousel-item .content.image img {
-    border-radius: 8px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  .carousel-dot.active {
+    background: #fff;
+    transform: scale(1.35);
   }
-  .carousel-item .content.embedded iframe {
-    border-radius: 8px;
+  .carousel-counter {
+    position: absolute;
+    top: 0.4rem;
+    right: 0.5rem;
+    font-size: 0.65rem;
+    color: rgba(255,255,255,0.6);
   }
 </style>
           <style v-if="getCssHref">
@@ -358,162 +398,167 @@
                   <p class="action">Salvar contato</p>
                 </a>
               </div>
-              <!-- eslint-disable vue/no-use-v-if-with-v-for,vue/no-confusing-v-for-v-if -->
-              <div
-                v-if="!simplifyCard && !isFeaturedOn"
-                class="actionsC"
-                v-for="(item, index) in primaryActions"
-                :key="'pa' + index"
-              >
-                <div class="actionBtn">
-                  <a
-                    :href="getHref(item)"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    :style="{
-                      backgroundColor: `${colors.buttonBg.color}`
-                    }"
-                    :aria-label="item.name"
-                  >
-                    <div
-                      class="icon action"
-                      v-html="
-                        require(`~/assets/icons/${item.name}.svg?include`)
-                      "
-                    ></div>
-                  </a>
-                  <p class="text">
-                    {{
-                      item.name.substr(0, 1).toUpperCase() + item.name.slice(1)
-                    }}
-                  </p>
-                </div>
-              </div>
             </div>
-            <div v-if="!simplifyCard && !isFeaturedOn">
-              <div class="actions secondary">
+
+            <!-- eslint-disable vue/no-use-v-if-with-v-for,vue/no-confusing-v-for-v-if -->
+            <template v-for="stype in resolvedSectionOrder">
+              <!-- Ações Primárias -->
+              <div
+                v-if="stype === 'primary' && !simplifyCard && !isFeaturedOn && primaryActions.length"
+                :key="'sec-primary'"
+                class="actions"
+                style="padding-top:0"
+              >
                 <div
+                  v-for="(item, index) in primaryActions"
+                  :key="'pa' + index"
                   class="actionsC"
-                  v-for="(item, index) in secondaryActions"
-                  :key="'sa' + index"
                 >
-                  <div class="actionBtn secBtn">
+                  <div class="actionBtn">
                     <a
                       :href="getHref(item)"
                       target="_blank"
                       rel="noopener noreferrer"
-                      :style="{ background: item.color }"
+                      :style="{ backgroundColor: `${colors.buttonBg.color}` }"
                       :aria-label="item.name"
                     >
-                      <div
-                        class="icon"
-                        v-html="
-                          require(`~/assets/icons/${item.name}.svg?include`)
-                        "
-                      ></div>
+                      <div class="icon action" v-html="require(`~/assets/icons/${item.name}.svg?include`)"></div>
                     </a>
+                    <p class="text">{{ item.name.substr(0,1).toUpperCase() + item.name.slice(1) }}</p>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div
-              v-if="!simplifyCard || isFeaturedOn"
-              class="attachments"
-              v-for="(item, index) in featured"
-              :key="'fc' + index"
-            >
-              <h2 class="section text">{{ item.title }}</h2>
-              <div class="carousel-container"><div v-for="(item, i) in item.content" :key="i" class="carousel-item">
-                <div
-                  v-if="item.contentType == 'media'"
-                  class="content"
-                  :class="item.type"
-                  :style="{ backgroundColor: `${colors.cardBg.color}` }"
-                >
-                  <div v-if="item.type == 'image'">
-                    <img
-                      v-if="item.dataURI"
-                      :src="
-                        PreviewMode
-                          ? item.dataURI
-                          : `./media/${getTitle(item.title)}.${item.ext}`
-                      "
-                      alt="Product image"
-                    />
-                    <div class="controls">
-                      <!-- <p class="title ziacard">
-                        {{ item.title }}
-                      </p> -->
+              <!-- Ações Secundárias -->
+              <div
+                v-else-if="stype === 'secondary' && !simplifyCard && !isFeaturedOn && secondaryActions.length"
+                :key="'sec-secondary'"
+              >
+                <div class="actions secondary">
+                  <div
+                    class="actionsC"
+                    v-for="(item, index) in secondaryActions"
+                    :key="'sa' + index"
+                  >
+                    <div class="actionBtn secBtn">
+                      <a
+                        :href="getHref(item)"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        :style="{ background: item.color }"
+                        :aria-label="item.name"
+                      >
+                        <div class="icon" v-html="require(`~/assets/icons/${item.name}.svg?include`)"></div>
+                      </a>
                     </div>
                   </div>
-                  <MediaPlayer
-                    v-if="item.type == 'music' || item.type == 'video'"
-                    ref="mediaPlayer"
-                    :media="item"
-                    :type="item.type"
-                    :colors="colors"
-                    :togglePlay="togglePlay"
-                    :PreviewMode="PreviewMode"
-                  />
-                  <DocumentDownloader
-                    v-if="item.type == 'document'"
-                    :media="item"
-                    :type="item.type"
-                    :colors="colors"
-                    :PreviewMode="PreviewMode"
-                  />
                 </div>
-                <ProductShowcase
-                  v-else-if="item.contentType == 'product' && item.title"
-                  :product="item"
-                  :colors="colors"
-                  :PreviewMode="PreviewMode"
-                />
+              </div>
 
-                <CustomButtonShowCase
-                  v-else-if="item.contentType == 'customButton' && item.label"
-                  :product="item"
-                  :colors="colors"
-                  :PreviewMode="PreviewMode"
-                />
-
-                <div
-                  v-else-if="item.contentType == 'text' && item.value"
-                  class="content text"
-                  :style="{ backgroundColor: `${colors.cardBg.color}` }"
-                >
-                  <p class="textC ziacard">
-                    {{ item.value }}
-                  </p>
-                </div>
-
-                <div
-                  v-else-if="item.contentType == 'link' && item.value"
-                  class="content text"
-                >
-                  <!-- <p class="textC ziacard">
-                    {{ item.value }}
-                  </p> -->
+              <!-- Conteúdo Destaque (Featured) -->
+              <div v-else-if="stype === 'featured'" :key="'sec-featured'">
+                <template v-if="!simplifyCard || isFeaturedOn">
                   <div
-                    :style="{
-                      padding: '10px',
-                      backgroundColor: `${colors.cardBg.color}`
-                    }"
-                    v-html="item.value"
-                  ></div>
-                </div>
-
-                <div v-else-if="stripAttr(item.value)" class="content embedded">
-                  <iframe
-                    :src="stripAttr(item.value)"
-                    frameborder="0"
-                    allowfullscreen
-                  ></iframe>
-                </div>
+                    class="attachments"
+                    v-for="(item, index) in featured"
+                    :key="'fc' + index"
+                  >
+                    <h2 class="section text">{{ item.title }}</h2>
+                    <div class="carousel-wrapper">
+                      <span v-if="item.content.length > 1" class="carousel-counter">
+                        {{ (carouselIndex[index] || 0) + 1 }} / {{ item.content.length }}
+                      </span>
+                      <div
+                        v-for="(citem, ci) in item.content"
+                        :key="ci"
+                        v-show="(carouselIndex[index] || 0) === ci"
+                        class="carousel-slide"
+                      >
+                        <div
+                          v-if="citem.contentType == 'media'"
+                          class="content"
+                          :class="citem.type"
+                          :style="{ backgroundColor: `${colors.cardBg.color}` }"
+                        >
+                          <div v-if="citem.type == 'image'">
+                            <img
+                              v-if="citem.dataURI"
+                              :src="PreviewMode ? citem.dataURI : `./media/${getTitle(citem.title)}.${citem.ext}`"
+                              alt="Product image"
+                            />
+                          </div>
+                          <MediaPlayer
+                            v-if="citem.type == 'music' || citem.type == 'video'"
+                            ref="mediaPlayer"
+                            :media="citem"
+                            :type="citem.type"
+                            :colors="colors"
+                            :togglePlay="togglePlay"
+                            :PreviewMode="PreviewMode"
+                          />
+                          <DocumentDownloader
+                            v-if="citem.type == 'document'"
+                            :media="citem"
+                            :type="citem.type"
+                            :colors="colors"
+                            :PreviewMode="PreviewMode"
+                          />
+                        </div>
+                        <ProductShowcase
+                          v-else-if="citem.contentType == 'product' && citem.title"
+                          :product="citem"
+                          :colors="colors"
+                          :PreviewMode="PreviewMode"
+                        />
+                        <CustomButtonShowCase
+                          v-else-if="citem.contentType == 'customButton' && citem.label"
+                          :product="citem"
+                          :colors="colors"
+                          :PreviewMode="PreviewMode"
+                        />
+                        <div
+                          v-else-if="citem.contentType == 'text' && citem.value"
+                          class="content text"
+                          :style="{ backgroundColor: `${colors.cardBg.color}` }"
+                        >
+                          <p class="textC ziacard">{{ citem.value }}</p>
+                        </div>
+                        <div
+                          v-else-if="citem.contentType == 'link' && citem.value"
+                          class="content text"
+                        >
+                          <div
+                            :style="{ padding: '10px', backgroundColor: `${colors.cardBg.color}` }"
+                            v-html="citem.value"
+                          ></div>
+                        </div>
+                        <div v-else-if="stripAttr(citem.value)" class="content embedded">
+                          <iframe :src="stripAttr(citem.value)" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                      </div>
+                      <button
+                        v-if="item.content.length > 1"
+                        @click.prevent="prevSlide(index, item.content.length)"
+                        class="carousel-arrow carousel-prev"
+                      >&#8249;</button>
+                      <button
+                        v-if="item.content.length > 1"
+                        @click.prevent="nextSlide(index, item.content.length)"
+                        class="carousel-arrow carousel-next"
+                      >&#8250;</button>
+                      <div v-if="item.content.length > 1" class="carousel-dots">
+                        <span
+                          v-for="(_, di) in item.content"
+                          :key="di"
+                          :class="['carousel-dot', (carouselIndex[index] || 0) === di ? 'active' : '']"
+                          @click.prevent="setSlide(index, di)"
+                        ></span>
+                      </div>
+                    </div>
+                  </div>
+                </template>
               </div>
-              </div>
-            </div>
+            </template>
           </main>
 
           <footer
@@ -562,7 +607,8 @@ export default {
     'isFeaturedOn',
     'showAlert',
     'hasLightBG',
-    'pubKeyIsValid'
+    'pubKeyIsValid',
+    'sectionOrder'
   ],
   components: {
     MediaPlayer,
@@ -578,7 +624,8 @@ export default {
   data() {
     return {
       paused: [],
-      defaultUrl: 'https://smartvcard.com'
+      defaultUrl: 'https://smartvcard.com',
+      carouselIndex: {}
     }
   },
   computed: {
@@ -606,6 +653,11 @@ export default {
         })
         .filter(e => e)
     },
+    resolvedSectionOrder() {
+      return (this.sectionOrder && this.sectionOrder.length)
+        ? this.sectionOrder
+        : ['primary', 'secondary', 'featured']
+    },
     getCssHref() {
       if (this.genInfo.fontLink) {
         let html = new DOMParser().parseFromString(
@@ -628,6 +680,17 @@ export default {
     }
   },
   methods: {
+    prevSlide(idx, max) {
+      const cur = this.carouselIndex[idx] || 0
+      this.$set(this.carouselIndex, idx, (cur - 1 + max) % max)
+    },
+    nextSlide(idx, max) {
+      const cur = this.carouselIndex[idx] || 0
+      this.$set(this.carouselIndex, idx, (cur + 1) % max)
+    },
+    setSlide(idx, i) {
+      this.$set(this.carouselIndex, idx, i)
+    },
     getHref(e) {
       let value = null
       if (e.name === 'Viber' && e.value)

@@ -51,7 +51,11 @@
 
       </form>
 
-      <div class="mt-8 text-center text-sm text-gray-600">
+      <div class="mt-4 text-center">
+        <nuxt-link to="/esqueci-senha" class="text-gray-400 text-sm hover:text-blue-500 hover:underline">Esqueceu sua senha?</nuxt-link>
+      </div>
+
+      <div class="mt-4 text-center text-sm text-gray-600">
         Ainda não tem conta? <nuxt-link to="/cadastro" class="text-blue-500 font-medium hover:underline">Registrar com uma Chave</nuxt-link>
       </div>
 

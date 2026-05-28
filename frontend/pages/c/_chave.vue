@@ -20,7 +20,8 @@
         :colors="colors"
         :primaryActions="primaryActions"
         :secondaryActions="secondaryActions"
-        :PreviewMode="false"
+        :PreviewMode="true"
+        :sectionOrder="sectionOrder"
         :footerCredit="true"
         :hasLightBG="hasLightBG"
       />
@@ -120,7 +121,8 @@ export default {
       },
       featured: [],
       primaryActions: [],
-      secondaryActions: []
+      secondaryActions: [],
+      sectionOrder: ['primary', 'secondary', 'featured']
     }
   },
   computed: {
@@ -163,6 +165,7 @@ export default {
             this.featured = s.featured || this.featured
             this.primaryActions = s.primaryActions || this.primaryActions
             this.secondaryActions = s.secondaryActions || this.secondaryActions
+            this.sectionOrder = s.sectionOrder || ['primary', 'secondary', 'featured']
           }
           this.genInfo.fname = data.nome_perfil || this.genInfo.fname
           this.genInfo.title = data.cargo || this.genInfo.title

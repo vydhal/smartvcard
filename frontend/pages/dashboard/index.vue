@@ -7,8 +7,22 @@
     </header>
 
     <main class="flex-grow p-6 max-w-5xl mx-auto w-full">
-      <div v-if="loading" class="flex justify-center items-center py-20">
-        <span class="animate-spin h-8 w-8 border-4 border-blue-500 border-t-transparent rounded-full"></span>
+      <div v-if="loading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div v-for="i in 3" :key="i" class="bg-white rounded-2xl border border-gray-100 p-6 animate-pulse">
+          <div class="flex justify-between mb-4">
+            <div class="h-5 bg-gray-200 rounded-full w-24"></div>
+            <div class="h-3 w-3 bg-gray-200 rounded-full"></div>
+          </div>
+          <div class="h-5 bg-gray-200 rounded w-3/4 mb-2"></div>
+          <div class="h-4 bg-gray-100 rounded w-1/2 mb-4"></div>
+          <div class="flex gap-3 mb-4">
+            <div class="flex-1 h-16 bg-gray-100 rounded-xl"></div>
+            <div class="flex-1 h-16 bg-gray-100 rounded-xl"></div>
+          </div>
+          <div class="h-4 bg-gray-100 rounded mb-4"></div>
+          <div class="h-9 bg-gray-200 rounded-xl mb-2"></div>
+          <div class="h-9 bg-gray-100 rounded-xl"></div>
+        </div>
       </div>
 
       <div v-else-if="cartoes.length === 0" class="text-center py-20">

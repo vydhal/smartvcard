@@ -1,5 +1,102 @@
 # Changelog — Smart vCard
 
+## [0.4.0] — 2026-05-28 — CORS, Imagens, Carousel e Reordenação de Seções
+
+### Resumo
+Quarta sessão. Corrigidos três bugs críticos (CORS bloqueando PUT, imagens quebradas no cartão público, URLs nulas de produto). Implementado carousel real com setas/dots/contador e reordenação drag-and-drop das seções principais do cartão.
+
+---
+
+### Backend
+
+#### CORS (`backend/src/server.ts`)
+- `@fastify/cors` estava configurado apenas com `{ origin: '*' }`, sem especificar métodos permitidos
+- O browser bloqueava `PUT /cartoes/acesso/:chave` com erro "Method PUT is not allowed by Access-Control-Allow-Methods in preflight response"
+- **Fix**: adicionado `methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']` e `allowedHeaders: ['Content-Type', 'Authorization']`
+
+---
+
+### Frontend
+
+#### Imagens quebradas no cartão público (`pages/c/_chave.vue`)
+- `Preview` recebia `:PreviewMode="false"`, fazendo o componente usar caminhos locais `./logo.ext` em vez das URLs do servidor
+- **Fix**: alterado para `:PreviewMode="true"` — imagens de logo, foto e capa agora carregam corretamente
+
+#### URLs nulas de produto (`pages/index.vue`, `pages/admin/produtos.vue`)
+- `getImagemUrl(null)` gerava `http://localhost:3001null`, quebrando a tag `<img>` de produtos sem imagem
+- **Fix**: adicionada guarda `if (!caminho) return ''` e `if (caminho.startsWith('http')) return caminho` em ambos os arquivos
+
+#### Carousel real (`components/Preview.vue`)
+- Substituído CSS scroll-snap invisível por carousel Vue-controlado
+- Cada seção Featured agora exibe:
+  - Setas `‹` `›` (prev/next) com posicionamento absoluto sobre o slide
+  - Dots clicáveis na base (dot ativo em branco, inativos em branco translúcido)
+  - Contador "X / N" no canto superior direito
+  - `v-show` controla qual slide é visível (todos permanecem no DOM)
+- Estado por seção: `carouselIndex: {}` no `data()`, chaveado pelo index da seção
+- Métodos adicionados: `prevSlide(idx, max)`, `nextSlide(idx, max)`, `setSlide(idx, i)`
+- Variável `item` no loop interno renomeada para `citem` (evitava shadowing com o loop externo)
+- Computed `resolvedSectionOrder` para fallback quando `sectionOrder` não está definido
+
+#### Reordenação de seções (`components/Preview.vue` + `pages/dashboard/_chave.vue`)
+- Adicionado campo `sectionOrder: ['primary', 'secondary', 'featured']` ao `dados_json`
+- Preview.vue aceita prop `sectionOrder` e renderiza as três seções (`primary`, `secondary`, `featured`) na ordem definida usando `<template v-for>`
+- No editor: painel "Ordem das seções" acima do Live Preview com `vuedraggable`; arrastar os blocos reordena as seções em tempo real
+- Auto-save acionado quando `sectionOrder` muda (watcher adicionado)
+- `c/_chave.vue` também carrega e passa `sectionOrder` ao Preview
+- Cartões antigos sem `sectionOrder` no banco usam fallback `['primary', 'secondary', 'featured']`
+
+---
+
+## [0.3.0] — 2026-05-27 — Email, Recuperação de Senha e UX Mobile
+
+### Resumo
+Terceira sessão. Implementados email de ativação com Hostinger SMTP, recuperação de senha completa (token + link), busca no painel admin, skeleton loading no dashboard e header responsivo no editor.
+
+---
+
+### Backend
+
+#### Email com nodemailer (Hostinger SMTP)
+- Adicionado `nodemailer` ao backend
+- Função `enviarEmail()` lê env vars `SMTP_HOST/PORT/SECURE/USER/PASS/FROM`; sem SMTP só loga no console
+- `docker-compose.yml` configurado com `smtp.hostinger.com:465 SSL`, `suporte@simplisoft.com.br`
+
+#### `POST /admin/enviar-convite`
+- Admin informa email do cliente + chave → sistema envia email com link `/cadastro?chave=XXXX`
+- Retorna `{ ok, link }` mesmo sem SMTP (link manual)
+
+#### `POST /usuarios/esqueci-senha`
+- Gera token de 8 chars, salva em `usuarios.reset_token` com expiração de 1h
+- Envia email com link `/resetar-senha?token=XXXX`
+- Retorna `{ ok: true }` sempre (não revela se email existe)
+
+#### `POST /usuarios/resetar-senha`
+- Valida token + expiração, atualiza `senha_hash`, limpa token
+- Schema: novos campos `reset_token String?` e `reset_token_expiry DateTime?` em `Usuario`
+- `npx prisma db push` executado ✅
+
+---
+
+### Frontend
+
+#### Novas páginas
+- `pages/esqueci-senha.vue` — formulário com email, mostra confirmação ao enviar
+- `pages/resetar-senha.vue` — form nova senha + confirmação, redireciona ao login após sucesso
+- Link "Esqueceu sua senha?" adicionado à `pages/login.vue`
+
+#### Admin (`pages/admin/index.vue`)
+- Botão "Enviar convite" (laranja) aparece em chaves sem usuário; abre dialog Swal com input de email
+- Campo de busca: filtra por chave, nome ou email do cliente em tempo real
+
+#### Dashboard (`pages/dashboard/index.vue`)
+- Skeleton loading com 3 cards pulsantes enquanto os cartões carregam
+
+#### Editor (`pages/dashboard/_chave.vue`)
+- Header responsivo: "Meus Cartões" → "Voltar" em mobile; "Ver online" usa ícone em mobile; botões menores
+
+---
+
 ## [0.2.0] — 2026-05-25 — Melhorias e Features Completas
 
 ### Resumo
